@@ -8,18 +8,18 @@ import java.sql.Timestamp;
 
 @Entity
 public class MemberEntity {
-    BigInteger userId;
-    String userKey;
-    String statusCode;
-    String linkType;
-    String email;
-    String userName;
-    String nickName;
-    String phoneNum;
-    char gender;
-    String birthDay;
-    String password;
-    Timestamp lastLoginAt;
-    Timestamp createdAt;
-    Timestamp updatedAt;
+    private BigInteger userId;
+    private String userKey;
+    private String statusCode;
+    private String linkType;
+    private String email;
+    private String userName;
+    private String nickName;
+    private String phoneNum;
+    private char gender;
+    private String birthDay;
+    private String password;
+    private Timestamp lastLoginAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 }
