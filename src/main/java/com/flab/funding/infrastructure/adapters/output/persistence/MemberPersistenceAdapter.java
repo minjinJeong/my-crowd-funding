@@ -16,7 +16,7 @@ public class MemberPersistenceAdapter implements MemberPort {
     }
 
     @Override
-    public Optional<Member> getMemberByKey(String userKey) {
+    public Optional<Member> getMemberByUserKey(String userKey) {
         return Optional.empty();
     }
 

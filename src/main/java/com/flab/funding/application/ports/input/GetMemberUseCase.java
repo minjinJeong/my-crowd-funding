@@ -5,5 +5,5 @@ import com.flab.funding.domain.model.Member;
 import java.util.Optional;
 
 public interface GetMemberUseCase {
-    Optional<Member> getMemberByKey(String userKey);
+    Optional<Member> getMemberByUserKey(String userKey);
 }

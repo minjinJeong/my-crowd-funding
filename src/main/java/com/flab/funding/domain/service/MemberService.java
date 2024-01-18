@@ -32,7 +32,7 @@ public class MemberService implements CreateMemberUseCase, UpdateMemberUseCase, 
     }
 
     @Override
-    public Optional<Member> getMemberByKey(String userKey) {
-        return memberPort.getMemberByKey(userKey);
+    public Optional<Member> getMemberByUserKey(String userKey) {
+        return memberPort.getMemberByUserKey(userKey);
     }
 }
