@@ -5,7 +5,6 @@ import com.flab.funding.application.ports.input.GetMemberUseCase;
 import com.flab.funding.application.ports.input.UpdateMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.infrastructure.config.UseCase;
 
 import java.util.Optional;
@@ -20,15 +19,12 @@ public class MemberService implements CreateMemberUseCase, UpdateMemberUseCase, 
 
     @Override
     public Member createMember(Member member) {
-        member.setStatusCode(MemberStatus.ACTIVATE);
-        memberPort.saveMember(member);
-        return member;
+        return memberPort.saveMember(member.activate());
     }
 
     @Override
     public Member updateMember(Member member) {
-        memberPort.modifyMember(member);
-        return member;
+        return memberPort.modifyMember(member);
     }
 
     @Override

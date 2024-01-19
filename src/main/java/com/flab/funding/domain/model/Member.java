@@ -1,13 +1,8 @@
 package com.flab.funding.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
-@Getter
-@Setter
 public class Member {
     private BigInteger userId;
     private String userKey;
@@ -23,4 +18,9 @@ public class Member {
     private Timestamp lastLoginAt;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
+    public Member activate() {
+        this.statusCode = MemberStatus.ACTIVATE;
+        return this;
+    }
 }
