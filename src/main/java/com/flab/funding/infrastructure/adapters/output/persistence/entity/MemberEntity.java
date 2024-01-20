@@ -1,5 +1,6 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
+import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberStatus;
 import jakarta.persistence.Entity;
 
@@ -10,13 +11,13 @@ import java.sql.Timestamp;
 public class MemberEntity {
     private BigInteger userId;
     private String userKey;
-    private String statusCode;
+    private MemberStatus statusCode;
     private String linkType;
     private String email;
     private String userName;
     private String nickName;
     private String phoneNum;
-    private char gender;
+    private MemberGender gender;
     private String birthDay;
     private String password;
     private Timestamp lastLoginAt;
