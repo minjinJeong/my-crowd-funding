@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 public class MemberEntity {
@@ -18,7 +19,7 @@ public class MemberEntity {
     private String nickName;
     private String phoneNum;
     private MemberGender gender;
-    private String birthDay;
+    private LocalDate birthDay;
     private String password;
     private Timestamp lastLoginAt;
     private Timestamp createdAt;

@@ -2,6 +2,7 @@ package com.flab.funding.domain.model;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class Member {
     private BigInteger userId;
@@ -13,7 +14,7 @@ public class Member {
     private String nickName;
     private String phoneNum;
     private MemberGender gender;
-    private String birthDay;
+    private LocalDate birthDay;
     private String password;
     private Timestamp lastLoginAt;
     private Timestamp createdAt;
