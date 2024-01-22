@@ -15,7 +15,7 @@ public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
     private String userKey;
     @Convert(converter = MemberStatusAttributeConverter.class)
     private MemberStatus statusCode;

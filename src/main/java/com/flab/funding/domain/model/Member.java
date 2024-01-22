@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class Member {
-    private Long userId;
+    private Long id;
     private String userKey;
     private MemberStatus statusCode;
     private String linkType;
