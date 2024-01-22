@@ -1,11 +1,10 @@
 package com.flab.funding.domain.model;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class Member {
-    private BigInteger userId;
+    private Long userId;
     private String userKey;
     private MemberStatus statusCode;
     private String linkType;

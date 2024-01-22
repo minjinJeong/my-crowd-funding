@@ -11,4 +11,8 @@ public enum MemberStatus {
     MemberStatus(String status) {
         this.status = status;
     }
+
+    public String getStatus() {
+        return status;
+    }
 }

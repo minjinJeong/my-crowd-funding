@@ -1,12 +1,16 @@
 package com.flab.funding.domain.model;
 
 public enum MemberGender {
-    MALE('0'),
-    FEMALE('1');
+    MALE("M"),
+    FEMALE("F");
 
-    private final char gender;
+    private final String gender;
 
-    MemberGender(char gender) {
+    MemberGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
     }
 }
