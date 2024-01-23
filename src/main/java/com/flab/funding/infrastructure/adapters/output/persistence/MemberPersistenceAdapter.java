@@ -17,25 +17,25 @@ public class MemberPersistenceAdapter implements MemberPort {
 
     // TODO : modify method after make api docs
     @Override
-    public Optional<Member> getMemberByUserKey(String userKey) throws Exception {
+    public Optional<Member> getMemberByUserKey(String userKey) {
         return Optional.empty();
     }
 
     // TODO : modify method after make api docs
     @Override
-    public Member saveMember(Member member) throws Exception {
+    public Member saveMember(Member member) {
         throw new NullPointerException();
     }
 
     // TODO : modify method after make api docs
     @Override
-    public Member modifyMember(Member member) throws Exception {
+    public Member modifyMember(Member member) {
         throw new NullPointerException();
     }
 
     // TODO : modify method after make api docs
     @Override
-    public void deleteById(Member member) throws Exception {
+    public void deleteById(Member member) {
         throw new NullPointerException();
     }
 }

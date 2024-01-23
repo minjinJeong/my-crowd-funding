@@ -6,8 +6,8 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 public interface MemberPort {
-    Optional<Member> getMemberByUserKey(String userKey) throws Exception;
-    Member saveMember(Member member) throws Exception;
-    Member modifyMember(Member member) throws Exception;
-    void deleteById(Member member) throws Exception;
+    Optional<Member> getMemberByUserKey(String userKey);
+    Member saveMember(Member member);
+    Member modifyMember(Member member);
+    void deleteById(Member member);
 }
