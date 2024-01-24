@@ -1,23 +1,23 @@
 package com.flab.funding.domain.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Member {
     private Long id;
     private String userKey;
     private MemberStatus statusCode;
-    private String linkType;
+    private MemberLinkType linkType;
     private String email;
     private String userName;
     private String nickName;
     private String phoneNum;
     private MemberGender gender;
-    private LocalDate birthDay;
+    private LocalDate birthday;
     private String password;
-    private Timestamp lastLoginAt;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private LocalDateTime lastLoginAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Member activate() {
         this.statusCode = MemberStatus.ACTIVATE;
