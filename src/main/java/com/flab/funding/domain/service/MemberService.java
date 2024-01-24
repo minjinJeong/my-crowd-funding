@@ -1,8 +1,8 @@
 package com.flab.funding.domain.service;
 
-import com.flab.funding.application.ports.input.CreateMemberUseCase;
-import com.flab.funding.application.ports.input.GetMemberUseCase;
-import com.flab.funding.application.ports.input.UpdateMemberUseCase;
+import com.flab.funding.application.ports.input.DeregisterMemberUseCase;
+import com.flab.funding.application.ports.input.LoginUseCase;
+import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
@@ -10,7 +10,7 @@ import com.flab.funding.infrastructure.config.UseCase;
 import java.util.Optional;
 
 @UseCase
-public class MemberService implements CreateMemberUseCase, UpdateMemberUseCase, GetMemberUseCase {
+public class MemberService implements RegisterMemberUseCase, DeregisterMemberUseCase, LoginUseCase {
     private final MemberPort memberPort;
 
     public MemberService(MemberPort memberPort) {
@@ -18,12 +18,12 @@ public class MemberService implements CreateMemberUseCase, UpdateMemberUseCase, 
     }
 
     @Override
-    public Member createMember(Member member) {
+    public Member registMember(Member member) {
         return memberPort.saveMember(member.activate());
     }
 
     @Override
-    public Member updateMember(Member member) {
+    public Member deregistMember(Member member) {
         return memberPort.modifyMember(member);
     }
 

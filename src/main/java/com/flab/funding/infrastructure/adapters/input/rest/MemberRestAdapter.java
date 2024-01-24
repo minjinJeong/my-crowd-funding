@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.rest;
 
-import com.flab.funding.application.ports.input.CreateMemberUseCase;
+import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberCreateRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberCreateResponse;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MemberRestAdapter {
-    private final CreateMemberUseCase memberService;
+    private final RegisterMemberUseCase memberService;
     private final MemberMapper memberMapper;
 
     @Autowired
-    public MemberRestAdapter(CreateMemberUseCase memberService, MemberMapper memberMapper) {
+    public MemberRestAdapter(RegisterMemberUseCase memberService, MemberMapper memberMapper) {
         this.memberService = memberService;
         this.memberMapper = memberMapper;
     }
@@ -25,7 +25,7 @@ public class MemberRestAdapter {
     @PostMapping("/member")
     @ResponseBody
     MemberCreateResponse createMember(@RequestBody MemberCreateRequest request) {
-         Member member = memberService.createMember(memberMapper.toMember(request));
+         Member member = memberService.registMember(memberMapper.toMember(request));
          return memberMapper.toMemberCreateResponse(member);
     }
 }
