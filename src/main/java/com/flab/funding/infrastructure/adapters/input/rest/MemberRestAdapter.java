@@ -25,7 +25,7 @@ public class MemberRestAdapter {
     @PostMapping("/member")
     @ResponseBody
     MemberCreateResponse createMember(@RequestBody MemberCreateRequest request) {
-         Member member = memberService.registMember(memberMapper.toMember(request));
-         return memberMapper.toMemberCreateResponse(member);
+        Member member = memberService.registMember(memberMapper.toMember(request));
+        return memberMapper.toMemberCreateResponse(member);
     }
 }

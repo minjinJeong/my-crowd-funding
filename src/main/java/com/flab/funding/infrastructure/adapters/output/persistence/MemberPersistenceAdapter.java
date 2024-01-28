@@ -4,9 +4,11 @@ import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class MemberPersistenceAdapter implements MemberPort {
     private final MemberRepository memberRepository;
 
@@ -24,7 +26,8 @@ public class MemberPersistenceAdapter implements MemberPort {
     // TODO : modify method after make api docs
     @Override
     public Member saveMember(Member member) {
-        throw new NullPointerException();
+//        throw new NullPointerException();
+        return member;
     }
 
     // TODO : modify method after make api docs
