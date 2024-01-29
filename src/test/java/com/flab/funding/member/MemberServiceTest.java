@@ -37,7 +37,10 @@ public class MemberServiceTest {
 
     @Test
     void registerMember() throws Exception {
-        this.mockMvc.perform(post("/member").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(post("/member")
+                        .content("{\"name\":\"jisu\", \"age\":\"25\", \"address\":\"Incheon\", \"githubId\":\"geesuee\"}")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("index"));
     }
