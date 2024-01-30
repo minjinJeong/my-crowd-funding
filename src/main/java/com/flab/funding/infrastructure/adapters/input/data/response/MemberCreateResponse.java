@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 public class MemberCreateResponse {
     private String userKey;
-    private MemberStatus status;
+    private MemberStatus statusCode;
 }

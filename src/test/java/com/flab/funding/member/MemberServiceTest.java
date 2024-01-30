@@ -81,7 +81,7 @@ public class MemberServiceTest {
                         ),
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("status").description("회원상태")
+                                fieldWithPath("statusCode").description("회원상태")
                         )));
     }
 }

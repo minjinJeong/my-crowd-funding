@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-30T20:59:51+0900",
+    date = "2024-01-30T22:22:52+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -43,6 +43,7 @@ public class MemberMapperImpl implements MemberMapper {
         MemberCreateResponse.MemberCreateResponseBuilder memberCreateResponse = MemberCreateResponse.builder();
 
         memberCreateResponse.userKey( member.getUserKey() );
+        memberCreateResponse.statusCode( member.getStatusCode() );
 
         return memberCreateResponse.build();
     }
