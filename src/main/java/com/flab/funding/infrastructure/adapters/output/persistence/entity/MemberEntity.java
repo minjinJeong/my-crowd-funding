@@ -7,11 +7,19 @@ import com.flab.funding.infrastructure.adapters.output.persistence.converter.Gen
 import com.flab.funding.infrastructure.adapters.output.persistence.converter.MemberLinkTypeAttributeConverter;
 import com.flab.funding.infrastructure.adapters.output.persistence.converter.MemberStatusAttributeConverter;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 @Table(name = "user")
 public class MemberEntity {
 
