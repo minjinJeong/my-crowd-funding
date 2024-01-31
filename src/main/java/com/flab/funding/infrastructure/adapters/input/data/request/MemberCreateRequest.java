@@ -1,11 +1,14 @@
 package com.flab.funding.infrastructure.adapters.input.data.request;
 
+import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
+import com.flab.funding.infrastructure.adapters.input.mapper.MemberMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 
@@ -22,4 +25,9 @@ public class MemberCreateRequest {
     private MemberGender gender;
     private LocalDate birthday;
     private String password;
+
+    public Member toMember() {
+        MemberMapper mapper = Mappers.getMapper(MemberMapper.class);
+        return mapper.toMember(this);
+    }
 }
