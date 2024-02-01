@@ -32,7 +32,7 @@ public class MemberEntity {
     private Long id;
     private String userKey;
     @Convert(converter = MemberStatusAttributeConverter.class)
-    private MemberStatus statusCode;
+    private MemberStatus status;
     @Convert(converter = MemberLinkTypeAttributeConverter.class)
     private MemberLinkType linkType;
     private String email;

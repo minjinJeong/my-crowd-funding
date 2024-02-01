@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-31T15:39:18+0900",
+    date = "2024-02-01T14:59:00+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -23,7 +23,7 @@ public class MemberPersistenceMapperImpl implements MemberPersistenceMapper {
 
         memberEntity.id( member.getId() );
         memberEntity.userKey( member.getUserKey() );
-        memberEntity.statusCode( member.getStatusCode() );
+        memberEntity.status( member.getStatus() );
         memberEntity.linkType( member.getLinkType() );
         memberEntity.email( member.getEmail() );
         memberEntity.userName( member.getUserName() );
@@ -49,7 +49,7 @@ public class MemberPersistenceMapperImpl implements MemberPersistenceMapper {
 
         member.id( memberEntity.getId() );
         member.userKey( memberEntity.getUserKey() );
-        member.statusCode( memberEntity.getStatusCode() );
+        member.status( memberEntity.getStatus() );
         member.linkType( memberEntity.getLinkType() );
         member.email( memberEntity.getEmail() );
         member.userName( memberEntity.getUserName() );

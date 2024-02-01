@@ -6,13 +6,13 @@ public enum MemberStatus {
     DORMANT("30"),
     WITHDRAW("90");
 
-    private final String status;
+    private final String statusCode;
 
-    MemberStatus(String status) {
-        this.status = status;
+    MemberStatus(String statusCode) {
+        this.statusCode = statusCode;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatusCode() {
+        return statusCode;
     }
 }

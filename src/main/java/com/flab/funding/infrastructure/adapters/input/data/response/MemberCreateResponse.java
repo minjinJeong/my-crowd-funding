@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 @Getter
 public class MemberCreateResponse {
     private String userKey;
-    private MemberStatus statusCode;
+    private MemberStatus status;
 
     public static MemberCreateResponse from(Member member) {
         MemberMapper mapper = Mappers.getMapper(MemberMapper.class);

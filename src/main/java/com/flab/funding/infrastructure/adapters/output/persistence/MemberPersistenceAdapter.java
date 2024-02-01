@@ -20,7 +20,6 @@ public class MemberPersistenceAdapter implements MemberPort {
         return Optional.empty();
     }
 
-    // TODO : modify method after make api docs
     @Override
     public Member saveMember(Member member) {
         MemberEntity memberEntity = MemberEntity.from(member);
