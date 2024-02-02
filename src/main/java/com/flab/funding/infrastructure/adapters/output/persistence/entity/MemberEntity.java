@@ -12,7 +12,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,8 +22,6 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "user")
 public class MemberEntity {
-
-    private static MemberPersistenceMapper mapper;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,16 +44,12 @@ public class MemberEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private MemberEntity() {
-        mapper = Mappers.getMapper(MemberPersistenceMapper.class);
-    }
-
     public static MemberEntity from(Member member) {
-        return mapper.toMemberEntity(member);
+        return MemberPersistenceMapper.INSTANCE.toMemberEntity(member);
     }
 
     public Member toMember() {
-        return mapper.toMember(this);
+        return MemberPersistenceMapper.INSTANCE.toMember(this);
     }
 
 }

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 
@@ -27,7 +26,6 @@ public class MemberCreateRequest {
     private String password;
 
     public Member toMember() {
-        MemberMapper mapper = Mappers.getMapper(MemberMapper.class);
-        return mapper.toMember(this);
+        return MemberMapper.INSTANCE.toMember(this);
     }
 }

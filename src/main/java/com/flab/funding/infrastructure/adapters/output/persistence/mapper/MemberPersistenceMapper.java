@@ -8,6 +8,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface MemberPersistenceMapper {
 
+    MemberPersistenceMapper INSTANCE = Mappers.getMapper(MemberPersistenceMapper.class);
+
     MemberEntity toMemberEntity(Member member);
 
     Member toMember(MemberEntity memberEntity);
