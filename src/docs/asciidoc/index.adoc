@@ -1,1 +1,16 @@
-operation::index[snippets='http-request,http-response,request-fields,response-fields']
+= API 명세
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: 목차
+:toclevels: 2
+:sectlinks:
+:sectnums:
+:docinfo: shared-head
+
+== 회원
+=== 회원가입
+operation::member-service-test/register-member[snippets='http-request,http-response,request-fields,response-fields']
+
+=== 회원탈퇴
+operation::member-service-test/deregister-member[snippets='http-request,http-response,request-fields,response-fields']

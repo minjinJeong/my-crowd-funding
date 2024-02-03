@@ -30,7 +30,9 @@ public class MemberPersistenceAdapter implements MemberPort {
     // TODO : modify method after make api docs
     @Override
     public Member modifyMember(Member member) {
-        throw new NullPointerException();
+        MemberEntity memberEntity = MemberEntity.from(member);
+        MemberEntity modifiedMember = memberRepository.update(memberEntity);
+        return modifiedMember.toMember();
     }
 
     // TODO : modify method after make api docs

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberCreateRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.MemberRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,7 +69,7 @@ public class MemberServiceTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("index",
+                .andDo(document("{class-name}/{method-name}",
                         requestFields(
                                 fieldWithPath("linkType").description("회원연동"),
                                 fieldWithPath("email").description("이메일"),
@@ -78,6 +79,31 @@ public class MemberServiceTest {
                                 fieldWithPath("gender").description("성별"),
                                 fieldWithPath("birthday").description("생년월일"),
                                 fieldWithPath("password").description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("userKey").description("회원번호(외부용)"),
+                                fieldWithPath("status").description("회원상태")
+                        )));
+    }
+
+    @Test
+    void deregisterMember() throws Exception {
+        //given
+        MemberRequest request = MemberRequest.builder()
+                .userKey("1")
+                .build();
+
+        //when
+
+        //then
+        this.mockMvc.perform(delete("/member")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(
+                                fieldWithPath("userKey").description("회원번호(외부용)")
                         ),
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),

@@ -36,6 +36,13 @@ public class MemoryMemberRepository implements MemberRepository {
     }
 
     @Override
+    public MemberEntity update(MemberEntity member) {
+        MemberEntity memberEntity = store.get(Long.valueOf(member.getUserKey()));
+        store.put(memberEntity.getId(), member);
+        return member;
+    }
+
+    @Override
     public Optional<MemberEntity> findByUserKey(String userKey) {
         return Optional.empty();
     }

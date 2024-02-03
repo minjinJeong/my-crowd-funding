@@ -28,4 +28,9 @@ public class Member {
         this.status = MemberStatus.ACTIVATE;
         return this;
     }
+
+    public Member deactivate() {
+        this.status = MemberStatus.WITHDRAW;
+        return this;
+    }
 }
