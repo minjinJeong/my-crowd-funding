@@ -14,10 +14,10 @@ import java.util.Optional;
 public class MemberPersistenceAdapter implements MemberPort {
     private final MemberRepository memberRepository;
 
-    // TODO : modify method after make api docs
     @Override
-    public Optional<Member> getMemberByUserKey(String userKey) {
-        return Optional.empty();
+    public Member getMemberByUserKey(String userKey) {
+        MemberEntity findMemberEntity = memberRepository.findByUserKey(userKey).orElse(MemberEntity.builder().build());
+        return findMemberEntity.toMember();
     }
 
     @Override
@@ -27,7 +27,6 @@ public class MemberPersistenceAdapter implements MemberPort {
         return savedMember.toMember();
     }
 
-    // TODO : modify method after make api docs
     @Override
     public Member modifyMember(Member member) {
         MemberEntity memberEntity = MemberEntity.from(member);

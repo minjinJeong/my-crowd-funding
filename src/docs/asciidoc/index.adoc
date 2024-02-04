@@ -14,3 +14,6 @@ operation::member-service-test/register-member[snippets='http-request,http-respo
 
 === 회원탈퇴
 operation::member-service-test/deregister-member[snippets='http-request,http-response,request-fields,response-fields']
+
+=== 회원 정보 조회
+operation::member-service-test/get-member[snippets='http-request,http-response,request-fields,response-fields']

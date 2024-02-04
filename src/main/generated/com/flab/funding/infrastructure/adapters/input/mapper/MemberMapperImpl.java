@@ -4,13 +4,14 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberCreateRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberCreateResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.MemberInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberResponse;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-03T23:18:47+0900",
+    date = "2024-02-04T22:51:41+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -75,5 +76,24 @@ public class MemberMapperImpl implements MemberMapper {
         memberResponse.status( member.getStatus() );
 
         return memberResponse.build();
+    }
+
+    @Override
+    public MemberInfoResponse toMemberInfoResponse(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberInfoResponse.MemberInfoResponseBuilder memberInfoResponse = MemberInfoResponse.builder();
+
+        memberInfoResponse.userKey( member.getUserKey() );
+        memberInfoResponse.status( member.getStatus() );
+        memberInfoResponse.nickName( member.getNickName() );
+        memberInfoResponse.email( member.getEmail() );
+        memberInfoResponse.phoneNum( member.getPhoneNum() );
+        memberInfoResponse.linkType( member.getLinkType() );
+        memberInfoResponse.lastLoginAt( member.getLastLoginAt() );
+
+        return memberInfoResponse.build();
     }
 }

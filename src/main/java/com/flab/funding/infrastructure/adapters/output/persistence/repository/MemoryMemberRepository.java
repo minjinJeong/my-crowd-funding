@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class MemoryMemberRepository implements MemberRepository {
 
-    private static Map<Long, MemberEntity> store = new HashMap<>();
+    private static final Map<Long, MemberEntity> store = new HashMap<>();
     private static Long id = 1L;
 
     @Override
@@ -37,13 +37,13 @@ public class MemoryMemberRepository implements MemberRepository {
 
     @Override
     public MemberEntity update(MemberEntity member) {
-        MemberEntity memberEntity = store.get(Long.valueOf(member.getUserKey()));
-        store.put(memberEntity.getId(), member);
+        MemberEntity findMember = store.get(Long.valueOf(member.getUserKey()));
+        store.put(findMember.getId(), member);
         return member;
     }
 
     @Override
     public Optional<MemberEntity> findByUserKey(String userKey) {
-        return Optional.empty();
+        return Optional.ofNullable(store.get(Long.valueOf(userKey)));
     }
 }

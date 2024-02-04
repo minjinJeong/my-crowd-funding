@@ -24,8 +24,7 @@ import java.time.LocalDate;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
@@ -64,7 +63,7 @@ public class MemberServiceTest {
 
         // when
         // then
-        this.mockMvc.perform(post("/member")
+        this.mockMvc.perform(post("/members")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -96,7 +95,7 @@ public class MemberServiceTest {
         //when
 
         //then
-        this.mockMvc.perform(delete("/member")
+        this.mockMvc.perform(delete("/members")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -108,6 +107,35 @@ public class MemberServiceTest {
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
                                 fieldWithPath("status").description("회원상태")
+                        )));
+    }
+
+    @Test
+    void getMember() throws Exception {
+        //given
+        MemberRequest request = MemberRequest.builder()
+                .userKey("1")
+                .build();
+
+        //when
+
+        //then
+        this.mockMvc.perform(get("/members/{userKey}", request.getUserKey())
+                        .content(objectMapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(
+                                fieldWithPath("userKey").description("회원번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("userKey").description("회원번호(외부용)"),
+                                fieldWithPath("status").description("회원상태"),
+                                fieldWithPath("nickName").description("닉네임"),
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("phoneNum").description("핸드폰 번호"),
+                                fieldWithPath("linkType").description("계정연동"),
+                                fieldWithPath("lastLoginAt").description("최근 로그인 일자")
                         )));
     }
 }

@@ -28,7 +28,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     }
 
     @Override
-    public Optional<Member> getMemberByUserKey(String userKey) {
+    public Member getMemberByUserKey(String userKey) {
         return memberPort.getMemberByUserKey(userKey);
     }
 }
