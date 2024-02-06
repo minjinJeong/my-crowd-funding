@@ -33,10 +33,4 @@ public class MemberPersistenceAdapter implements MemberPort {
         MemberEntity modifiedMember = memberRepository.update(memberEntity);
         return modifiedMember.toMember();
     }
-
-    // TODO : modify method after make api docs
-    @Override
-    public void deleteById(Member member) {
-        throw new NullPointerException();
-    }
 }

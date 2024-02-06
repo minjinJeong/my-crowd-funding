@@ -9,5 +9,4 @@ public interface MemberPort {
     Member getMemberByUserKey(String userKey);
     Member saveMember(Member member);
     Member modifyMember(Member member);
-    void deleteById(Member member);
 }
