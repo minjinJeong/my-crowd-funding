@@ -36,13 +36,6 @@ public class MemoryMemberRepository implements MemberRepository {
     }
 
     @Override
-    public MemberEntity update(MemberEntity member) {
-        MemberEntity findMember = store.get(Long.valueOf(member.getUserKey()));
-        store.put(findMember.getId(), member);
-        return member;
-    }
-
-    @Override
     public Optional<MemberEntity> findByUserKey(String userKey) {
         return Optional.ofNullable(store.get(Long.valueOf(userKey)));
     }

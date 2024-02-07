@@ -24,7 +24,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
 
     @Override
     public Member deregistMember(Member member) {
-        return memberPort.modifyMember(member.deactivate());
+        return memberPort.saveMember(member.deactivate());
     }
 
     @Override

@@ -3,8 +3,8 @@ package com.flab.funding.member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
-import com.flab.funding.infrastructure.adapters.input.data.request.MemberCreateRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.MemberRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -31,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class MemberServiceTest {
+public class MemberRestAdapterTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +51,7 @@ public class MemberServiceTest {
     void registerMember() throws Exception {
 
         // given
-        MemberCreateRequest request = MemberCreateRequest.builder()
+        MemberRegisterRequest request = MemberRegisterRequest.builder()
                 .linkType(MemberLinkType.NONE)
                 .email("Test@gmail.com")
                 .userName("홍길순")
@@ -88,7 +89,7 @@ public class MemberServiceTest {
     @Test
     void deregisterMember() throws Exception {
         //given
-        MemberRequest request = MemberRequest.builder()
+        MemberInfoRequest request = MemberInfoRequest.builder()
                 .userKey("1")
                 .build();
 
@@ -98,22 +99,31 @@ public class MemberServiceTest {
         this.mockMvc.perform(delete("/members")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .param("fields", "userKey,status"))
                 .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userKey").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.otherField").doesNotExist())
                 .andDo(document("{class-name}/{method-name}",
                         requestFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)")
                         ),
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("status").description("회원상태")
+                                fieldWithPath("status").description("회원상태"),
+                                fieldWithPath("nickName").description("닉네임"),
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("phoneNum").description("핸드폰 번호"),
+                                fieldWithPath("linkType").description("계정연동"),
+                                fieldWithPath("lastLoginAt").description("최근 로그인 일자")
                         )));
     }
 
     @Test
     void getMember() throws Exception {
         //given
-        MemberRequest request = MemberRequest.builder()
+        MemberInfoRequest request = MemberInfoRequest.builder()
                 .userKey("1")
                 .build();
 

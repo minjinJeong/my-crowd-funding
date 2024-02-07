@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Entity
-@DiscriminatorValue("C")
+@DiscriminatorValue("CARD")
 @Getter
 public class CardEntity extends MemberPaymentMethodEntity {
 

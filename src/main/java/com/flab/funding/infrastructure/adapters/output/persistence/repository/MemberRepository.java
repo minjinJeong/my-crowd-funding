@@ -7,7 +7,5 @@ import java.util.Optional;
 public interface MemberRepository {
     MemberEntity save(MemberEntity member);
 
-    MemberEntity update(MemberEntity member);
-
     Optional<MemberEntity> findByUserKey(String userKey);
 }

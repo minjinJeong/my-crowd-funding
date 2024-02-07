@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface MemberPort {
     Member getMemberByUserKey(String userKey);
     Member saveMember(Member member);
-    Member modifyMember(Member member);
 }

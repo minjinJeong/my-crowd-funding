@@ -26,11 +26,4 @@ public class MemberPersistenceAdapter implements MemberPort {
         MemberEntity savedMember = memberRepository.save(memberEntity);
         return savedMember.toMember();
     }
-
-    @Override
-    public Member modifyMember(Member member) {
-        MemberEntity memberEntity = MemberEntity.from(member);
-        MemberEntity modifiedMember = memberRepository.update(memberEntity);
-        return modifiedMember.toMember();
-    }
 }

@@ -8,11 +8,11 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class MemberResponse {
+public class MemberRegisterResponse {
     private String userKey;
     private MemberStatus status;
 
-    public static MemberResponse from(Member member) {
-        return MemberMapper.INSTANCE.toMemberResponse(member);
+    public static MemberRegisterResponse from(Member member) {
+        return MemberMapper.INSTANCE.toMemberRegisterResponse(member);
     }
 }

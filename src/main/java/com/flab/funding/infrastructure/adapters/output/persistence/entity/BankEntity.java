@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 
 @Entity
-@DiscriminatorValue("B")
+@DiscriminatorValue("BANK")
 @Getter
 public class BankEntity extends MemberPaymentMethodEntity {
 
