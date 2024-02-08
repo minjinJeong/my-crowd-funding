@@ -1,11 +1,23 @@
 package com.flab.funding.infrastructure.adapters.input.mapper;
 
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.infrastructure.adapters.input.data.request.MemberCreateRequest;
-import com.flab.funding.infrastructure.adapters.input.data.response.MemberCreateResponse;
+import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.response.MemberInfoResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
+@Mapper(componentModel = "spring")
 public interface MemberMapper {
-    Member toMember(MemberCreateRequest memberCreateRequest);
 
-    MemberCreateResponse toMemberCreateResponse(Member member);
+    MemberMapper INSTANCE = Mappers.getMapper(MemberMapper.class);
+
+    Member toMember(MemberRegisterRequest memberRegisterRequest);
+
+    MemberRegisterResponse toMemberRegisterResponse(Member member);
+
+    Member toMember(MemberInfoRequest memberInfoRequest);
+
+    MemberInfoResponse toMemberInfoResponse(Member member);
 }

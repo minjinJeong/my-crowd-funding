@@ -6,8 +6,6 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 public interface MemberPort {
-    Optional<Member> getMemberByUserKey(String userKey);
+    Member getMemberByUserKey(String userKey);
     Member saveMember(Member member);
-    Member modifyMember(Member member);
-    void deleteById(Member member);
 }
