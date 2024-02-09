@@ -1,12 +1,15 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
+import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.infrastructure.adapters.output.persistence.mapper.MemberAdditionalInfoPersistenceMapper;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "paymentType")
 @Getter
@@ -25,9 +28,18 @@ public abstract class MemberPaymentMethodEntity {
     @Column(columnDefinition = "TINYINT(1)")
     private boolean isDefault;
 
-    private String payment_num;
+    private String paymentNum;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public static MemberPaymentMethodEntity from(PaymentMethod paymentMethod) {
+        return MemberAdditionalInfoPersistenceMapper.INSTANCE.toMemberPaymentMethodEntity(paymentMethod);
+    }
+
+    public PaymentMethod toPaymentMethod() {
+        return MemberAdditionalInfoPersistenceMapper.INSTANCE.toPaymentMethod(this);
+    }
+
 }

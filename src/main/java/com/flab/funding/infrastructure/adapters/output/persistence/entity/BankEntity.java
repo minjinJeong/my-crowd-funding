@@ -5,10 +5,12 @@ import com.flab.funding.infrastructure.adapters.output.persistence.converter.Ban
 import jakarta.persistence.Convert;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @DiscriminatorValue("BANK")
+@Builder
 @Getter
 public class BankEntity extends MemberPaymentMethodEntity {
 
