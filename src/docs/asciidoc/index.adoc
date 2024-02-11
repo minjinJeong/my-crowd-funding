@@ -19,5 +19,7 @@ operation::member-service-test/deregister-member[snippets='http-request,http-res
 operation::member-service-test/get-member[snippets='http-request,http-response,request-fields,response-fields']
 
 === 결제 수단 등록
+operation::member-delivery-address-rest-adapter-test/register-delivery-address[snippets='http-request,http-response,request-fields,response-fields']
 
 === 배송지 주소 등록
+operation::member-payment-method-rest-adapter-test/register-payment-method[snippets='http-request,http-response,request-fields,response-fields']

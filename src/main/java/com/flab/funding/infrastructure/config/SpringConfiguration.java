@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberRepository;
-import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemoryMemberRepository;
+import com.flab.funding.infrastructure.adapters.output.persistence.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +31,13 @@ public class SpringConfiguration {
     @Bean
     MemberRepository memberRepository() {
         return new MemoryMemberRepository();
+    }
+    @Bean
+    MemberDeliveryAddressRepository memberDeliveryAddressRepository() {
+        return new MemoryMemberDeliveryAddressRepository();
+    }
+    @Bean
+    MemberPaymentMethodRepository memberPaymentMethodRepository() {
+        return new MemoryMemberPaymentMethodRepository();
     }
 }

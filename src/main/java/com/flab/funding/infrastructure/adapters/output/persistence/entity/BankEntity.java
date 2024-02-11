@@ -5,12 +5,14 @@ import com.flab.funding.infrastructure.adapters.output.persistence.converter.Ban
 import jakarta.persistence.Convert;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("BANK")
-@Builder
+@SuperBuilder
 @Getter
 public class BankEntity extends MemberPaymentMethodEntity {
 
@@ -19,5 +21,5 @@ public class BankEntity extends MemberPaymentMethodEntity {
 
     private String accountHolder;
 
-    private String accountBirthday;
+    private LocalDate accountBirthday;
 }

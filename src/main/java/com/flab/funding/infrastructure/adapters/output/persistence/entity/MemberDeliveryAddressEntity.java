@@ -1,7 +1,7 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
 import com.flab.funding.domain.model.DeliveryAddress;
-import com.flab.funding.infrastructure.adapters.output.persistence.mapper.MemberAdditionalInfoPersistenceMapper;
+import com.flab.funding.infrastructure.adapters.output.persistence.mapper.MemberDeliveryAddressPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,12 +26,14 @@ public class MemberDeliveryAddressEntity {
     private MemberEntity member;
 
     @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean isDefault;
+    @Column(name = "isDefault", columnDefinition = "TINYINT(1)")
+    private boolean defaultYN;
 
     private String zipCode;
 
     private String address;
+
+    private String addressDetail;
 
     private String recipientName;
 
@@ -42,10 +44,10 @@ public class MemberDeliveryAddressEntity {
     private LocalDateTime updatedAt;
 
     public static MemberDeliveryAddressEntity from(DeliveryAddress deliveryAddress) {
-        return MemberAdditionalInfoPersistenceMapper.INSTANCE.toMemberDeliveryAddressEntity(deliveryAddress);
+        return MemberDeliveryAddressPersistenceMapper.INSTANCE.toMemberDeliveryAddressEntity(deliveryAddress);
     }
 
     public DeliveryAddress toDeliveryAddress() {
-        return MemberAdditionalInfoPersistenceMapper.INSTANCE.toDeliveryAddress(this);
+        return MemberDeliveryAddressPersistenceMapper.INSTANCE.toDeliveryAddress(this);
     }
 }
