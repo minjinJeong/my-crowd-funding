@@ -1,9 +1,11 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
+import com.flab.funding.domain.model.Funding;
 import com.flab.funding.domain.model.FundingCategory;
 import com.flab.funding.domain.model.FundingStatus;
 import com.flab.funding.infrastructure.adapters.output.persistence.converter.FundingCategoryAttributeConverter;
 import com.flab.funding.infrastructure.adapters.output.persistence.converter.FundingStatusAttributeConverter;
+import com.flab.funding.infrastructure.adapters.output.persistence.mapper.FundingPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -40,7 +42,7 @@ public class FundingEntity {
     private BigInteger expectAmount;
 
     @Convert(converter = FundingStatusAttributeConverter.class)
-    private FundingStatus statusCode;
+    private FundingStatus status;
 
     private String title;
 
@@ -67,4 +69,12 @@ public class FundingEntity {
     private LocalDateTime updatedAt;
 
     private String updatedBy;
+
+    public static FundingEntity from(Funding funding) {
+        return FundingPersistenceMapper.INSTANCE.toFundingEntity(funding);
+    }
+
+    public Funding toFunding() {
+        return FundingPersistenceMapper.INSTANCE.toFunding(this);
+    }
 }
