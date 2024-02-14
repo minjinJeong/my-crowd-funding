@@ -19,12 +19,11 @@ import java.time.LocalDateTime;
 @Getter
 public class FundingRegisterRequest {
 
-    private MemberEntity member;
+    private String userKey;
     private boolean adult;
-    private String price_plan;
+    private String pricePlan;
     private FundingCategory categoryCode;
     private BigInteger expectAmount;
-    private FundingStatus status;
     private String title;
     private String fundingDesc;
     private String fundingIntroduce;

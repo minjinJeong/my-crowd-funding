@@ -13,7 +13,7 @@ public class Funding {
     private Long id;
     private MemberEntity member;
     private boolean adult;
-    private String price_plan;
+    private String pricePlan;
     private FundingCategory categoryCode;
     private BigInteger expectAmount;
     private FundingStatus status;

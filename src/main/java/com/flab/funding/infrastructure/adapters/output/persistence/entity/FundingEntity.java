@@ -34,7 +34,7 @@ public class FundingEntity {
     @Column(name = "is_adult", columnDefinition = "TINYINT(1)")
     private boolean adult;
 
-    private String price_plan;
+    private String pricePlan;
 
     @Convert(converter = FundingCategoryAttributeConverter.class)
     private FundingCategory categoryCode;
