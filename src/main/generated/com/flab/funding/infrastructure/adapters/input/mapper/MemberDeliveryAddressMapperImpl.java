@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-11T19:54:49+0900",
+    date = "2024-02-15T22:37:36+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -23,7 +23,7 @@ public class MemberDeliveryAddressMapperImpl implements MemberDeliveryAddressMap
         DeliveryAddress.DeliveryAddressBuilder deliveryAddress = DeliveryAddress.builder();
 
         deliveryAddress.userKey( deliveryAddressRegisterRequest.getUserKey() );
-        deliveryAddress.defaultYN( deliveryAddressRegisterRequest.isDefaultYN() );
+        deliveryAddress.isDefault( deliveryAddressRegisterRequest.getIsDefault() );
         deliveryAddress.zipCode( deliveryAddressRegisterRequest.getZipCode() );
         deliveryAddress.address( deliveryAddressRegisterRequest.getAddress() );
         deliveryAddress.addressDetail( deliveryAddressRegisterRequest.getAddressDetail() );
@@ -41,8 +41,9 @@ public class MemberDeliveryAddressMapperImpl implements MemberDeliveryAddressMap
 
         MemberDeliveryAddressRegisterResponse.MemberDeliveryAddressRegisterResponseBuilder memberDeliveryAddressRegisterResponse = MemberDeliveryAddressRegisterResponse.builder();
 
+        memberDeliveryAddressRegisterResponse.deliveryAddressKey( deliveryAddress.getDeliveryAddressKey() );
         memberDeliveryAddressRegisterResponse.userKey( deliveryAddress.getUserKey() );
-        memberDeliveryAddressRegisterResponse.defaultYN( deliveryAddress.isDefaultYN() );
+        memberDeliveryAddressRegisterResponse.isDefault( deliveryAddress.getIsDefault() );
         memberDeliveryAddressRegisterResponse.zipCode( deliveryAddress.getZipCode() );
         memberDeliveryAddressRegisterResponse.address( deliveryAddress.getAddress() );
         memberDeliveryAddressRegisterResponse.addressDetail( deliveryAddress.getAddressDetail() );

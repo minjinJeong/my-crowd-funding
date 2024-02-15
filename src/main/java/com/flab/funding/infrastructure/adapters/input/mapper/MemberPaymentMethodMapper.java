@@ -4,9 +4,10 @@ import com.flab.funding.domain.model.PaymentMethod;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberPaymentMethodRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberPaymentMethodRegisterResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberPaymentMethodMapper {
 
     MemberPaymentMethodMapper INSTANCE = Mappers.getMapper(MemberPaymentMethodMapper.class);

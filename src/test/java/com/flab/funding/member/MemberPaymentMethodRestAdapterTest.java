@@ -46,7 +46,7 @@ public class MemberPaymentMethodRestAdapterTest {
         // given
         MemberPaymentMethodRegisterRequest request = MemberPaymentMethodRegisterRequest.builder()
                 .userKey("1L")
-                .defaultYN(true)
+                .isDefault(true)
                 .paymentNum("3565 43")
                 .build();
 
@@ -61,12 +61,13 @@ public class MemberPaymentMethodRestAdapterTest {
                 .andDo(document("{class-name}/{method-name}",
                         requestFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("defaultYN").description("대표 결제 수단"),
+                                fieldWithPath("isDefault").description("대표 결제 수단"),
                                 fieldWithPath("paymentNum").description("카드 번호/계좌 번호")
                         ),
                         responseFields(
+                                fieldWithPath("paymentMethodKey").description("결제 수단 ID(외부용)"),
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("defaultYN").description("대표 결제 수단"),
+                                fieldWithPath("isDefault").description("대표 결제 수단"),
                                 fieldWithPath("paymentNum").description("카드 번호/계좌 번호"),
                                 fieldWithPath("createdAt").description("등록일자"),
                                 fieldWithPath("updatedAt").description("수정일자")

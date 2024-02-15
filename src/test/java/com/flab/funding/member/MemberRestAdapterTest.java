@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,6 +26,8 @@ import java.time.LocalDate;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -130,13 +133,14 @@ public class MemberRestAdapterTest {
         //when
 
         //then
-        this.mockMvc.perform(get("/members/{userKey}", request.getUserKey())
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{userKey}"
+                                , request.getUserKey())
                         .content(objectMapper.writeValueAsString(request))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
-                        requestFields(
-                                fieldWithPath("userKey").description("회원번호(외부용)")
+                        pathParameters(
+                                parameterWithName("userKey").description("회원번호(외부용)")
                         ),
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-11T19:54:49+0900",
+    date = "2024-02-15T22:37:36+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -24,9 +24,11 @@ public class MemberDeliveryAddressPersistenceMapperImpl implements MemberDeliver
 
         memberDeliveryAddressEntity.member( toMemberEntity( deliveryAddress.getUserKey() ) );
         memberDeliveryAddressEntity.id( deliveryAddress.getId() );
-        memberDeliveryAddressEntity.defaultYN( deliveryAddress.isDefaultYN() );
+        memberDeliveryAddressEntity.deliveryAddressKey( deliveryAddress.getDeliveryAddressKey() );
+        memberDeliveryAddressEntity.isDefault( deliveryAddress.getIsDefault() );
         memberDeliveryAddressEntity.zipCode( deliveryAddress.getZipCode() );
         memberDeliveryAddressEntity.address( deliveryAddress.getAddress() );
+        memberDeliveryAddressEntity.addressDetail( deliveryAddress.getAddressDetail() );
         memberDeliveryAddressEntity.recipientName( deliveryAddress.getRecipientName() );
         memberDeliveryAddressEntity.recipientPhone( deliveryAddress.getRecipientPhone() );
         memberDeliveryAddressEntity.createdAt( deliveryAddress.getCreatedAt() );
@@ -45,9 +47,11 @@ public class MemberDeliveryAddressPersistenceMapperImpl implements MemberDeliver
 
         deliveryAddress.userKey( deliveryAddressEntityMemberUserKey( deliveryAddressEntity ) );
         deliveryAddress.id( deliveryAddressEntity.getId() );
-        deliveryAddress.defaultYN( deliveryAddressEntity.isDefaultYN() );
+        deliveryAddress.deliveryAddressKey( deliveryAddressEntity.getDeliveryAddressKey() );
+        deliveryAddress.isDefault( deliveryAddressEntity.getIsDefault() );
         deliveryAddress.zipCode( deliveryAddressEntity.getZipCode() );
         deliveryAddress.address( deliveryAddressEntity.getAddress() );
+        deliveryAddress.addressDetail( deliveryAddressEntity.getAddressDetail() );
         deliveryAddress.recipientName( deliveryAddressEntity.getRecipientName() );
         deliveryAddress.recipientPhone( deliveryAddressEntity.getRecipientPhone() );
         deliveryAddress.createdAt( deliveryAddressEntity.getCreatedAt() );

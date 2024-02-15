@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 public class PaymentMethod {
     private Long id;
 
+    private String paymentMethodKey;
+
     private String userKey;
 
-    private boolean defaultYN;
+    private Boolean isDefault;
 
     private String paymentNum;
 

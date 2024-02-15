@@ -21,13 +21,15 @@ public class MemberPaymentMethodEntity {
     @Column(name = "user_payment_method_id")
     private Long id;
 
+    private String paymentMethodKey;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private MemberEntity member;
 
     @ColumnDefault("false")
-    @Column(name = "isDefault", columnDefinition = "TINYINT(1)")
-    private boolean defaultYN;
+    @Column(columnDefinition = "TINYINT(1)")
+    private Boolean isDefault;
 
     private String paymentNum;
 

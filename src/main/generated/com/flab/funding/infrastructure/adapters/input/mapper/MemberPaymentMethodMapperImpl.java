@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-11T19:54:49+0900",
+    date = "2024-02-15T22:37:36+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -23,7 +23,7 @@ public class MemberPaymentMethodMapperImpl implements MemberPaymentMethodMapper 
         PaymentMethod.PaymentMethodBuilder paymentMethod = PaymentMethod.builder();
 
         paymentMethod.userKey( paymentMethodRegisterRequest.getUserKey() );
-        paymentMethod.defaultYN( paymentMethodRegisterRequest.isDefaultYN() );
+        paymentMethod.isDefault( paymentMethodRegisterRequest.getIsDefault() );
         paymentMethod.paymentNum( paymentMethodRegisterRequest.getPaymentNum() );
 
         return paymentMethod.build();
@@ -37,8 +37,9 @@ public class MemberPaymentMethodMapperImpl implements MemberPaymentMethodMapper 
 
         MemberPaymentMethodRegisterResponse.MemberPaymentMethodRegisterResponseBuilder memberPaymentMethodRegisterResponse = MemberPaymentMethodRegisterResponse.builder();
 
+        memberPaymentMethodRegisterResponse.paymentMethodKey( paymentMethod.getPaymentMethodKey() );
         memberPaymentMethodRegisterResponse.userKey( paymentMethod.getUserKey() );
-        memberPaymentMethodRegisterResponse.defaultYN( paymentMethod.isDefaultYN() );
+        memberPaymentMethodRegisterResponse.isDefault( paymentMethod.getIsDefault() );
         memberPaymentMethodRegisterResponse.paymentNum( paymentMethod.getPaymentNum() );
         memberPaymentMethodRegisterResponse.createdAt( paymentMethod.getCreatedAt() );
         memberPaymentMethodRegisterResponse.updatedAt( paymentMethod.getUpdatedAt() );

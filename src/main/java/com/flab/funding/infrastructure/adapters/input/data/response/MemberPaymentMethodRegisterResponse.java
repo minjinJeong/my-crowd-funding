@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class MemberPaymentMethodRegisterResponse {
+    private String paymentMethodKey;
     private String userKey;
-    private boolean defaultYN;
+    private Boolean isDefault;
     private String paymentNum;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

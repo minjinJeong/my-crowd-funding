@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class MemberDeliveryAddressRegisterResponse {
+    private String deliveryAddressKey;
     private String userKey;
-    private boolean defaultYN;
+    private Boolean isDefault;
     private String zipCode;
     private String address;
     private String addressDetail;

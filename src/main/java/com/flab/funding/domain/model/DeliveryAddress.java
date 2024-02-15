@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 public class DeliveryAddress {
     private Long id;
 
+    private String deliveryAddressKey;
+
     private String userKey;
 
-    private boolean defaultYN;
+    private Boolean isDefault;
 
     private String zipCode;
 

@@ -46,7 +46,7 @@ public class MemberDeliveryAddressRestAdapterTest {
         // given
         MemberDeliveryAddressRegisterRequest request = MemberDeliveryAddressRegisterRequest.builder()
                 .userKey("1L")
-                .defaultYN(true)
+                .isDefault(true)
                 .zipCode("01234")
                 .address("서울특별시 강서구")
                 .addressDetail("OO 아파트 xxx동 xxxx호")
@@ -64,7 +64,7 @@ public class MemberDeliveryAddressRestAdapterTest {
                 .andDo(document("{class-name}/{method-name}",
                         requestFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("defaultYN").description("대표 배송지 주소"),
+                                fieldWithPath("isDefault").description("대표 배송지 주소"),
                                 fieldWithPath("zipCode").description("우편번호"),
                                 fieldWithPath("address").description("도로명 주소"),
                                 fieldWithPath("addressDetail").description("상세 주소"),
@@ -72,8 +72,9 @@ public class MemberDeliveryAddressRestAdapterTest {
                                 fieldWithPath("recipientPhone").description("받는 사람 연락처")
                         ),
                         responseFields(
+                                fieldWithPath("deliveryAddressKey").description("배송지 주소 ID(외부용)"),
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("defaultYN").description("대표 배송지 주소"),
+                                fieldWithPath("isDefault").description("대표 배송지 주소"),
                                 fieldWithPath("zipCode").description("우편번호"),
                                 fieldWithPath("address").description("도로명 주소"),
                                 fieldWithPath("addressDetail").description("상세 주소"),

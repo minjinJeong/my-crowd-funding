@@ -7,15 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 public class MemberPaymentMethodRegisterRequest {
     private String userKey;
-    private boolean defaultYN;
+    private Boolean isDefault;
     private String paymentNum;
 
     public PaymentMethod toPaymentMethod() {

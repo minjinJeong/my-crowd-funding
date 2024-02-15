@@ -18,8 +18,9 @@ public class MemoryMemberPaymentMethodRepository implements MemberPaymentMethodR
     public MemberPaymentMethodEntity save(MemberPaymentMethodEntity paymentMethodEntity) {
         MemberPaymentMethodEntity paymentMethod = BankEntity.builder()
                 .id(id)
+                .paymentMethodKey(id.toString())
                 .member(paymentMethodEntity.getMember())
-                .defaultYN(paymentMethodEntity.isDefaultYN())
+                .isDefault(paymentMethodEntity.getIsDefault())
                 .paymentNum(paymentMethodEntity.getPaymentNum())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())

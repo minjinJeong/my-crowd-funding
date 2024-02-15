@@ -16,8 +16,9 @@ public class MemoryMemberDeliveryAddressRepository implements MemberDeliveryAddr
     public MemberDeliveryAddressEntity save(MemberDeliveryAddressEntity deliveryAddressEntity) {
         MemberDeliveryAddressEntity deliveryAddress = MemberDeliveryAddressEntity.builder()
                 .id(id)
+                .deliveryAddressKey(id.toString())
                 .member(deliveryAddressEntity.getMember())
-                .defaultYN(deliveryAddressEntity.isDefaultYN())
+                .isDefault(deliveryAddressEntity.getIsDefault())
                 .zipCode(deliveryAddressEntity.getZipCode())
                 .address(deliveryAddressEntity.getAddress())
                 .addressDetail(deliveryAddressEntity.getAddressDetail())
