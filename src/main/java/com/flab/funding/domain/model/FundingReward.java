@@ -17,7 +17,7 @@ public class FundingReward {
     private int countLimit;
     private int personalLimit;
     private LocalDate expectDate;
-    private boolean delivery;
+    private boolean isDelivery;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

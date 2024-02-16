@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-14T22:45:15+0900",
+    date = "2024-02-16T20:23:56+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -23,7 +23,9 @@ public class FundingMapperImpl implements FundingMapper {
 
         Funding.FundingBuilder funding = Funding.builder();
 
-        funding.adult( fundingRegisterRequest.isAdult() );
+        if ( fundingRegisterRequest.getIsAdult() != null ) {
+            funding.isAdult( fundingRegisterRequest.getIsAdult() );
+        }
         funding.pricePlan( fundingRegisterRequest.getPricePlan() );
         funding.categoryCode( fundingRegisterRequest.getCategoryCode() );
         funding.expectAmount( fundingRegisterRequest.getExpectAmount() );

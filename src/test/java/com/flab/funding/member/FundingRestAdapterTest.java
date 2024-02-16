@@ -51,7 +51,7 @@ public class FundingRestAdapterTest {
         // given
         FundingRegisterRequest request = FundingRegisterRequest.builder()
                 .userKey("1L")
-                .adult(false)
+                .isAdult(false)
                 .pricePlan("00")
                 .categoryCode(FundingCategory.FOOD)
                 .expectAmount(BigInteger.valueOf(100000))
@@ -76,23 +76,23 @@ public class FundingRestAdapterTest {
                 .andDo(document("{class-name}/{method-name}",
                         requestFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
-                                fieldWithPath("adult").description("이메일"),
-                                fieldWithPath("pricePlan").description("이름"),
-                                fieldWithPath("categoryCode").description("닉네임"),
-                                fieldWithPath("expectAmount").description("핸드폰 번호"),
-                                fieldWithPath("title").description("성별"),
-                                fieldWithPath("fundingDesc").description("생년월일"),
-                                fieldWithPath("fundingIntroduce").description("비밀번호"),
-                                fieldWithPath("budgetDesc").description("비밀번호"),
-                                fieldWithPath("scheduleDesc").description("비밀번호"),
-                                fieldWithPath("teamDesc").description("비밀번호"),
-                                fieldWithPath("rewardDesc").description("비밀번호"),
-                                fieldWithPath("startAt").description("비밀번호"),
-                                fieldWithPath("endAt").description("비밀번호")
+                                fieldWithPath("isAdult").description("성인전용"),
+                                fieldWithPath("pricePlan").description("요금제"),
+                                fieldWithPath("categoryCode").description("펀딩분류코드"),
+                                fieldWithPath("expectAmount").description("목표금액"),
+                                fieldWithPath("title").description("프로젝트 명"),
+                                fieldWithPath("fundingDesc").description("프로젝트 요약 소개글"),
+                                fieldWithPath("fundingIntroduce").description("프로젝트 소개"),
+                                fieldWithPath("budgetDesc").description("프로젝트 예산"),
+                                fieldWithPath("scheduleDesc").description("프로젝트 일정"),
+                                fieldWithPath("teamDesc").description("프로젝트 팀 소개"),
+                                fieldWithPath("rewardDesc").description("프로젝트 선물 설명"),
+                                fieldWithPath("startAt").description("펀딩 시작일"),
+                                fieldWithPath("endAt").description("펀딩 종료일")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("펀딩번호(외부용)"),
-                                fieldWithPath("status").description("회원상태")
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("status").description("펀딩상태")
                         )));
     }
 }

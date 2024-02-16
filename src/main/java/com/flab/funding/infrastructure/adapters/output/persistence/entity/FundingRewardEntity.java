@@ -35,8 +35,8 @@ public class FundingRewardEntity {
     private LocalDate expectDate;
 
     @ColumnDefault("false")
-    @Column(name = "is_delivery", columnDefinition = "TINYINT(1)")
-    private boolean delivery;
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean isDelivery;
 
     private LocalDateTime createdAt;
 

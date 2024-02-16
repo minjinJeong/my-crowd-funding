@@ -25,7 +25,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
 
     @Override
     public Funding registFunding(Funding funding) {
-        return fundingPort.saveFunding(funding);
+        return fundingPort.saveFunding(funding.regist());
     }
 
     @Override

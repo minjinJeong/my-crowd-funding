@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class FundingRegisterResponse {
 
-    private Long id;
+    private Long fundingKey;
     private FundingStatus status;
 
     public static FundingRegisterResponse from(Funding funding) {

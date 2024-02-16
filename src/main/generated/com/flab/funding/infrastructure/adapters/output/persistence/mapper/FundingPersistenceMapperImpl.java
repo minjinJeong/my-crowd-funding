@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-14T22:45:16+0900",
+    date = "2024-02-16T20:16:12+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -23,7 +23,6 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         fundingEntity.id( funding.getId() );
         fundingEntity.member( funding.getMember() );
-        fundingEntity.adult( funding.isAdult() );
         fundingEntity.pricePlan( funding.getPricePlan() );
         fundingEntity.categoryCode( funding.getCategoryCode() );
         fundingEntity.expectAmount( funding.getExpectAmount() );
@@ -55,7 +54,6 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         funding.id( fundingEntity.getId() );
         funding.member( fundingEntity.getMember() );
-        funding.adult( fundingEntity.isAdult() );
         funding.pricePlan( fundingEntity.getPricePlan() );
         funding.categoryCode( fundingEntity.getCategoryCode() );
         funding.expectAmount( fundingEntity.getExpectAmount() );

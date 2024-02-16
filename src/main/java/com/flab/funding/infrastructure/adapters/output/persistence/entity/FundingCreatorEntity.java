@@ -23,8 +23,8 @@ public class FundingCreatorEntity {
     private FundingEntity funding;
 
     @ColumnDefault("false")
-    @Column(name = "is_valid", columnDefinition = "TINYINT(1)")
-    private boolean valid;
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean isValid;
 
     private String businessNum;
 

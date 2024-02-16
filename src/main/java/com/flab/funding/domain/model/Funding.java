@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 @Getter
 public class Funding {
     private Long id;
+    private String fundingKey;
     private MemberEntity member;
-    private boolean adult;
+    private boolean isAdult;
     private String pricePlan;
     private FundingCategory categoryCode;
     private BigInteger expectAmount;
@@ -30,4 +31,9 @@ public class Funding {
     private String createdBy;
     private LocalDateTime updatedAt;
     private String updatedBy;
+
+    public Funding regist() {
+        this.status = FundingStatus.REGIST;
+        return this;
+    }
 }

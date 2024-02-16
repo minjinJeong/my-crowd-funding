@@ -26,13 +26,15 @@ public class FundingEntity {
     @Column(name = "funding_id")
     private Long id;
 
+    private String fundingKey;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private MemberEntity member;
 
     @ColumnDefault("false")
-    @Column(name = "is_adult", columnDefinition = "TINYINT(1)")
-    private boolean adult;
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean isAdult;
 
     private String pricePlan;
 
