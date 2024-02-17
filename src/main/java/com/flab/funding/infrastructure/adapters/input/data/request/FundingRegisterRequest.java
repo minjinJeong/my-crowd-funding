@@ -2,9 +2,7 @@ package com.flab.funding.infrastructure.adapters.input.data.request;
 
 import com.flab.funding.domain.model.Funding;
 import com.flab.funding.domain.model.FundingCategory;
-import com.flab.funding.domain.model.FundingStatus;
 import com.flab.funding.infrastructure.adapters.input.mapper.FundingMapper;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

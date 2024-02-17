@@ -2,6 +2,7 @@ package com.flab.funding.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.FundingCategory;
+import com.flab.funding.infrastructure.adapters.input.data.request.FundingInfoRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ import java.time.LocalDateTime;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -94,5 +98,77 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("status").description("펀딩상태")
                         )));
+    }
+
+    @Test
+    public void waitForFundingReview() throws Exception {
+        //given
+        FundingInfoRequest request = FundingInfoRequest.builder()
+                .fundingKey("1")
+                .build();
+
+        //when
+
+        //then
+        this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/funding/{fundingKey}/wait"
+                        , request.getFundingKey()))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        pathParameters(
+                              parameterWithName("fundingKey").description("펀딩번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("status").description("펀딩상태")
+                        )));
+
+    }
+
+    @Test
+    public void completeFundingReview() throws Exception {
+        //given
+        FundingInfoRequest request = FundingInfoRequest.builder()
+                .fundingKey("1")
+                .build();
+
+        //when
+
+        //then
+        this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/funding/{fundingKey}/complete"
+                        , request.getFundingKey()))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        pathParameters(
+                                parameterWithName("fundingKey").description("펀딩번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("status").description("펀딩상태")
+                        )));
+
+    }
+
+    @Test
+    public void cancelFunding() throws Exception {
+        //given
+        FundingInfoRequest request = FundingInfoRequest.builder()
+                .fundingKey("1")
+                .build();
+
+        //when
+
+        //then
+        this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/funding/{fundingKey}/cancel"
+                        , request.getFundingKey()))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        pathParameters(
+                                parameterWithName("fundingKey").description("펀딩번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("status").description("펀딩상태")
+                        )));
+
     }
 }

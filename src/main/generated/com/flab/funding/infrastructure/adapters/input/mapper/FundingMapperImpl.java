@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-16T20:23:56+0900",
+    date = "2024-02-17T22:05:59+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -50,7 +50,9 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingRegisterResponse.FundingRegisterResponseBuilder fundingRegisterResponse = FundingRegisterResponse.builder();
 
-        fundingRegisterResponse.id( funding.getId() );
+        if ( funding.getFundingKey() != null ) {
+            fundingRegisterResponse.fundingKey( Long.parseLong( funding.getFundingKey() ) );
+        }
         fundingRegisterResponse.status( funding.getStatus() );
 
         return fundingRegisterResponse.build();
@@ -64,7 +66,9 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingInfoResponse.FundingInfoResponseBuilder fundingInfoResponse = FundingInfoResponse.builder();
 
-        fundingInfoResponse.id( funding.getId() );
+        if ( funding.getFundingKey() != null ) {
+            fundingInfoResponse.fundingKey( Long.parseLong( funding.getFundingKey() ) );
+        }
         fundingInfoResponse.status( funding.getStatus() );
 
         return fundingInfoResponse.build();

@@ -18,11 +18,4 @@ operation::member-service-test/deregister-member[snippets='http-request,http-res
 === 회원 정보 조회
 operation::member-service-test/get-member[snippets='http-request,http-response,request-fields,response-fields']
 
-=== 펀딩 등록
-
-=== 펀딩 심사 시작
-
-=== 펀딩 심사 종료
-
-=== 펀딩 취소
-
+include::{docdir}/src/docs/asciidoc/funding.adoc[]

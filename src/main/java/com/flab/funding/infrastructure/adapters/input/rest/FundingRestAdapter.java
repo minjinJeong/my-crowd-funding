@@ -25,23 +25,23 @@ public class FundingRestAdapter {
         return FundingRegisterResponse.from(funding);
     }
 
-    @PutMapping("/funding/{fundingId}/wait")
+    @PatchMapping("/funding/{fundingKey}/wait")
     @ResponseBody
-    public FundingInfoResponse waitForFundingReview(@PathVariable("fundingId") String fundingId) {
+    public FundingInfoResponse waitForFundingReview(@PathVariable("fundingKey") String fundingId) {
         Funding funding = reviewFundingUseCase.waitForFundingReview(fundingId);
         return FundingInfoResponse.from(funding);
     }
 
-    @PutMapping("/funding/{fundingId}/complete")
+    @PatchMapping("/funding/{fundingKey}/complete")
     @ResponseBody
-    public FundingInfoResponse completeFundingReview(@PathVariable("fundingId") String fundingId) {
+    public FundingInfoResponse completeFundingReview(@PathVariable("fundingKey") String fundingId) {
         Funding funding = reviewFundingUseCase.completeFundingReview(fundingId);
         return FundingInfoResponse.from(funding);
     }
 
-    @PutMapping("/funding/{fundingId}/cancel")
+    @PatchMapping("/funding/{fundingKey}/cancel")
     @ResponseBody
-    public FundingInfoResponse cancelFunding(@PathVariable("fundingId") String fundingId) {
+    public FundingInfoResponse cancelFunding(@PathVariable("fundingKey") String fundingId) {
         Funding funding = cancelFundingUseCase.cancelFunding(fundingId);
         return FundingInfoResponse.from(funding);
     }

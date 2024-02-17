@@ -1,0 +1,12 @@
+== 펀딩
+=== 펀딩 등록
+operation::funding-rest-adapter-test/register-funding[snippets='http-request,http-response,request-fields,response-fields']
+
+=== 펀딩 심사 시작
+operation::funding-rest-adapter-test/wait-for-funding-review[snippets='http-request,http-response,path-parameters,response-fields']
+
+=== 펀딩 심사 종료
+operation::funding-rest-adapter-test/complete-funding-review[snippets='http-request,http-response,path-parameters,response-fields']
+
+=== 펀딩 취소
+operation::funding-rest-adapter-test/cancel-funding[snippets='http-request,http-response,path-parameters,response-fields']
