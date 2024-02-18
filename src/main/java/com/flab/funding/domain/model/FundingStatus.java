@@ -8,10 +8,11 @@ import lombok.Getter;
 public enum FundingStatus {
     REGIST("00"),
     REVIEW_WAIT("10"),
-    REVIEW_END("11"),
     OPEN_WAIT("20"),
     PROGRESS("30"),
-    END("40");
+    CANCEL("40"),
+    DENY("50"),
+    END("50");
 
     private final String statusCode;
 }

@@ -16,11 +16,17 @@ public class MemoryFundingRepository implements FundingRepository {
     private static Long id = 1L;
 
     // TODO : API 문서 작성을 위해 로직 수정 필요
+    // JPA 연동 후 createAt 시간 갱신되는지 확인할 것
     @Override
     public FundingEntity save(FundingEntity funding) {
+
+        Long fundingID = funding.getFundingKey() != null
+                ? Long.parseLong(funding.getFundingKey())
+                : id++;
+
         FundingEntity savedFunding = FundingEntity.builder()
-                .id(id)
-                .fundingKey(id.toString())
+                .id(fundingID)
+                .fundingKey(fundingID.toString())
                 .member(funding.getMember())
                 .isAdult(funding.isAdult())
                 .pricePlan(funding.getPricePlan())
@@ -40,7 +46,7 @@ public class MemoryFundingRepository implements FundingRepository {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        store.put(id++, savedFunding);
+        store.put(fundingID, savedFunding);
         return savedFunding;
     }
 

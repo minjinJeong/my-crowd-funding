@@ -18,12 +18,6 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
     }
 
     @Override
-    public Funding cancelFunding(String fundingId) {
-        Funding funding = fundingPort.getFundingByFundingId(fundingId);
-        return fundingPort.saveFunding(funding);
-    }
-
-    @Override
     public Funding registFunding(Funding funding) {
         return fundingPort.saveFunding(funding.regist());
     }
@@ -31,12 +25,18 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
     @Override
     public Funding waitForFundingReview(String fundingId) {
         Funding funding = fundingPort.getFundingByFundingId(fundingId);
-        return fundingPort.saveFunding(funding);
+        return fundingPort.saveFunding(funding.waitReview());
     }
 
     @Override
     public Funding completeFundingReview(String fundingId) {
         Funding funding = fundingPort.getFundingByFundingId(fundingId);
-        return fundingPort.saveFunding(funding);
+        return fundingPort.saveFunding(funding.completeReview());
+    }
+
+    @Override
+    public Funding cancelFunding(String fundingId) {
+        Funding funding = fundingPort.getFundingByFundingId(fundingId);
+        return fundingPort.saveFunding(funding.cancel());
     }
 }

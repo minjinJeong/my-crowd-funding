@@ -36,4 +36,19 @@ public class Funding {
         this.status = FundingStatus.REGIST;
         return this;
     }
+
+    public Funding waitReview() {
+        this.status = FundingStatus.REVIEW_WAIT;
+        return this;
+    }
+
+    public Funding completeReview() {
+        this.status = FundingStatus.OPEN_WAIT;
+        return this;
+    }
+
+    public Funding cancel() {
+        this.status = FundingStatus.CANCEL;
+        return this;
+    }
 }
