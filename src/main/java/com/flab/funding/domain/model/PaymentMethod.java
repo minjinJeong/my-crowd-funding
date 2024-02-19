@@ -14,7 +14,7 @@ public class PaymentMethod {
 
     private String userKey;
 
-    private Boolean isDefault;
+    private boolean isDefault;
 
     private String paymentNum;
 

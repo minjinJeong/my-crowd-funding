@@ -15,9 +15,11 @@ public interface MemberDeliveryAddressPersistenceMapper {
     MemberDeliveryAddressPersistenceMapper INSTANCE = Mappers.getMapper(MemberDeliveryAddressPersistenceMapper.class);
 
     @Mapping(source = "userKey", target = "member", qualifiedByName = "toMemberEntity")
+    @Mapping(source = "default", target = "isDefault")
     MemberDeliveryAddressEntity toMemberDeliveryAddressEntity(DeliveryAddress deliveryAddress);
 
     @Mapping(source = "member.userKey", target = "userKey")
+    @Mapping(source = "default", target = "isDefault")
     DeliveryAddress toDeliveryAddress(MemberDeliveryAddressEntity deliveryAddressEntity);
 
     @Named("toMemberEntity")

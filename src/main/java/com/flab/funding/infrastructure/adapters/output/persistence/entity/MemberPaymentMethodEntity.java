@@ -29,7 +29,7 @@ public class MemberPaymentMethodEntity {
 
     @ColumnDefault("false")
     @Column(columnDefinition = "TINYINT(1)")
-    private Boolean isDefault;
+    private boolean isDefault;
 
     private String paymentNum;
 

@@ -14,7 +14,7 @@ public class DeliveryAddress {
 
     private String userKey;
 
-    private Boolean isDefault;
+    private boolean isDefault;
 
     private String zipCode;
 
