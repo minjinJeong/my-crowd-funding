@@ -5,6 +5,9 @@ import com.flab.funding.application.ports.input.RegisterFundingUseCase;
 import com.flab.funding.application.ports.input.ReviewFundingUseCase;
 import com.flab.funding.application.ports.output.FundingPort;
 import com.flab.funding.domain.model.Funding;
+import com.flab.funding.domain.model.FundingCreator;
+import com.flab.funding.domain.model.FundingItem;
+import com.flab.funding.domain.model.FundingReward;
 import com.flab.funding.infrastructure.config.UseCase;
 
 // TODO : 펀딩 로직 생성 필요
@@ -20,6 +23,21 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
     @Override
     public Funding registFunding(Funding funding) {
         return fundingPort.saveFunding(funding.regist());
+    }
+
+    @Override
+    public FundingCreator registFundingCreator(FundingCreator fundingCreator) {
+        return null;
+    }
+
+    @Override
+    public FundingItem makeFundingItem(FundingItem fundingItem) {
+        return null;
+    }
+
+    @Override
+    public FundingReward makeFundingReward(FundingReward fundingReward) {
+        return null;
     }
 
     @Override

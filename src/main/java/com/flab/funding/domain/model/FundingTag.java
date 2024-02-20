@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class FundingTag {
     private Long id;
-    private String funding_id;
+    private String fundingId;
     private String tag;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -1,6 +1,9 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.repository;
 
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingCreatorEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -13,20 +16,26 @@ import java.util.Optional;
 public class MemoryFundingRepository implements FundingRepository {
 
     private static final Map<Long, FundingEntity> store = new HashMap<>();
-    private static Long id = 1L;
+    private static final Map<Long, FundingCreatorEntity> creators = new HashMap<>();
+    private static final Map<Long, FundingItemEntity> items = new HashMap<>();
+    private static final Map<Long, FundingRewardEntity> rewards = new HashMap<>();
 
-    // TODO : API 문서 작성을 위해 로직 수정 필요
-    // JPA 연동 후 createAt 시간 갱신되는지 확인할 것
+    private static Long fundingId = 1L;
+    private static Long creatorId = 1L;
+    private static Long itemId = 1L;
+    private static Long rewardId = 1L;
+
+    // TODO : JPA 연동 후 createAt 시간 갱신되는지 확인할 것
     @Override
     public FundingEntity save(FundingEntity funding) {
 
-        Long fundingID = funding.getFundingKey() != null
+        Long id = funding.getFundingKey() != null
                 ? Long.parseLong(funding.getFundingKey())
-                : id++;
+                : fundingId++;
 
         FundingEntity savedFunding = FundingEntity.builder()
-                .id(fundingID)
-                .fundingKey(fundingID.toString())
+                .id(id)
+                .fundingKey(id.toString())
                 .member(funding.getMember())
                 .isAdult(funding.isAdult())
                 .pricePlan(funding.getPricePlan())
@@ -46,8 +55,67 @@ public class MemoryFundingRepository implements FundingRepository {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        store.put(fundingID, savedFunding);
+        store.put(id, savedFunding);
         return savedFunding;
+    }
+
+    @Override
+    public FundingCreatorEntity save(FundingCreatorEntity fundingCreatorEntity) {
+
+        Long id = creatorId++;
+
+        FundingCreatorEntity savedFundingCreator = FundingCreatorEntity.builder()
+                .id(id)
+                .funding(fundingCreatorEntity.getFunding())
+                .isValid(fundingCreatorEntity.isValid())
+                .businessNum(fundingCreatorEntity.getBusinessNum())
+                .representative(fundingCreatorEntity.getRepresentative())
+                .introduce(fundingCreatorEntity.getIntroduce())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        creators.put(id, savedFundingCreator);
+        return savedFundingCreator;
+    }
+
+    @Override
+    public FundingItemEntity save(FundingItemEntity fundingItemEntity) {
+
+        Long id = itemId++;
+
+        FundingItemEntity savedFundingItem = FundingItemEntity.builder()
+                .id(id)
+                .funding(fundingItemEntity.getFunding())
+                .itemName(fundingItemEntity.getItemName())
+                .optionType(fundingItemEntity.getOptionType())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        items.put(id, savedFundingItem);
+        return savedFundingItem;
+    }
+
+    @Override
+    public FundingRewardEntity save(FundingRewardEntity fundingRewardEntity) {
+        Long id = rewardId++;
+
+        FundingRewardEntity savedFundingReward = FundingRewardEntity.builder()
+                .id(id)
+                .funding(fundingRewardEntity.getFunding())
+                .isDelivery(fundingRewardEntity.isDelivery())
+                .rewardTitle(fundingRewardEntity.getRewardTitle())
+                .amount(fundingRewardEntity.getAmount())
+                .countLimit(fundingRewardEntity.getCountLimit())
+                .personalLimit(fundingRewardEntity.getPersonalLimit())
+                .expectDate(fundingRewardEntity.getExpectDate())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        rewards.put(id, savedFundingReward);
+        return savedFundingReward;
     }
 
     @Override

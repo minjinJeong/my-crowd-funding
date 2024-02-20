@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class FundingCreator {
     private Long id;
-    private String funding_id;
+    private String fundingId;
     private boolean isValid;
     private String businessNum;
     private String representative;

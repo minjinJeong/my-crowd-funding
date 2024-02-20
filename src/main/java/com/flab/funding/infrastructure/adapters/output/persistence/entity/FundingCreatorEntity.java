@@ -1,5 +1,7 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
+import com.flab.funding.domain.model.FundingCreator;
+import com.flab.funding.infrastructure.adapters.output.persistence.mapper.FundingPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -35,4 +37,12 @@ public class FundingCreatorEntity {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public static FundingCreatorEntity from(FundingCreator fundingCreator) {
+        return FundingPersistenceMapper.INSTANCE.toFundingCreatorEntity(fundingCreator);
+    }
+
+    public FundingCreator toFundingCreator() {
+        return FundingPersistenceMapper.INSTANCE.toFundingCreator(this);
+    }
 }
