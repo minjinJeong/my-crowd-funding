@@ -27,17 +27,17 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
 
     @Override
     public FundingCreator registFundingCreator(FundingCreator fundingCreator) {
-        return null;
+        return fundingPort.saveFundingCreator(fundingCreator);
     }
 
     @Override
     public FundingItem makeFundingItem(FundingItem fundingItem) {
-        return null;
+        return fundingPort.saveFundingItem(fundingItem);
     }
 
     @Override
     public FundingReward makeFundingReward(FundingReward fundingReward) {
-        return null;
+        return fundingPort.saveFundingReward(fundingReward);
     }
 
     @Override

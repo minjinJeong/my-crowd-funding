@@ -1,13 +1,19 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.mapper;
 
 import com.flab.funding.domain.model.Funding;
+import com.flab.funding.domain.model.FundingCreator;
+import com.flab.funding.domain.model.FundingItem;
+import com.flab.funding.domain.model.FundingReward;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingCreatorEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-18T19:45:35+0900",
+    date = "2024-02-21T19:50:12+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -75,5 +81,115 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         funding.updatedBy( fundingEntity.getUpdatedBy() );
 
         return funding.build();
+    }
+
+    @Override
+    public FundingCreatorEntity toFundingCreatorEntity(FundingCreator fundingCreator) {
+        if ( fundingCreator == null ) {
+            return null;
+        }
+
+        FundingCreatorEntity.FundingCreatorEntityBuilder fundingCreatorEntity = FundingCreatorEntity.builder();
+
+        fundingCreatorEntity.id( fundingCreator.getId() );
+        fundingCreatorEntity.businessNum( fundingCreator.getBusinessNum() );
+        fundingCreatorEntity.representative( fundingCreator.getRepresentative() );
+        fundingCreatorEntity.introduce( fundingCreator.getIntroduce() );
+        fundingCreatorEntity.createdAt( fundingCreator.getCreatedAt() );
+        fundingCreatorEntity.updatedAt( fundingCreator.getUpdatedAt() );
+
+        return fundingCreatorEntity.build();
+    }
+
+    @Override
+    public FundingCreator toFundingCreator(FundingCreatorEntity fundingCreatorEntity) {
+        if ( fundingCreatorEntity == null ) {
+            return null;
+        }
+
+        FundingCreator.FundingCreatorBuilder fundingCreator = FundingCreator.builder();
+
+        fundingCreator.id( fundingCreatorEntity.getId() );
+        fundingCreator.businessNum( fundingCreatorEntity.getBusinessNum() );
+        fundingCreator.representative( fundingCreatorEntity.getRepresentative() );
+        fundingCreator.introduce( fundingCreatorEntity.getIntroduce() );
+        fundingCreator.createdAt( fundingCreatorEntity.getCreatedAt() );
+        fundingCreator.updatedAt( fundingCreatorEntity.getUpdatedAt() );
+
+        return fundingCreator.build();
+    }
+
+    @Override
+    public FundingItemEntity toFundingItemEntity(FundingItem fundingItem) {
+        if ( fundingItem == null ) {
+            return null;
+        }
+
+        FundingItemEntity.FundingItemEntityBuilder fundingItemEntity = FundingItemEntity.builder();
+
+        fundingItemEntity.id( fundingItem.getId() );
+        fundingItemEntity.itemName( fundingItem.getItemName() );
+        fundingItemEntity.optionType( fundingItem.getOptionType() );
+        fundingItemEntity.createdAt( fundingItem.getCreatedAt() );
+        fundingItemEntity.updatedAt( fundingItem.getUpdatedAt() );
+
+        return fundingItemEntity.build();
+    }
+
+    @Override
+    public FundingItem toFundingItem(FundingItemEntity fundingItemEntity) {
+        if ( fundingItemEntity == null ) {
+            return null;
+        }
+
+        FundingItem.FundingItemBuilder fundingItem = FundingItem.builder();
+
+        fundingItem.id( fundingItemEntity.getId() );
+        fundingItem.itemName( fundingItemEntity.getItemName() );
+        fundingItem.optionType( fundingItemEntity.getOptionType() );
+        fundingItem.createdAt( fundingItemEntity.getCreatedAt() );
+        fundingItem.updatedAt( fundingItemEntity.getUpdatedAt() );
+
+        return fundingItem.build();
+    }
+
+    @Override
+    public FundingRewardEntity toFundingRewardEntity(FundingReward fundingReward) {
+        if ( fundingReward == null ) {
+            return null;
+        }
+
+        FundingRewardEntity.FundingRewardEntityBuilder fundingRewardEntity = FundingRewardEntity.builder();
+
+        fundingRewardEntity.id( fundingReward.getId() );
+        fundingRewardEntity.rewardTitle( fundingReward.getRewardTitle() );
+        fundingRewardEntity.amount( fundingReward.getAmount() );
+        fundingRewardEntity.countLimit( fundingReward.getCountLimit() );
+        fundingRewardEntity.personalLimit( fundingReward.getPersonalLimit() );
+        fundingRewardEntity.expectDate( fundingReward.getExpectDate() );
+        fundingRewardEntity.createdAt( fundingReward.getCreatedAt() );
+        fundingRewardEntity.updatedAt( fundingReward.getUpdatedAt() );
+
+        return fundingRewardEntity.build();
+    }
+
+    @Override
+    public FundingReward toFundingReward(FundingRewardEntity fundingRewardEntity) {
+        if ( fundingRewardEntity == null ) {
+            return null;
+        }
+
+        FundingReward.FundingRewardBuilder fundingReward = FundingReward.builder();
+
+        fundingReward.id( fundingRewardEntity.getId() );
+        fundingReward.rewardTitle( fundingRewardEntity.getRewardTitle() );
+        fundingReward.amount( fundingRewardEntity.getAmount() );
+        fundingReward.countLimit( fundingRewardEntity.getCountLimit() );
+        fundingReward.personalLimit( fundingRewardEntity.getPersonalLimit() );
+        fundingReward.expectDate( fundingRewardEntity.getExpectDate() );
+        fundingReward.createdAt( fundingRewardEntity.getCreatedAt() );
+        fundingReward.updatedAt( fundingRewardEntity.getUpdatedAt() );
+
+        return fundingReward.build();
     }
 }

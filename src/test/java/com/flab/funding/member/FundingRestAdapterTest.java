@@ -2,8 +2,7 @@ package com.flab.funding.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.FundingCategory;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingInfoRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -170,5 +169,72 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("status").description("펀딩상태")
                         )));
 
+    }
+
+    @Test
+    void registerFundingCreator() throws Exception {
+
+        // given
+        FundingCreatorRegisterRequest request = FundingCreatorRegisterRequest.builder().build();
+
+        // when
+        // then
+        this.mockMvc.perform(post("/funding/creators")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                                ),
+                        responseFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("status").description("펀딩상태")
+                        )));
+    }
+
+    @Test
+    void makeFundingItem() throws Exception {
+
+        // given
+        FundingItemRegisterRequest request = FundingItemRegisterRequest.builder().build();
+
+        // when
+        // then
+        this.mockMvc.perform(post("/funding/items")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                        )));
+    }
+
+    @Test
+    void makeFundingReward() throws Exception {
+
+        // given
+        FundingRewardRegisterRequest request = FundingRewardRegisterRequest.builder().build();
+
+        // when
+        // then
+        this.mockMvc.perform(post("/funding/rewards")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                                ),
+                        responseFields(
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                        )));
     }
 }
