@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class FundingRegisterRequest {
 
     private String userKey;
-    private Boolean isAdult;
+    private boolean isAdult;
     private String pricePlan;
     private FundingCategory categoryCode;
     private BigInteger expectAmount;

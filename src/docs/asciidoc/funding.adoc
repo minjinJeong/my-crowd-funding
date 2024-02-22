@@ -3,10 +3,13 @@
 operation::funding-rest-adapter-test/register-funding[snippets='http-request,http-response,request-fields,response-fields']
 
 === 펀딩 창작자 등록
+operation::funding-rest-adapter-test/register-funding-creator[snippets='http-request,http-response,request-fields,response-fields']
 
 === 펀딩 아이템 등록
+operation::funding-rest-adapter-test/make-funding-item[snippets='http-request,http-response,request-fields,response-fields']
 
 === 펀딩 리워드 등록
+operation::funding-rest-adapter-test/make-funding-reward[snippets='http-request,http-response,request-fields,response-fields']
 
 === 펀딩 심사 시작
 operation::funding-rest-adapter-test/wait-for-funding-review[snippets='http-request,http-response,path-parameters,response-fields']

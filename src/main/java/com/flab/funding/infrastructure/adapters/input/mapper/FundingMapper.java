@@ -19,7 +19,6 @@ public interface FundingMapper {
 
     FundingMapper INSTANCE = Mappers.getMapper(FundingMapper.class);
 
-    @Mapping(source = "isAdult", target = "isAdult")
     Funding toFunding(FundingRegisterRequest fundingRegisterRequest);
 
     FundingRegisterResponse toFundingRegisterResponse(Funding funding);

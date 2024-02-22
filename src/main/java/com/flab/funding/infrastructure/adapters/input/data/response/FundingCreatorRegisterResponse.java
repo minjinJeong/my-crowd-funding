@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class FundingCreatorRegisterResponse {
 
+    private String fundingKey;
+
     public static FundingCreatorRegisterResponse from(FundingCreator fundingCreator) {
         return FundingMapper.INSTANCE.toFundingCreatorRegisterResponse(fundingCreator);
     }

@@ -9,6 +9,7 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Fundin
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -21,15 +22,21 @@ public interface FundingPersistenceMapper {
 
     Funding toFunding(FundingEntity fundingEntity);
 
+    @Mapping(source = "fundingId", target = "funding.id")
     FundingCreatorEntity toFundingCreatorEntity(FundingCreator fundingCreator);
 
+    @Mapping(source = "funding.id", target = "fundingId")
     FundingCreator toFundingCreator(FundingCreatorEntity fundingCreatorEntity);
 
+    @Mapping(source = "fundingId", target = "funding.id")
     FundingItemEntity toFundingItemEntity(FundingItem fundingItem);
 
+    @Mapping(source = "funding.id", target = "fundingId")
     FundingItem toFundingItem(FundingItemEntity fundingItemEntity);
 
+    @Mapping(source = "fundingId", target = "funding.id")
     FundingRewardEntity toFundingRewardEntity(FundingReward fundingReward);
 
+    @Mapping(source = "funding.id", target = "fundingId")
     FundingReward toFundingReward(FundingRewardEntity fundingRewardEntity);
 }
