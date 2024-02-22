@@ -13,9 +13,7 @@ public interface MemberPaymentMethodMapper {
 
     MemberPaymentMethodMapper INSTANCE = Mappers.getMapper(MemberPaymentMethodMapper.class);
 
-    @Mapping(source = "isDefault", target = "isDefault")
     PaymentMethod toPaymentMethod(MemberPaymentMethodRegisterRequest paymentMethodRegisterRequest);
 
-    @Mapping(source = "default", target = "isDefault")
     MemberPaymentMethodRegisterResponse toMemberPaymentMethodRegisterResponse(PaymentMethod paymentMethod);
 }

@@ -18,7 +18,7 @@ public class MemoryMemberDeliveryAddressRepository implements MemberDeliveryAddr
                 .id(id)
                 .deliveryAddressKey(id.toString())
                 .member(deliveryAddressEntity.getMember())
-                .isDefault(deliveryAddressEntity.isDefault())
+                .isDefault(deliveryAddressEntity.getIsDefault())
                 .zipCode(deliveryAddressEntity.getZipCode())
                 .address(deliveryAddressEntity.getAddress())
                 .addressDetail(deliveryAddressEntity.getAddressDetail())

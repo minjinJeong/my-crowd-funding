@@ -14,11 +14,8 @@ public class MemberDeliveryAddressPersistenceAdapter implements MemberDeliveryAd
 
     @Override
     public DeliveryAddress saveDeliveryAddress(DeliveryAddress deliveryAddress) {
-        System.out.println("deliveryAddress = " + deliveryAddress.isDefault());
         MemberDeliveryAddressEntity deliveryAddressEntity = MemberDeliveryAddressEntity.from(deliveryAddress);
-        System.out.println("deliveryAddressEntity = " + deliveryAddressEntity.isDefault());
         MemberDeliveryAddressEntity savedEntity = memberDeliveryAddressRepository.save(deliveryAddressEntity);
-        System.out.println("savedEntity = " + savedEntity.isDefault());
         return savedEntity.toDeliveryAddress();
     }
 }

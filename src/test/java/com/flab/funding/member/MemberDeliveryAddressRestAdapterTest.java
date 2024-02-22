@@ -54,6 +54,8 @@ public class MemberDeliveryAddressRestAdapterTest {
                 .recipientPhone("010-1111-2222")
                 .build();
 
+        System.out.println("objectMapper.writeValueAsString(request) = " + objectMapper.writeValueAsString(request));
+
         //when
         //then
         this.mockMvc.perform(post("/deliveryAddresses")

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class MemberDeliveryAddressRegisterResponse {
     private String deliveryAddressKey;
     private String userKey;
-    private Boolean isDefault;
+    private boolean isDefault;
     private String zipCode;
     private String address;
     private String addressDetail;

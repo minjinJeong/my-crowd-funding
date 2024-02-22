@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-19T20:18:21+0900",
+    date = "2024-02-22T19:59:16+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -23,9 +23,9 @@ public class MemberPaymentMethodPersistenceMapperImpl implements MemberPaymentMe
         MemberPaymentMethodEntity.MemberPaymentMethodEntityBuilder<?, ?> memberPaymentMethodEntity = MemberPaymentMethodEntity.builder();
 
         memberPaymentMethodEntity.member( toMemberEntity( paymentMethod.getUserKey() ) );
-        memberPaymentMethodEntity.isDefault( paymentMethod.isDefault() );
         memberPaymentMethodEntity.id( paymentMethod.getId() );
         memberPaymentMethodEntity.paymentMethodKey( paymentMethod.getPaymentMethodKey() );
+        memberPaymentMethodEntity.isDefault( paymentMethod.getIsDefault() );
         memberPaymentMethodEntity.paymentNum( paymentMethod.getPaymentNum() );
         memberPaymentMethodEntity.createdAt( paymentMethod.getCreatedAt() );
         memberPaymentMethodEntity.updatedAt( paymentMethod.getUpdatedAt() );
@@ -42,9 +42,9 @@ public class MemberPaymentMethodPersistenceMapperImpl implements MemberPaymentMe
         PaymentMethod.PaymentMethodBuilder paymentMethod = PaymentMethod.builder();
 
         paymentMethod.userKey( paymentMethodEntityMemberUserKey( paymentMethodEntity ) );
-        paymentMethod.isDefault( paymentMethodEntity.isDefault() );
         paymentMethod.id( paymentMethodEntity.getId() );
         paymentMethod.paymentMethodKey( paymentMethodEntity.getPaymentMethodKey() );
+        paymentMethod.isDefault( paymentMethodEntity.getIsDefault() );
         paymentMethod.paymentNum( paymentMethodEntity.getPaymentNum() );
         paymentMethod.createdAt( paymentMethodEntity.getCreatedAt() );
         paymentMethod.updatedAt( paymentMethodEntity.getUpdatedAt() );

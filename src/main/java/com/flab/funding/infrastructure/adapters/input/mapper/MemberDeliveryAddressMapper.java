@@ -12,9 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface MemberDeliveryAddressMapper {
     MemberDeliveryAddressMapper INSTANCE = Mappers.getMapper(MemberDeliveryAddressMapper.class);
 
-    @Mapping(source = "isDefault", target = "isDefault")
     DeliveryAddress toDeliveryAddress(MemberDeliveryAddressRegisterRequest deliveryAddressRegisterRequest);
 
-    @Mapping(source = "default", target = "isDefault")
     MemberDeliveryAddressRegisterResponse toMemberDeliveryAddressRegisterResponse(DeliveryAddress deliveryAddress);
 }

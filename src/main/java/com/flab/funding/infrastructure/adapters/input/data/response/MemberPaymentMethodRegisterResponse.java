@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class MemberPaymentMethodRegisterResponse {
     private String paymentMethodKey;
     private String userKey;
-    private Boolean isDefault;
+    private boolean isDefault;
     private String paymentNum;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

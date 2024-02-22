@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MemberPaymentMethodRegisterRequest {
     private String userKey;
-    private Boolean isDefault;
+    private boolean isDefault;
     private String paymentNum;
 
     public PaymentMethod toPaymentMethod() {

@@ -14,11 +14,8 @@ public class MemberPaymentMethodPersistenceAdapter implements MemberPaymentMetho
 
     @Override
     public PaymentMethod savePaymentMethod(PaymentMethod paymentMethod) {
-        System.out.println("paymentMethod = " + paymentMethod.isDefault());
         MemberPaymentMethodEntity paymentMethodEntity = MemberPaymentMethodEntity.from(paymentMethod);
-        System.out.println("paymentMethodEntity = " + paymentMethodEntity);
         MemberPaymentMethodEntity savedEntity = memberPaymentMethodRepository.save(paymentMethodEntity);
-        System.out.println("savedEntity = " + savedEntity);
         return savedEntity.toPaymentMethod();
     }
 }
