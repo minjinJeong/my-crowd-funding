@@ -2,6 +2,9 @@ package com.flab.funding.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.FundingCategory;
+import com.flab.funding.domain.model.FundingItemOption;
+import com.flab.funding.domain.model.FundingItemOptionType;
+import com.flab.funding.domain.model.FundingRewardItem;
 import com.flab.funding.infrastructure.adapters.input.data.request.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -175,7 +181,13 @@ public class FundingRestAdapterTest {
     void registerFundingCreator() throws Exception {
 
         // given
-        FundingCreatorRegisterRequest request = FundingCreatorRegisterRequest.builder().build();
+        FundingCreatorRegisterRequest request = FundingCreatorRegisterRequest.builder()
+                .fundingKey("1")
+                .isValid(true)
+                .businessNum("12345678")
+                .representative("홍길동")
+                .introduce("안녕하세요, 개인 사업자 홍길동입니다.")
+                .build();
 
         // when
         // then
@@ -201,7 +213,16 @@ public class FundingRestAdapterTest {
     void makeFundingItem() throws Exception {
 
         // given
-        FundingItemRegisterRequest request = FundingItemRegisterRequest.builder().build();
+        FundingItemOption itemOption = FundingItemOption.builder().build();
+        List<FundingItemOption> itemOptions = new  ArrayList<>();
+        itemOptions.add(itemOption);
+
+        FundingItemRegisterRequest request = FundingItemRegisterRequest.builder()
+                .fundingKey("1")
+                .itemName("수제 귀걸이")
+                .optionType(FundingItemOptionType.NONE)
+                .fundingItemOptions(itemOptions)
+                .build();
 
         // when
         // then
@@ -226,7 +247,20 @@ public class FundingRestAdapterTest {
     void makeFundingReward() throws Exception {
 
         // given
-        FundingRewardRegisterRequest request = FundingRewardRegisterRequest.builder().build();
+        FundingRewardItem rewardItem = FundingRewardItem.builder().build();
+        List<FundingRewardItem> rewardItems = new ArrayList<>();
+        rewardItems.add(rewardItem);
+
+        FundingRewardRegisterRequest request = FundingRewardRegisterRequest.builder()
+                .fundingKey("1")
+                .isDelivery(true)
+                .rewardTitle("귀걸이 세트")
+                .amount(BigInteger.valueOf(15000))
+                .fundingRewardItems(rewardItems)
+                .countLimit(10)
+                .personalLimit(5)
+                .expectDate(LocalDate.of(2024, 3, 31))
+                .build();
 
         // when
         // then
