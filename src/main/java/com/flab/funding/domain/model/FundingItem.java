@@ -12,7 +12,7 @@ public class FundingItem {
     private Long id;
     private String fundingId;
     private String itemName;
-    private FundingItemOption optionType;
+    private FundingItemOptionType optionType;
     private List<FundingItemOption> fundingItemOptions;
     private List<FundingRewardItem> fundingRewardItems;
     private LocalDateTime createdAt;

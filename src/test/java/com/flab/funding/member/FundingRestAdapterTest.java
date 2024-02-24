@@ -2,9 +2,7 @@ package com.flab.funding.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.FundingCategory;
-import com.flab.funding.domain.model.FundingItemOption;
 import com.flab.funding.domain.model.FundingItemOptionType;
-import com.flab.funding.domain.model.FundingRewardItem;
 import com.flab.funding.infrastructure.adapters.input.data.request.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -213,8 +211,11 @@ public class FundingRestAdapterTest {
     void makeFundingItem() throws Exception {
 
         // given
-        FundingItemOption itemOption = FundingItemOption.builder().build();
-        List<FundingItemOption> itemOptions = new  ArrayList<>();
+        FundingItemOptionRequest itemOption = FundingItemOptionRequest.builder()
+                .fundingItemId("1")
+                .option(FundingItemOptionType.NONE.getOptionType())
+                .build();
+        List<FundingItemOptionRequest> itemOptions = new  ArrayList<>();
         itemOptions.add(itemOption);
 
         FundingItemRegisterRequest request = FundingItemRegisterRequest.builder()
@@ -236,7 +237,9 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("itemName").description("아이템 이름"),
                                 fieldWithPath("optionType").description("옵션 조건"),
-                                fieldWithPath("fundingItemOptions").description("아이템 옵션 리스트")
+                                fieldWithPath("fundingItemOptions").description("아이템 옵션 리스트"),
+                                fieldWithPath("fundingItemOptions[].fundingItemId").description("아이템 옵션 리스트"),
+                                fieldWithPath("fundingItemOptions[].option").description("아이템 옵션 리스트")
                         ),
                         responseFields(
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)")
@@ -247,8 +250,12 @@ public class FundingRestAdapterTest {
     void makeFundingReward() throws Exception {
 
         // given
-        FundingRewardItem rewardItem = FundingRewardItem.builder().build();
-        List<FundingRewardItem> rewardItems = new ArrayList<>();
+        FundingRewardItemRequest rewardItem = FundingRewardItemRequest.builder()
+                .fundingId("1")
+                .fundingRewardId("1")
+                .fundingItemId("1")
+                .build();
+        List<FundingRewardItemRequest> rewardItems = new ArrayList<>();
         rewardItems.add(rewardItem);
 
         FundingRewardRegisterRequest request = FundingRewardRegisterRequest.builder()
@@ -276,6 +283,9 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("rewardTitle").description("리워드 이름"),
                                 fieldWithPath("amount").description("리워드 금액"),
                                 fieldWithPath("fundingRewardItems").description("리워드 아이템"),
+                                fieldWithPath("fundingRewardItems[].fundingId").description("리워드 아이템"),
+                                fieldWithPath("fundingRewardItems[].fundingRewardId").description("리워드 아이템"),
+                                fieldWithPath("fundingRewardItems[].fundingItemId").description("리워드 아이템"),
                                 fieldWithPath("countLimit").description("수량 제한"),
                                 fieldWithPath("personalLimit").description("1인당 최대 수량 제한"),
                                 fieldWithPath("expectDate").description("예상 전달일")

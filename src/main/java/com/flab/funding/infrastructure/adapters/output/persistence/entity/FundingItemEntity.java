@@ -1,7 +1,7 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
 import com.flab.funding.domain.model.FundingItem;
-import com.flab.funding.domain.model.FundingItemOption;
+import com.flab.funding.domain.model.FundingItemOptionType;
 import com.flab.funding.infrastructure.adapters.output.persistence.converter.FundingItemOptionAttributeConverter;
 import com.flab.funding.infrastructure.adapters.output.persistence.mapper.FundingPersistenceMapper;
 import jakarta.persistence.*;
@@ -28,7 +28,7 @@ public class FundingItemEntity {
     private String itemName;
 
     @Convert(converter = FundingItemOptionAttributeConverter.class)
-    private FundingItemOption optionType;
+    private FundingItemOptionType optionType;
 
     private LocalDateTime createdAt;
 

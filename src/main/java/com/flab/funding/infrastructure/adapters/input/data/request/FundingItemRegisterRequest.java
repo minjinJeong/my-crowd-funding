@@ -1,7 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.data.request;
 
 import com.flab.funding.domain.model.FundingItem;
-import com.flab.funding.domain.model.FundingItemOption;
 import com.flab.funding.domain.model.FundingItemOptionType;
 import com.flab.funding.infrastructure.adapters.input.mapper.FundingMapper;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ public class FundingItemRegisterRequest {
     private String fundingKey;
     private String itemName;
     private FundingItemOptionType optionType;
-    private List<FundingItemOption> fundingItemOptions;
+    private List<FundingItemOptionRequest> fundingItemOptions;
 
     public FundingItem toFundingItem() {
         return FundingMapper.INSTANCE.toFundingItem(this);

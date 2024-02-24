@@ -7,8 +7,10 @@ import com.flab.funding.domain.model.FundingItemOption;
 import com.flab.funding.domain.model.FundingReward;
 import com.flab.funding.domain.model.FundingRewardItem;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingCreatorRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemOptionRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardItemRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingCreatorRegisterResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingInfoResponse;
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-22T23:32:38+0900",
+    date = "2024-02-24T23:26:28+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -108,10 +110,7 @@ public class FundingMapperImpl implements FundingMapper {
         fundingReward.isDelivery( fundingRewardRegisterRequest.getIsDelivery() );
         fundingReward.rewardTitle( fundingRewardRegisterRequest.getRewardTitle() );
         fundingReward.amount( fundingRewardRegisterRequest.getAmount() );
-        List<FundingRewardItem> list = fundingRewardRegisterRequest.getFundingRewardItems();
-        if ( list != null ) {
-            fundingReward.fundingRewardItems( new ArrayList<FundingRewardItem>( list ) );
-        }
+        fundingReward.fundingRewardItems( fundingRewardItemRequestListToFundingRewardItemList( fundingRewardRegisterRequest.getFundingRewardItems() ) );
         fundingReward.countLimit( fundingRewardRegisterRequest.getCountLimit() );
         fundingReward.personalLimit( fundingRewardRegisterRequest.getPersonalLimit() );
         fundingReward.expectDate( fundingRewardRegisterRequest.getExpectDate() );
@@ -129,10 +128,7 @@ public class FundingMapperImpl implements FundingMapper {
 
         fundingItem.itemName( fundingItemRegisterRequest.getItemName() );
         fundingItem.optionType( fundingItemRegisterRequest.getOptionType() );
-        List<FundingItemOption> list = fundingItemRegisterRequest.getFundingItemOptions();
-        if ( list != null ) {
-            fundingItem.fundingItemOptions( new ArrayList<FundingItemOption>( list ) );
-        }
+        fundingItem.fundingItemOptions( fundingItemOptionRequestListToFundingItemOptionList( fundingItemRegisterRequest.getFundingItemOptions() ) );
 
         return fundingItem.build();
     }
@@ -168,5 +164,58 @@ public class FundingMapperImpl implements FundingMapper {
         FundingRewardRegisterResponse.FundingRewardRegisterResponseBuilder fundingRewardRegisterResponse = FundingRewardRegisterResponse.builder();
 
         return fundingRewardRegisterResponse.build();
+    }
+
+    protected FundingRewardItem fundingRewardItemRequestToFundingRewardItem(FundingRewardItemRequest fundingRewardItemRequest) {
+        if ( fundingRewardItemRequest == null ) {
+            return null;
+        }
+
+        FundingRewardItem.FundingRewardItemBuilder fundingRewardItem = FundingRewardItem.builder();
+
+        fundingRewardItem.fundingId( fundingRewardItemRequest.getFundingId() );
+        fundingRewardItem.fundingRewardId( fundingRewardItemRequest.getFundingRewardId() );
+        fundingRewardItem.fundingItemId( fundingRewardItemRequest.getFundingItemId() );
+
+        return fundingRewardItem.build();
+    }
+
+    protected List<FundingRewardItem> fundingRewardItemRequestListToFundingRewardItemList(List<FundingRewardItemRequest> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingRewardItem> list1 = new ArrayList<FundingRewardItem>( list.size() );
+        for ( FundingRewardItemRequest fundingRewardItemRequest : list ) {
+            list1.add( fundingRewardItemRequestToFundingRewardItem( fundingRewardItemRequest ) );
+        }
+
+        return list1;
+    }
+
+    protected FundingItemOption fundingItemOptionRequestToFundingItemOption(FundingItemOptionRequest fundingItemOptionRequest) {
+        if ( fundingItemOptionRequest == null ) {
+            return null;
+        }
+
+        FundingItemOption.FundingItemOptionBuilder fundingItemOption = FundingItemOption.builder();
+
+        fundingItemOption.fundingItemId( fundingItemOptionRequest.getFundingItemId() );
+        fundingItemOption.option( fundingItemOptionRequest.getOption() );
+
+        return fundingItemOption.build();
+    }
+
+    protected List<FundingItemOption> fundingItemOptionRequestListToFundingItemOptionList(List<FundingItemOptionRequest> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingItemOption> list1 = new ArrayList<FundingItemOption>( list.size() );
+        for ( FundingItemOptionRequest fundingItemOptionRequest : list ) {
+            list1.add( fundingItemOptionRequestToFundingItemOption( fundingItemOptionRequest ) );
+        }
+
+        return list1;
     }
 }

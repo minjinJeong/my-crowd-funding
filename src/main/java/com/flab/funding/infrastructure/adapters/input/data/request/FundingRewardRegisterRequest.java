@@ -1,8 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.data.request;
 
-import com.flab.funding.domain.model.FundingCreator;
 import com.flab.funding.domain.model.FundingReward;
-import com.flab.funding.domain.model.FundingRewardItem;
 import com.flab.funding.infrastructure.adapters.input.mapper.FundingMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +21,7 @@ public class FundingRewardRegisterRequest {
     private boolean isDelivery;
     private String rewardTitle;
     private BigInteger amount;
-    private List<FundingRewardItem> fundingRewardItems;
+    private List<FundingRewardItemRequest> fundingRewardItems;
     private int countLimit;
     private int personalLimit;
     private LocalDate expectDate;
