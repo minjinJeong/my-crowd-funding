@@ -25,28 +25,28 @@ public class FundingRestAdapter {
 
     @PostMapping("/funding")
     @ResponseBody
-    public FundingRegisterResponse saveFunding(@RequestBody FundingRegisterRequest request) {
+    public FundingRegisterResponse registFunding(@RequestBody FundingRegisterRequest request) {
         Funding funding = registerFundingUseCase.registFunding(request.toFunding());
         return FundingRegisterResponse.from(funding);
     }
 
     @PostMapping("/funding/creators")
     @ResponseBody
-    public FundingCreatorRegisterResponse saveFundingCreators(@RequestBody FundingCreatorRegisterRequest request) {
+    public FundingCreatorInfoResponse registFundingCreator(@RequestBody FundingCreatorRegisterRequest request) {
         FundingCreator fundingCreator = registerFundingUseCase.registFundingCreator(request.toFundingCreator());
-        return FundingCreatorRegisterResponse.from(fundingCreator);
+        return FundingCreatorInfoResponse.from(fundingCreator);
     }
 
     @PostMapping("/funding/items")
     @ResponseBody
-    public FundingItemRegisterResponse saveFundingItems(@RequestBody FundingItemRegisterRequest request) {
+    public FundingItemInfoResponse makeFundingItem(@RequestBody FundingItemRegisterRequest request) {
         FundingItem fundingItem = registerFundingUseCase.makeFundingItem(request.toFundingItem());
-        return FundingItemRegisterResponse.from(fundingItem);
+        return FundingItemInfoResponse.from(fundingItem);
     }
 
     @PostMapping("/funding/rewards")
     @ResponseBody
-    public FundingRewardRegisterResponse saveFundingRewards(@RequestBody FundingRewardRegisterRequest request) {
+    public FundingRewardRegisterResponse makeFundingReward(@RequestBody FundingRewardRegisterRequest request) {
         FundingReward fundingReward = registerFundingUseCase.makeFundingReward(request.toFundingReward());
         return FundingRewardRegisterResponse.from(fundingReward);
     }

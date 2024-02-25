@@ -10,7 +10,6 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegist
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.*;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -31,9 +30,9 @@ public interface FundingMapper {
 
     FundingItem toFundingItem(FundingItemRegisterRequest fundingItemRegisterRequest);
 
-    FundingCreatorRegisterResponse toFundingCreatorRegisterResponse(FundingCreator fundingCreator);
+    FundingCreatorInfoResponse toFundingCreatorInfoResponse(FundingCreator fundingCreator);
 
-    FundingItemRegisterResponse toFundingItemRegisterResponse(FundingItem fundingItem);
+    FundingItemInfoResponse toFundingItemInfoResponse(FundingItem fundingItem);
 
     FundingRewardRegisterResponse toFundingRewardRegisterResponse(FundingReward fundingReward);
 }

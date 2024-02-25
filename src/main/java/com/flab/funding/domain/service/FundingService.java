@@ -30,6 +30,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
         return fundingPort.saveFundingCreator(fundingCreator);
     }
 
+    // TODO : JPA List 저장 방식 공부 후, 아이템 옵션 저장 로직 수정
     @Override
     public FundingItem makeFundingItem(FundingItem fundingItem) {
         return fundingPort.saveFundingItem(fundingItem);

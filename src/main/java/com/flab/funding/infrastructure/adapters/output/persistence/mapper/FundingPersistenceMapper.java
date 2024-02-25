@@ -22,16 +22,19 @@ public interface FundingPersistenceMapper {
 
     Funding toFunding(FundingEntity fundingEntity);
 
-    @Mapping(source = "fundingId", target = "funding.id")
+    @Mapping(source = "fundingKey", target = "funding.fundingKey")
     FundingCreatorEntity toFundingCreatorEntity(FundingCreator fundingCreator);
 
     @Mapping(source = "funding.id", target = "fundingId")
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingCreator toFundingCreator(FundingCreatorEntity fundingCreatorEntity);
 
     @Mapping(source = "fundingId", target = "funding.id")
+    @Mapping(source = "fundingKey", target = "funding.fundingKey")
     FundingItemEntity toFundingItemEntity(FundingItem fundingItem);
 
     @Mapping(source = "funding.id", target = "fundingId")
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingItem toFundingItem(FundingItemEntity fundingItemEntity);
 
     @Mapping(source = "fundingId", target = "funding.id")

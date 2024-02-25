@@ -10,7 +10,8 @@ import java.util.List;
 @Getter
 public class FundingItem {
     private Long id;
-    private String fundingId;
+    private Long fundingId;
+    private String fundingKey;
     private String itemName;
     private FundingItemOptionType optionType;
     private List<FundingItemOption> fundingItemOptions;

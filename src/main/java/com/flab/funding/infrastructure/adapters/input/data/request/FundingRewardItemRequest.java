@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class FundingRewardItemRequest {
-    private String fundingId;
-    private String fundingRewardId;
-    private String fundingItemId;
+    private Long fundingItemId;
 }

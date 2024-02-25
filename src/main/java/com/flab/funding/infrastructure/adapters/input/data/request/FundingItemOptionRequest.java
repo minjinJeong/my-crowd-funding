@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class FundingItemOptionRequest {
-    private String fundingItemId;
     private String option;
 }

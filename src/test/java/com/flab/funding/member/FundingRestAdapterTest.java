@@ -203,7 +203,11 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("introduce").description("창작자 소개")
                                 ),
                         responseFields(
-                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("isValid").description("본인인증 여부"),
+                                fieldWithPath("businessNum").description("사업자번호"),
+                                fieldWithPath("representative").description("대표자"),
+                                fieldWithPath("introduce").description("창작자 소개")
                         )));
     }
 
@@ -211,16 +215,15 @@ public class FundingRestAdapterTest {
     void makeFundingItem() throws Exception {
 
         // given
-        FundingItemOptionRequest itemOption = FundingItemOptionRequest.builder()
-                .fundingItemId("1")
-                .option(FundingItemOptionType.NONE.getOptionType())
-                .build();
         List<FundingItemOptionRequest> itemOptions = new  ArrayList<>();
-        itemOptions.add(itemOption);
+        itemOptions.add(createItemOption("3mm"));
+        itemOptions.add(createItemOption("5mm"));
+        itemOptions.add(createItemOption("7mm"));
+        itemOptions.add(createItemOption("9mm"));
 
         FundingItemRegisterRequest request = FundingItemRegisterRequest.builder()
                 .fundingKey("1")
-                .itemName("수제 귀걸이")
+                .itemName("은 귀걸이")
                 .optionType(FundingItemOptionType.NONE)
                 .fundingItemOptions(itemOptions)
                 .build();
@@ -238,25 +241,31 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("itemName").description("아이템 이름"),
                                 fieldWithPath("optionType").description("옵션 조건"),
                                 fieldWithPath("fundingItemOptions").description("아이템 옵션 리스트"),
-                                fieldWithPath("fundingItemOptions[].fundingItemId").description("아이템 옵션 리스트"),
-                                fieldWithPath("fundingItemOptions[].option").description("아이템 옵션 리스트")
+                                fieldWithPath("fundingItemOptions[].option").description("아이템 옵션")
                         ),
                         responseFields(
-                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("itemName").description("아이템 이름"),
+                                fieldWithPath("optionType").description("옵션 조건"),
+                                fieldWithPath("fundingItemOptions").description("아이템 옵션 리스트"),
+                                fieldWithPath("fundingItemOptions[].option").description("아이템 옵션")
                         )));
+    }
+
+    private FundingItemOptionRequest createItemOption(String option) {
+        return FundingItemOptionRequest.builder()
+                .option(option)
+                .build();
     }
 
     @Test
     void makeFundingReward() throws Exception {
 
         // given
-        FundingRewardItemRequest rewardItem = FundingRewardItemRequest.builder()
-                .fundingId("1")
-                .fundingRewardId("1")
-                .fundingItemId("1")
-                .build();
         List<FundingRewardItemRequest> rewardItems = new ArrayList<>();
-        rewardItems.add(rewardItem);
+        rewardItems.add(createRewardItem(1L));
+        rewardItems.add(createRewardItem(2L));
+        rewardItems.add(createRewardItem(3L));
 
         FundingRewardRegisterRequest request = FundingRewardRegisterRequest.builder()
                 .fundingKey("1")
@@ -282,10 +291,8 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("isDelivery").description("배송 필요 여부"),
                                 fieldWithPath("rewardTitle").description("리워드 이름"),
                                 fieldWithPath("amount").description("리워드 금액"),
-                                fieldWithPath("fundingRewardItems").description("리워드 아이템"),
-                                fieldWithPath("fundingRewardItems[].fundingId").description("리워드 아이템"),
-                                fieldWithPath("fundingRewardItems[].fundingRewardId").description("리워드 아이템"),
-                                fieldWithPath("fundingRewardItems[].fundingItemId").description("리워드 아이템"),
+                                fieldWithPath("fundingRewardItems").description("리워드에 속한 아이템들"),
+                                fieldWithPath("fundingRewardItems[].fundingItemId").description("아이템 번호"),
                                 fieldWithPath("countLimit").description("수량 제한"),
                                 fieldWithPath("personalLimit").description("1인당 최대 수량 제한"),
                                 fieldWithPath("expectDate").description("예상 전달일")
@@ -293,5 +300,11 @@ public class FundingRestAdapterTest {
                         responseFields(
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)")
                         )));
+    }
+
+    private FundingRewardItemRequest createRewardItem(Long fundingItemId) {
+        return FundingRewardItemRequest.builder()
+                .fundingItemId(fundingItemId)
+                .build();
     }
 }

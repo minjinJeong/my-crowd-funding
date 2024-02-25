@@ -12,9 +12,9 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemRe
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardItemRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.response.FundingCreatorRegisterResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.FundingCreatorInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingInfoResponse;
-import com.flab.funding.infrastructure.adapters.input.data.response.FundingItemRegisterResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.FundingItemInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingRegisterResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingRewardRegisterResponse;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-24T23:26:28+0900",
+    date = "2024-02-25T22:20:03+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -91,6 +91,7 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingCreator.FundingCreatorBuilder fundingCreator = FundingCreator.builder();
 
+        fundingCreator.fundingKey( fundingCreatorRegisterRequest.getFundingKey() );
         fundingCreator.isValid( fundingCreatorRegisterRequest.getIsValid() );
         fundingCreator.businessNum( fundingCreatorRegisterRequest.getBusinessNum() );
         fundingCreator.representative( fundingCreatorRegisterRequest.getRepresentative() );
@@ -126,6 +127,7 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingItem.FundingItemBuilder fundingItem = FundingItem.builder();
 
+        fundingItem.fundingKey( fundingItemRegisterRequest.getFundingKey() );
         fundingItem.itemName( fundingItemRegisterRequest.getItemName() );
         fundingItem.optionType( fundingItemRegisterRequest.getOptionType() );
         fundingItem.fundingItemOptions( fundingItemOptionRequestListToFundingItemOptionList( fundingItemRegisterRequest.getFundingItemOptions() ) );
@@ -134,25 +136,36 @@ public class FundingMapperImpl implements FundingMapper {
     }
 
     @Override
-    public FundingCreatorRegisterResponse toFundingCreatorRegisterResponse(FundingCreator fundingCreator) {
+    public FundingCreatorInfoResponse toFundingCreatorInfoResponse(FundingCreator fundingCreator) {
         if ( fundingCreator == null ) {
             return null;
         }
 
-        FundingCreatorRegisterResponse.FundingCreatorRegisterResponseBuilder fundingCreatorRegisterResponse = FundingCreatorRegisterResponse.builder();
+        FundingCreatorInfoResponse.FundingCreatorInfoResponseBuilder fundingCreatorInfoResponse = FundingCreatorInfoResponse.builder();
 
-        return fundingCreatorRegisterResponse.build();
+        fundingCreatorInfoResponse.fundingKey( fundingCreator.getFundingKey() );
+        fundingCreatorInfoResponse.isValid( fundingCreator.getIsValid() );
+        fundingCreatorInfoResponse.businessNum( fundingCreator.getBusinessNum() );
+        fundingCreatorInfoResponse.representative( fundingCreator.getRepresentative() );
+        fundingCreatorInfoResponse.introduce( fundingCreator.getIntroduce() );
+
+        return fundingCreatorInfoResponse.build();
     }
 
     @Override
-    public FundingItemRegisterResponse toFundingItemRegisterResponse(FundingItem fundingItem) {
+    public FundingItemInfoResponse toFundingItemInfoResponse(FundingItem fundingItem) {
         if ( fundingItem == null ) {
             return null;
         }
 
-        FundingItemRegisterResponse.FundingItemRegisterResponseBuilder fundingItemRegisterResponse = FundingItemRegisterResponse.builder();
+        FundingItemInfoResponse.FundingItemInfoResponseBuilder fundingItemInfoResponse = FundingItemInfoResponse.builder();
 
-        return fundingItemRegisterResponse.build();
+        fundingItemInfoResponse.fundingKey( fundingItem.getFundingKey() );
+        fundingItemInfoResponse.itemName( fundingItem.getItemName() );
+        fundingItemInfoResponse.optionType( fundingItem.getOptionType() );
+        fundingItemInfoResponse.fundingItemOptions( fundingItemOptionListToFundingItemOptionRequestList( fundingItem.getFundingItemOptions() ) );
+
+        return fundingItemInfoResponse.build();
     }
 
     @Override
@@ -200,7 +213,6 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingItemOption.FundingItemOptionBuilder fundingItemOption = FundingItemOption.builder();
 
-        fundingItemOption.fundingItemId( fundingItemOptionRequest.getFundingItemId() );
         fundingItemOption.option( fundingItemOptionRequest.getOption() );
 
         return fundingItemOption.build();
@@ -214,6 +226,31 @@ public class FundingMapperImpl implements FundingMapper {
         List<FundingItemOption> list1 = new ArrayList<FundingItemOption>( list.size() );
         for ( FundingItemOptionRequest fundingItemOptionRequest : list ) {
             list1.add( fundingItemOptionRequestToFundingItemOption( fundingItemOptionRequest ) );
+        }
+
+        return list1;
+    }
+
+    protected FundingItemOptionRequest fundingItemOptionToFundingItemOptionRequest(FundingItemOption fundingItemOption) {
+        if ( fundingItemOption == null ) {
+            return null;
+        }
+
+        FundingItemOptionRequest.FundingItemOptionRequestBuilder fundingItemOptionRequest = FundingItemOptionRequest.builder();
+
+        fundingItemOptionRequest.option( fundingItemOption.getOption() );
+
+        return fundingItemOptionRequest.build();
+    }
+
+    protected List<FundingItemOptionRequest> fundingItemOptionListToFundingItemOptionRequestList(List<FundingItemOption> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingItemOptionRequest> list1 = new ArrayList<FundingItemOptionRequest>( list.size() );
+        for ( FundingItemOption fundingItemOption : list ) {
+            list1.add( fundingItemOptionToFundingItemOptionRequest( fundingItemOption ) );
         }
 
         return list1;

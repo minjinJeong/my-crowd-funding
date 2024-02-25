@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -29,6 +30,9 @@ public class FundingItemEntity {
 
     @Convert(converter = FundingItemOptionAttributeConverter.class)
     private FundingItemOptionType optionType;
+
+    @OneToMany(mappedBy = "fundingItem", cascade = CascadeType.ALL)
+    private List<FundingItemOptionEntity> fundingItemOptions;
 
     private LocalDateTime createdAt;
 

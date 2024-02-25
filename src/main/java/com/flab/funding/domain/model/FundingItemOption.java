@@ -9,8 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 public class FundingItemOption {
     private Long id;
-    private String fundingItemId;
+    private Long fundingItemId;
     private String option;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public FundingItemOption cunnectFundingItem(Long fundingItemId) {
+        this.fundingItemId = fundingItemId;
+        return this;
+    }
+
 }
