@@ -12,7 +12,8 @@ import java.util.List;
 @Getter
 public class FundingReward {
     private Long id;
-    private String fundingId;
+    private Long fundingId;
+    private String fundingKey;
     private boolean isDelivery;
     private String rewardTitle;
     private BigInteger amount;

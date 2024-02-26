@@ -5,11 +5,13 @@ import com.flab.funding.domain.model.FundingCreator;
 import com.flab.funding.domain.model.FundingItem;
 import com.flab.funding.domain.model.FundingItemOption;
 import com.flab.funding.domain.model.FundingReward;
+import com.flab.funding.domain.model.FundingRewardItem;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingCreatorEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemOptionEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardItemEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-25T22:20:03+0900",
+    date = "2024-02-26T21:15:58+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -185,6 +187,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingRewardEntity.isDelivery( fundingReward.getIsDelivery() );
         fundingRewardEntity.rewardTitle( fundingReward.getRewardTitle() );
         fundingRewardEntity.amount( fundingReward.getAmount() );
+        fundingRewardEntity.fundingRewardItems( fundingRewardItemListToFundingRewardItemEntityList( fundingReward.getFundingRewardItems() ) );
         fundingRewardEntity.countLimit( fundingReward.getCountLimit() );
         fundingRewardEntity.personalLimit( fundingReward.getPersonalLimit() );
         fundingRewardEntity.expectDate( fundingReward.getExpectDate() );
@@ -202,14 +205,13 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingReward.FundingRewardBuilder fundingReward = FundingReward.builder();
 
-        Long id = fundingRewardEntityFundingId( fundingRewardEntity );
-        if ( id != null ) {
-            fundingReward.fundingId( String.valueOf( id ) );
-        }
+        fundingReward.fundingId( fundingRewardEntityFundingId( fundingRewardEntity ) );
+        fundingReward.fundingKey( fundingRewardEntityFundingFundingKey( fundingRewardEntity ) );
         fundingReward.id( fundingRewardEntity.getId() );
         fundingReward.isDelivery( fundingRewardEntity.getIsDelivery() );
         fundingReward.rewardTitle( fundingRewardEntity.getRewardTitle() );
         fundingReward.amount( fundingRewardEntity.getAmount() );
+        fundingReward.fundingRewardItems( fundingRewardItemEntityListToFundingRewardItemList( fundingRewardEntity.getFundingRewardItems() ) );
         fundingReward.countLimit( fundingRewardEntity.getCountLimit() );
         fundingReward.personalLimit( fundingRewardEntity.getPersonalLimit() );
         fundingReward.expectDate( fundingRewardEntity.getExpectDate() );
@@ -217,6 +219,42 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingReward.updatedAt( fundingRewardEntity.getUpdatedAt() );
 
         return fundingReward.build();
+    }
+
+    @Override
+    public FundingRewardItemEntity toFundingRewardItemEntity(FundingRewardItem fundingRewardItem) {
+        if ( fundingRewardItem == null ) {
+            return null;
+        }
+
+        FundingRewardItemEntity.FundingRewardItemEntityBuilder fundingRewardItemEntity = FundingRewardItemEntity.builder();
+
+        fundingRewardItemEntity.funding( fundingRewardItemToFundingEntity( fundingRewardItem ) );
+        fundingRewardItemEntity.fundingReward( fundingRewardItemToFundingRewardEntity( fundingRewardItem ) );
+        fundingRewardItemEntity.fundingItem( fundingRewardItemToFundingItemEntity( fundingRewardItem ) );
+        fundingRewardItemEntity.id( fundingRewardItem.getId() );
+        fundingRewardItemEntity.createdAt( fundingRewardItem.getCreatedAt() );
+        fundingRewardItemEntity.updatedAt( fundingRewardItem.getUpdatedAt() );
+
+        return fundingRewardItemEntity.build();
+    }
+
+    @Override
+    public FundingRewardItem toFundingRewardItem(FundingRewardItemEntity fundingRewardItemEntity) {
+        if ( fundingRewardItemEntity == null ) {
+            return null;
+        }
+
+        FundingRewardItem.FundingRewardItemBuilder fundingRewardItem = FundingRewardItem.builder();
+
+        fundingRewardItem.fundingId( fundingRewardItemEntityFundingId( fundingRewardItemEntity ) );
+        fundingRewardItem.fundingRewardId( fundingRewardItemEntityFundingRewardId( fundingRewardItemEntity ) );
+        fundingRewardItem.fundingItemId( fundingRewardItemEntityFundingItemId( fundingRewardItemEntity ) );
+        fundingRewardItem.id( fundingRewardItemEntity.getId() );
+        fundingRewardItem.createdAt( fundingRewardItemEntity.getCreatedAt() );
+        fundingRewardItem.updatedAt( fundingRewardItemEntity.getUpdatedAt() );
+
+        return fundingRewardItem.build();
     }
 
     protected FundingEntity fundingCreatorToFundingEntity(FundingCreator fundingCreator) {
@@ -367,11 +405,23 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
 
-        if ( fundingReward.getFundingId() != null ) {
-            fundingEntity.id( Long.parseLong( fundingReward.getFundingId() ) );
-        }
+        fundingEntity.id( fundingReward.getFundingId() );
+        fundingEntity.fundingKey( fundingReward.getFundingKey() );
 
         return fundingEntity.build();
+    }
+
+    protected List<FundingRewardItemEntity> fundingRewardItemListToFundingRewardItemEntityList(List<FundingRewardItem> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingRewardItemEntity> list1 = new ArrayList<FundingRewardItemEntity>( list.size() );
+        for ( FundingRewardItem fundingRewardItem : list ) {
+            list1.add( toFundingRewardItemEntity( fundingRewardItem ) );
+        }
+
+        return list1;
     }
 
     private Long fundingRewardEntityFundingId(FundingRewardEntity fundingRewardEntity) {
@@ -383,6 +433,115 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
             return null;
         }
         Long id = funding.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private String fundingRewardEntityFundingFundingKey(FundingRewardEntity fundingRewardEntity) {
+        if ( fundingRewardEntity == null ) {
+            return null;
+        }
+        FundingEntity funding = fundingRewardEntity.getFunding();
+        if ( funding == null ) {
+            return null;
+        }
+        String fundingKey = funding.getFundingKey();
+        if ( fundingKey == null ) {
+            return null;
+        }
+        return fundingKey;
+    }
+
+    protected List<FundingRewardItem> fundingRewardItemEntityListToFundingRewardItemList(List<FundingRewardItemEntity> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingRewardItem> list1 = new ArrayList<FundingRewardItem>( list.size() );
+        for ( FundingRewardItemEntity fundingRewardItemEntity : list ) {
+            list1.add( toFundingRewardItem( fundingRewardItemEntity ) );
+        }
+
+        return list1;
+    }
+
+    protected FundingEntity fundingRewardItemToFundingEntity(FundingRewardItem fundingRewardItem) {
+        if ( fundingRewardItem == null ) {
+            return null;
+        }
+
+        FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
+
+        fundingEntity.id( fundingRewardItem.getFundingId() );
+
+        return fundingEntity.build();
+    }
+
+    protected FundingRewardEntity fundingRewardItemToFundingRewardEntity(FundingRewardItem fundingRewardItem) {
+        if ( fundingRewardItem == null ) {
+            return null;
+        }
+
+        FundingRewardEntity.FundingRewardEntityBuilder fundingRewardEntity = FundingRewardEntity.builder();
+
+        fundingRewardEntity.id( fundingRewardItem.getFundingRewardId() );
+
+        return fundingRewardEntity.build();
+    }
+
+    protected FundingItemEntity fundingRewardItemToFundingItemEntity(FundingRewardItem fundingRewardItem) {
+        if ( fundingRewardItem == null ) {
+            return null;
+        }
+
+        FundingItemEntity.FundingItemEntityBuilder fundingItemEntity = FundingItemEntity.builder();
+
+        fundingItemEntity.id( fundingRewardItem.getFundingItemId() );
+
+        return fundingItemEntity.build();
+    }
+
+    private Long fundingRewardItemEntityFundingId(FundingRewardItemEntity fundingRewardItemEntity) {
+        if ( fundingRewardItemEntity == null ) {
+            return null;
+        }
+        FundingEntity funding = fundingRewardItemEntity.getFunding();
+        if ( funding == null ) {
+            return null;
+        }
+        Long id = funding.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Long fundingRewardItemEntityFundingRewardId(FundingRewardItemEntity fundingRewardItemEntity) {
+        if ( fundingRewardItemEntity == null ) {
+            return null;
+        }
+        FundingRewardEntity fundingReward = fundingRewardItemEntity.getFundingReward();
+        if ( fundingReward == null ) {
+            return null;
+        }
+        Long id = fundingReward.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Long fundingRewardItemEntityFundingItemId(FundingRewardItemEntity fundingRewardItemEntity) {
+        if ( fundingRewardItemEntity == null ) {
+            return null;
+        }
+        FundingItemEntity fundingItem = fundingRewardItemEntity.getFundingItem();
+        if ( fundingItem == null ) {
+            return null;
+        }
+        Long id = fundingItem.getId();
         if ( id == null ) {
             return null;
         }

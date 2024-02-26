@@ -46,9 +46,9 @@ public class FundingRestAdapter {
 
     @PostMapping("/funding/rewards")
     @ResponseBody
-    public FundingRewardRegisterResponse makeFundingReward(@RequestBody FundingRewardRegisterRequest request) {
+    public FundingRewardInfoResponse makeFundingReward(@RequestBody FundingRewardRegisterRequest request) {
         FundingReward fundingReward = registerFundingUseCase.makeFundingReward(request.toFundingReward());
-        return FundingRewardRegisterResponse.from(fundingReward);
+        return FundingRewardInfoResponse.from(fundingReward);
     }
 
     @PatchMapping("/funding/{fundingKey}/wait")

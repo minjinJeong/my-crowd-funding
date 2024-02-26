@@ -201,7 +201,7 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("businessNum").description("사업자번호"),
                                 fieldWithPath("representative").description("대표자"),
                                 fieldWithPath("introduce").description("창작자 소개")
-                                ),
+                        ),
                         responseFields(
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("isValid").description("본인인증 여부"),
@@ -296,9 +296,17 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("countLimit").description("수량 제한"),
                                 fieldWithPath("personalLimit").description("1인당 최대 수량 제한"),
                                 fieldWithPath("expectDate").description("예상 전달일")
-                                ),
+                        ),
                         responseFields(
-                                fieldWithPath("fundingKey").description("펀딩번호(외부용)")
+                                fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
+                                fieldWithPath("isDelivery").description("배송 필요 여부"),
+                                fieldWithPath("rewardTitle").description("리워드 이름"),
+                                fieldWithPath("amount").description("리워드 금액"),
+                                fieldWithPath("fundingRewardItems").description("리워드에 속한 아이템들"),
+                                fieldWithPath("fundingRewardItems[].fundingItemId").description("아이템 번호"),
+                                fieldWithPath("countLimit").description("수량 제한"),
+                                fieldWithPath("personalLimit").description("1인당 최대 수량 제한"),
+                                fieldWithPath("expectDate").description("예상 전달일")
                         )));
     }
 

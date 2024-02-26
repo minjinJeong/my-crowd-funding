@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -33,6 +34,9 @@ public class FundingRewardEntity {
     private String rewardTitle;
 
     private BigInteger amount;
+
+    @OneToMany(mappedBy = "fundingReward", cascade = CascadeType.ALL)
+    private List<FundingRewardItemEntity> fundingRewardItems;
 
     private int countLimit;
 

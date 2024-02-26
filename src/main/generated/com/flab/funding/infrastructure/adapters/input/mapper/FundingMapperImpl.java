@@ -16,7 +16,7 @@ import com.flab.funding.infrastructure.adapters.input.data.response.FundingCreat
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingItemInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingRegisterResponse;
-import com.flab.funding.infrastructure.adapters.input.data.response.FundingRewardRegisterResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.FundingRewardInfoResponse;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-25T22:20:03+0900",
+    date = "2024-02-26T21:15:58+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -108,6 +108,7 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingReward.FundingRewardBuilder fundingReward = FundingReward.builder();
 
+        fundingReward.fundingKey( fundingRewardRegisterRequest.getFundingKey() );
         fundingReward.isDelivery( fundingRewardRegisterRequest.getIsDelivery() );
         fundingReward.rewardTitle( fundingRewardRegisterRequest.getRewardTitle() );
         fundingReward.amount( fundingRewardRegisterRequest.getAmount() );
@@ -169,14 +170,23 @@ public class FundingMapperImpl implements FundingMapper {
     }
 
     @Override
-    public FundingRewardRegisterResponse toFundingRewardRegisterResponse(FundingReward fundingReward) {
+    public FundingRewardInfoResponse toFundingRewardInfoResponse(FundingReward fundingReward) {
         if ( fundingReward == null ) {
             return null;
         }
 
-        FundingRewardRegisterResponse.FundingRewardRegisterResponseBuilder fundingRewardRegisterResponse = FundingRewardRegisterResponse.builder();
+        FundingRewardInfoResponse.FundingRewardInfoResponseBuilder fundingRewardInfoResponse = FundingRewardInfoResponse.builder();
 
-        return fundingRewardRegisterResponse.build();
+        fundingRewardInfoResponse.fundingKey( fundingReward.getFundingKey() );
+        fundingRewardInfoResponse.isDelivery( fundingReward.getIsDelivery() );
+        fundingRewardInfoResponse.rewardTitle( fundingReward.getRewardTitle() );
+        fundingRewardInfoResponse.amount( fundingReward.getAmount() );
+        fundingRewardInfoResponse.fundingRewardItems( fundingRewardItemListToFundingRewardItemRequestList( fundingReward.getFundingRewardItems() ) );
+        fundingRewardInfoResponse.countLimit( fundingReward.getCountLimit() );
+        fundingRewardInfoResponse.personalLimit( fundingReward.getPersonalLimit() );
+        fundingRewardInfoResponse.expectDate( fundingReward.getExpectDate() );
+
+        return fundingRewardInfoResponse.build();
     }
 
     protected FundingRewardItem fundingRewardItemRequestToFundingRewardItem(FundingRewardItemRequest fundingRewardItemRequest) {
@@ -186,8 +196,6 @@ public class FundingMapperImpl implements FundingMapper {
 
         FundingRewardItem.FundingRewardItemBuilder fundingRewardItem = FundingRewardItem.builder();
 
-        fundingRewardItem.fundingId( fundingRewardItemRequest.getFundingId() );
-        fundingRewardItem.fundingRewardId( fundingRewardItemRequest.getFundingRewardId() );
         fundingRewardItem.fundingItemId( fundingRewardItemRequest.getFundingItemId() );
 
         return fundingRewardItem.build();
@@ -251,6 +259,31 @@ public class FundingMapperImpl implements FundingMapper {
         List<FundingItemOptionRequest> list1 = new ArrayList<FundingItemOptionRequest>( list.size() );
         for ( FundingItemOption fundingItemOption : list ) {
             list1.add( fundingItemOptionToFundingItemOptionRequest( fundingItemOption ) );
+        }
+
+        return list1;
+    }
+
+    protected FundingRewardItemRequest fundingRewardItemToFundingRewardItemRequest(FundingRewardItem fundingRewardItem) {
+        if ( fundingRewardItem == null ) {
+            return null;
+        }
+
+        FundingRewardItemRequest.FundingRewardItemRequestBuilder fundingRewardItemRequest = FundingRewardItemRequest.builder();
+
+        fundingRewardItemRequest.fundingItemId( fundingRewardItem.getFundingItemId() );
+
+        return fundingRewardItemRequest.build();
+    }
+
+    protected List<FundingRewardItemRequest> fundingRewardItemListToFundingRewardItemRequestList(List<FundingRewardItem> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingRewardItemRequest> list1 = new ArrayList<FundingRewardItemRequest>( list.size() );
+        for ( FundingRewardItem fundingRewardItem : list ) {
+            list1.add( fundingRewardItemToFundingRewardItemRequest( fundingRewardItem ) );
         }
 
         return list1;

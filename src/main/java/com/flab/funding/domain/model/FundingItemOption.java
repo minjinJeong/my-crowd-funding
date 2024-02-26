@@ -13,10 +13,4 @@ public class FundingItemOption {
     private String option;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public FundingItemOption cunnectFundingItem(Long fundingItemId) {
-        this.fundingItemId = fundingItemId;
-        return this;
-    }
-
 }

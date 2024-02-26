@@ -36,6 +36,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
         return fundingPort.saveFundingItem(fundingItem);
     }
 
+    // TODO : JPA List 저장 방식 공부 후, 리워드 아이템 저장 로직 수정
     @Override
     public FundingReward makeFundingReward(FundingReward fundingReward) {
         return fundingPort.saveFundingReward(fundingReward);

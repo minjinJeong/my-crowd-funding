@@ -34,5 +34,5 @@ public interface FundingMapper {
 
     FundingItemInfoResponse toFundingItemInfoResponse(FundingItem fundingItem);
 
-    FundingRewardRegisterResponse toFundingRewardRegisterResponse(FundingReward fundingReward);
+    FundingRewardInfoResponse toFundingRewardInfoResponse(FundingReward fundingReward);
 }

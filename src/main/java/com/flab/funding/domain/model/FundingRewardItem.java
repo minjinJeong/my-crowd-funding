@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 public class FundingRewardItem {
     private Long id;
-    private String fundingId;
-    private String fundingRewardId;
-    private String fundingItemId;
+    private Long fundingId;
+    private Long fundingRewardId;
+    private Long fundingItemId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
