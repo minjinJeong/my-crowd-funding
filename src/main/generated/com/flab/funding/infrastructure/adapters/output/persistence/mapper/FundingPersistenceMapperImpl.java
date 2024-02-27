@@ -12,6 +12,7 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Fundin
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemOptionEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardItemEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingTagEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-26T21:15:58+0900",
+    date = "2024-02-27T18:30:35+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -48,6 +49,10 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingEntity.scheduleDesc( funding.getScheduleDesc() );
         fundingEntity.teamDesc( funding.getTeamDesc() );
         fundingEntity.rewardDesc( funding.getRewardDesc() );
+        List<FundingTagEntity> list = funding.getTags();
+        if ( list != null ) {
+            fundingEntity.tags( new ArrayList<FundingTagEntity>( list ) );
+        }
         fundingEntity.startAt( funding.getStartAt() );
         fundingEntity.endAt( funding.getEndAt() );
         fundingEntity.createdAt( funding.getCreatedAt() );
@@ -81,6 +86,10 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         funding.scheduleDesc( fundingEntity.getScheduleDesc() );
         funding.teamDesc( fundingEntity.getTeamDesc() );
         funding.rewardDesc( fundingEntity.getRewardDesc() );
+        List<FundingTagEntity> list = fundingEntity.getTags();
+        if ( list != null ) {
+            funding.tags( new ArrayList<FundingTagEntity>( list ) );
+        }
         funding.startAt( fundingEntity.getStartAt() );
         funding.endAt( fundingEntity.getEndAt() );
         funding.createdAt( fundingEntity.getCreatedAt() );
@@ -119,10 +128,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingCreator.FundingCreatorBuilder fundingCreator = FundingCreator.builder();
 
-        Long id = fundingCreatorEntityFundingId( fundingCreatorEntity );
-        if ( id != null ) {
-            fundingCreator.fundingId( String.valueOf( id ) );
-        }
+        fundingCreator.fundingId( fundingCreatorEntityFundingId( fundingCreatorEntity ) );
         fundingCreator.fundingKey( fundingCreatorEntityFundingFundingKey( fundingCreatorEntity ) );
         fundingCreator.id( fundingCreatorEntity.getId() );
         fundingCreator.isValid( fundingCreatorEntity.getIsValid() );

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,6 +30,7 @@ public class FundingRegisterRequest {
     private String scheduleDesc;
     private String teamDesc;
     private String rewardDesc;
+    private List<FundingTagRegisterRequest> tags;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 

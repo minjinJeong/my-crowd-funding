@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -59,6 +60,9 @@ public class FundingEntity {
     private String teamDesc;
 
     private String rewardDesc;
+
+    @OneToMany(mappedBy = "funding", cascade = CascadeType.ALL)
+    private List<FundingTagEntity> tags;
 
     private LocalDateTime startAt;
 

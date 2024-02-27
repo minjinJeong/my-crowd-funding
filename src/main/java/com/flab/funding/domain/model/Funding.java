@@ -1,11 +1,13 @@
 package com.flab.funding.domain.model;
 
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingTagEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
@@ -25,6 +27,7 @@ public class Funding {
     private String scheduleDesc;
     private String teamDesc;
     private String rewardDesc;
+    private List<FundingTagEntity> tags;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;

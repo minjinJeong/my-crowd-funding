@@ -43,20 +43,20 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
     }
 
     @Override
-    public Funding waitForFundingReview(String fundingId) {
-        Funding funding = fundingPort.getFundingByFundingId(fundingId);
+    public Funding waitForFundingReview(String fundingKey) {
+        Funding funding = fundingPort.getFundingByFundingKey(fundingKey);
         return fundingPort.saveFunding(funding.waitReview());
     }
 
     @Override
-    public Funding completeFundingReview(String fundingId) {
-        Funding funding = fundingPort.getFundingByFundingId(fundingId);
+    public Funding completeFundingReview(String fundingKey) {
+        Funding funding = fundingPort.getFundingByFundingKey(fundingKey);
         return fundingPort.saveFunding(funding.completeReview());
     }
 
     @Override
-    public Funding cancelFunding(String fundingId) {
-        Funding funding = fundingPort.getFundingByFundingId(fundingId);
+    public Funding cancelFunding(String fundingKey) {
+        Funding funding = fundingPort.getFundingByFundingKey(fundingKey);
         return fundingPort.saveFunding(funding.cancel());
     }
 }

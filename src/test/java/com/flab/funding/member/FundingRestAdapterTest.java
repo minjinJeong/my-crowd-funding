@@ -56,6 +56,11 @@ public class FundingRestAdapterTest {
     void registerFunding() throws Exception {
 
         // given
+        List<FundingTagRegisterRequest> fundingTagRegisterRequests = new ArrayList<>();
+        fundingTagRegisterRequests.add(createTag("검색 키워드1"));
+        fundingTagRegisterRequests.add(createTag("검색 키워드2"));
+        fundingTagRegisterRequests.add(createTag("검색 키워드3"));
+
         FundingRegisterRequest request = FundingRegisterRequest.builder()
                 .userKey("1L")
                 .isAdult(false)
@@ -69,6 +74,7 @@ public class FundingRestAdapterTest {
                 .scheduleDesc("펀딩 계획")
                 .teamDesc("팀 소개")
                 .rewardDesc("리워드 소개")
+                .tags(fundingTagRegisterRequests)
                 .startAt(LocalDateTime.of(2024, 2, 1, 12, 0))
                 .endAt(LocalDateTime.of(2024, 2, 28, 12, 0))
                 .build();
@@ -94,6 +100,8 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("scheduleDesc").description("프로젝트 일정"),
                                 fieldWithPath("teamDesc").description("프로젝트 팀 소개"),
                                 fieldWithPath("rewardDesc").description("프로젝트 선물 설명"),
+                                fieldWithPath("tags").description("검색 키워드 리스트"),
+                                fieldWithPath("tags[].tag").description("검색 키워드"),
                                 fieldWithPath("startAt").description("펀딩 시작일"),
                                 fieldWithPath("endAt").description("펀딩 종료일")
                         ),
@@ -101,6 +109,12 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("status").description("펀딩상태")
                         )));
+    }
+
+    private FundingTagRegisterRequest createTag(String tag) {
+        return FundingTagRegisterRequest.builder()
+                .tag(tag)
+                .build();
     }
 
     @Test

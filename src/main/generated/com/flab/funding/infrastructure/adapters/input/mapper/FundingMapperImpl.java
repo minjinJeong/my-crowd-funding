@@ -12,11 +12,13 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemRe
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardItemRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.FundingTagRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingCreatorInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingItemInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingRegisterResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingRewardInfoResponse;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingTagEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -24,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-26T21:15:58+0900",
+    date = "2024-02-27T18:30:35+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -49,6 +51,7 @@ public class FundingMapperImpl implements FundingMapper {
         funding.scheduleDesc( fundingRegisterRequest.getScheduleDesc() );
         funding.teamDesc( fundingRegisterRequest.getTeamDesc() );
         funding.rewardDesc( fundingRegisterRequest.getRewardDesc() );
+        funding.tags( fundingTagRegisterRequestListToFundingTagEntityList( fundingRegisterRequest.getTags() ) );
         funding.startAt( fundingRegisterRequest.getStartAt() );
         funding.endAt( fundingRegisterRequest.getEndAt() );
 
@@ -187,6 +190,31 @@ public class FundingMapperImpl implements FundingMapper {
         fundingRewardInfoResponse.expectDate( fundingReward.getExpectDate() );
 
         return fundingRewardInfoResponse.build();
+    }
+
+    protected FundingTagEntity fundingTagRegisterRequestToFundingTagEntity(FundingTagRegisterRequest fundingTagRegisterRequest) {
+        if ( fundingTagRegisterRequest == null ) {
+            return null;
+        }
+
+        FundingTagEntity.FundingTagEntityBuilder fundingTagEntity = FundingTagEntity.builder();
+
+        fundingTagEntity.tag( fundingTagRegisterRequest.getTag() );
+
+        return fundingTagEntity.build();
+    }
+
+    protected List<FundingTagEntity> fundingTagRegisterRequestListToFundingTagEntityList(List<FundingTagRegisterRequest> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingTagEntity> list1 = new ArrayList<FundingTagEntity>( list.size() );
+        for ( FundingTagRegisterRequest fundingTagRegisterRequest : list ) {
+            list1.add( fundingTagRegisterRequestToFundingTagEntity( fundingTagRegisterRequest ) );
+        }
+
+        return list1;
     }
 
     protected FundingRewardItem fundingRewardItemRequestToFundingRewardItem(FundingRewardItemRequest fundingRewardItemRequest) {

@@ -11,6 +11,7 @@ import java.util.*;
 public class MemoryFundingRepository implements FundingRepository {
 
     private static final Map<Long, FundingEntity> store = new HashMap<>();
+    private static final Map<Long, FundingTagEntity> tags = new HashMap<>();
     private static final Map<Long, FundingCreatorEntity> creators = new HashMap<>();
     private static final Map<Long, FundingItemEntity> items = new HashMap<>();
     private static final Map<Long, FundingItemOptionEntity> itemOptions = new HashMap<>();
@@ -18,6 +19,7 @@ public class MemoryFundingRepository implements FundingRepository {
     private static final Map<Long, FundingRewardItemEntity> rewardItems = new HashMap<>();
 
     private static Long fundingId = 1L;
+    private static Long tagId = 1L;
     private static Long creatorId = 1L;
     private static Long itemId = 1L;
     private static Long itemOptionId = 1L;
@@ -26,36 +28,65 @@ public class MemoryFundingRepository implements FundingRepository {
 
     // TODO : JPA 연동 후 createAt 시간 갱신되는지 확인할 것
     @Override
-    public FundingEntity save(FundingEntity funding) {
+    public FundingEntity save(FundingEntity fundingEntity) {
 
-        Long id = funding.getFundingKey() != null
-                ? Long.parseLong(funding.getFundingKey())
+        Long id = fundingEntity.getFundingKey() != null
+                ? Long.parseLong(fundingEntity.getFundingKey())
                 : fundingId++;
+
+        List<FundingTagEntity> savedFundingTags = saveFundingTags(id, fundingEntity.getTags());
 
         FundingEntity savedFunding = FundingEntity.builder()
                 .id(id)
                 .fundingKey(id.toString())
-                .member(funding.getMember())
-                .isAdult(funding.getIsAdult())
-                .pricePlan(funding.getPricePlan())
-                .categoryCode(funding.getCategoryCode())
-                .expectAmount(funding.getExpectAmount())
-                .status(funding.getStatus())
-                .title(funding.getTitle())
-                .fundingDesc(funding.getFundingDesc())
-                .fundingIntroduce(funding.getFundingIntroduce())
-                .budgetDesc(funding.getBudgetDesc())
-                .scheduleDesc(funding.getScheduleDesc())
-                .teamDesc(funding.getTeamDesc())
-                .rewardDesc(funding.getRewardDesc())
-                .startAt(funding.getStartAt())
-                .endAt(funding.getEndAt())
+                .member(fundingEntity.getMember())
+                .isAdult(fundingEntity.getIsAdult())
+                .pricePlan(fundingEntity.getPricePlan())
+                .categoryCode(fundingEntity.getCategoryCode())
+                .expectAmount(fundingEntity.getExpectAmount())
+                .status(fundingEntity.getStatus())
+                .title(fundingEntity.getTitle())
+                .fundingDesc(fundingEntity.getFundingDesc())
+                .fundingIntroduce(fundingEntity.getFundingIntroduce())
+                .budgetDesc(fundingEntity.getBudgetDesc())
+                .scheduleDesc(fundingEntity.getScheduleDesc())
+                .teamDesc(fundingEntity.getTeamDesc())
+                .rewardDesc(fundingEntity.getRewardDesc())
+                .tags(savedFundingTags)
+                .startAt(fundingEntity.getStartAt())
+                .endAt(fundingEntity.getEndAt())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
         store.put(id, savedFunding);
         return savedFunding;
+    }
+
+    private List<FundingTagEntity> saveFundingTags(Long fundingId, List<FundingTagEntity> fundingTags) {
+
+        Long id = tagId++;
+        List<FundingTagEntity> savedTags = new ArrayList<>();
+
+        if (fundingTags == null) {
+            return savedTags;
+        }
+
+        for (FundingTagEntity tag : fundingTags) {
+
+            FundingTagEntity savedTagEntity = FundingTagEntity.builder()
+                    .id(id)
+                    .funding(FundingEntity.builder().id(fundingId).build())
+                    .tag(tag.getTag())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            savedTags.add(savedTagEntity);
+            tags.put(id, savedTagEntity);
+        }
+
+        return savedTags;
     }
 
     @Override
@@ -109,19 +140,19 @@ public class MemoryFundingRepository implements FundingRepository {
     private List<FundingItemOptionEntity> saveItemOptions(Long fundingItemId, List<FundingItemOptionEntity> fundingItemOptions) {
 
         List<FundingItemOptionEntity> savedItemOptions = new ArrayList<>();
-        for (FundingItemOptionEntity option : fundingItemOptions) {
+        for (FundingItemOptionEntity itemOption : fundingItemOptions) {
             Long id = itemOptionId++;
 
-            FundingItemOptionEntity itemOption = FundingItemOptionEntity.builder()
+            FundingItemOptionEntity savedItemOptionEntity = FundingItemOptionEntity.builder()
                     .id(id)
                     .fundingItem(FundingItemEntity.builder().id(fundingItemId).build())
-                    .option(option.getOption())
+                    .option(itemOption.getOption())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            savedItemOptions.add(itemOption);
-            itemOptions.put(id, itemOption);
+            savedItemOptions.add(savedItemOptionEntity);
+            itemOptions.put(id, savedItemOptionEntity);
         }
 
         return savedItemOptions;
@@ -156,33 +187,33 @@ public class MemoryFundingRepository implements FundingRepository {
         return savedFundingReward;
     }
 
-    private List<FundingRewardItemEntity> savedRewardItems(String fundingKey, Long fundingRewardId, List<FundingRewardItemEntity> fundingRewardItemEntities) {
+    private List<FundingRewardItemEntity> savedRewardItems(String fundingKey, Long fundingRewardId, List<FundingRewardItemEntity> fundingRewardItems) {
 
         List<FundingRewardItemEntity> savedRewardItems = new ArrayList<>();
 
         FundingEntity fundingEntity = store.get(Long.valueOf(fundingKey));
 
-        for (FundingRewardItemEntity item : fundingRewardItemEntities) {
+        for (FundingRewardItemEntity rewardItem : fundingRewardItems) {
             Long id = rewardItemId++;
 
-            FundingRewardItemEntity rewardItem = FundingRewardItemEntity.builder()
+            FundingRewardItemEntity savedRewardItemEntity = FundingRewardItemEntity.builder()
                     .id(id)
                     .funding(fundingEntity)
                     .fundingReward(FundingRewardEntity.builder().id(fundingRewardId).build())
-                    .fundingItem(item.getFundingItem())
+                    .fundingItem(rewardItem.getFundingItem())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            savedRewardItems.add(rewardItem);
-            rewardItems.put(id, rewardItem);
+            savedRewardItems.add(savedRewardItemEntity);
+            rewardItems.put(id, savedRewardItemEntity);
         }
 
         return savedRewardItems;
     }
 
     @Override
-    public Optional<FundingEntity> findByFundingId(String fundingId) {
-        return Optional.ofNullable(store.get(Long.valueOf(fundingId)));
+    public Optional<FundingEntity> findByFundingKey(String fundingKey) {
+        return Optional.ofNullable(store.get(Long.valueOf(fundingKey)));
     }
 }

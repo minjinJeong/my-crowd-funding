@@ -20,8 +20,8 @@ public class FundingPersistenceAdapter implements FundingPort {
     private final FundingRepository fundingRepository;
 
     @Override
-    public Funding getFundingByFundingId(String fundingId) {
-        FundingEntity fundingEntity = fundingRepository.findByFundingId(fundingId).orElse(FundingEntity.builder().build());;
+    public Funding getFundingByFundingKey(String fundingKey) {
+        FundingEntity fundingEntity = fundingRepository.findByFundingKey(fundingKey).orElse(FundingEntity.builder().build());;
         return fundingEntity.toFunding();
     }
 
