@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 public class SupportDelivery {
     private Long id;
-    private String supportId;
-    private String memberDeliveryAddressId;
+    private Long supportId;
+    private Long memberDeliveryAddressId;
     private SupportDeliveryStatus status;
     private String shipmentName;
     private LocalDateTime shipmentAt;

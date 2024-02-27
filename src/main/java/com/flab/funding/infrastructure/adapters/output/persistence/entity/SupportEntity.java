@@ -25,12 +25,12 @@ public class SupportEntity {
     @JoinColumn(name = "user_id")
     private MemberEntity member;
 
-    // TODO merge 후 FundingEntity로 변경
+    // TODO : merge 후 FundingEntity로 변경
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funding_id")
     private String funding;
 
-    // TODO merge 후 FundingRewardEntity로 변경
+    // TODO : merge 후 FundingRewardEntity로 변경
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funding_reward_id")
     private String reward;
@@ -40,6 +40,12 @@ public class SupportEntity {
     @Convert(converter = SupportStatusAttributeConverter.class)
     @Column(name = "status_code")
     private SupportStatus status;
+
+    @OneToOne(mappedBy = "support", cascade = CascadeType.ALL)
+    private SupportDeliveryEntity supportDelivery;
+
+    @OneToOne(mappedBy = "support", cascade = CascadeType.ALL)
+    private SupportPaymentEntity supportPayment;
 
     private LocalDateTime createdAt;
 

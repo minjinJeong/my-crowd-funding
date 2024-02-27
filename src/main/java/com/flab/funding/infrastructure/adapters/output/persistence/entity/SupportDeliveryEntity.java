@@ -2,6 +2,7 @@ package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
 import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.domain.model.SupportDeliveryStatus;
+import com.flab.funding.infrastructure.adapters.output.persistence.converter.SupportDeliveryStatusAttributeConverter;
 import com.flab.funding.infrastructure.adapters.output.persistence.mapper.SupportDeliveryPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,14 +21,15 @@ public class SupportDeliveryEntity {
     @Column(name = "support_delivery_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "support_id")
     private SupportEntity support;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_delivery_address_id")
     private MemberDeliveryAddressEntity memberDeliveryAddress;
 
+    @Convert(converter = SupportDeliveryStatusAttributeConverter.class)
     @Column(name = "status_code")
     private SupportDeliveryStatus status;
 

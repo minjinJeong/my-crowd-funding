@@ -10,10 +10,11 @@ import java.time.LocalDateTime;
 @Getter
 public class SupportPayment {
     private Long id;
-    private String supportId;
-    private String memberPaymentMethodId;
+    private Long supportId;
+    private Long memberPaymentMethodId;
     private SupportPaymentStatus status;
     private BigInteger amount;
+    private LocalDateTime paymentAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -1,5 +1,8 @@
 package com.flab.funding.domain.model;
 
+import lombok.Getter;
+
+@Getter
 public enum SupportStatus {
     RESERVATION("10"),
     SUCCESS("20"),
@@ -9,9 +12,5 @@ public enum SupportStatus {
 
     SupportStatus(String statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public String getStatusCode() {
-        return statusCode;
     }
 }

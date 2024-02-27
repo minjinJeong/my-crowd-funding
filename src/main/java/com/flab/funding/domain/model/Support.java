@@ -9,11 +9,13 @@ import java.time.LocalDateTime;
 @Getter
 public class Support {
     private Long id;
-    private String userId;
-    private String fundingId;
-    private String rewardId;
+    private Long userId;
+    private Long fundingId;
+    private Long rewardId;
     private String supportKey;
     private SupportStatus status;
+    private SupportDelivery supportDelivery;
+    private SupportPayment supportPayment;
     private LocalDateTime createdAt;
     private String createdBy;
     private LocalDateTime updatedAt;
