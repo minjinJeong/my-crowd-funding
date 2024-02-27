@@ -1,8 +1,10 @@
 package com.flab.funding.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum SupportPaymentStatus {
     READY("00"),
     PROCESSING("10"),
@@ -11,8 +13,4 @@ public enum SupportPaymentStatus {
     REFUNDED("50");
 
     private final String statusCode;
-
-    SupportPaymentStatus(String statusCode) {
-        this.statusCode = statusCode;
-    }
 }
