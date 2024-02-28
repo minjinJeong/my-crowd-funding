@@ -23,3 +23,5 @@ operation::member-delivery-address-rest-adapter-test/register-delivery-address[s
 
 === 결제 수단 등록
 operation::member-payment-method-rest-adapter-test/register-payment-method[snippets='http-request,http-response,request-fields,response-fields']
+
+include::{docdir}/src/docs/asciidoc/funding.adoc[]
