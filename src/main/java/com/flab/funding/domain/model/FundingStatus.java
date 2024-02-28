@@ -14,5 +14,5 @@ public enum FundingStatus {
     DENY("50"),
     END("50");
 
-    private final String statusCode;
+    private final String code;
 }

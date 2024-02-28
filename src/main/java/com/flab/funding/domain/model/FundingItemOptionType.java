@@ -10,5 +10,5 @@ public enum FundingItemOptionType {
     SHORT_ANSWER("10"),
     MULTIPLE_CHOICE("20");
 
-    private final String optionType;
+    private final String code;
 }

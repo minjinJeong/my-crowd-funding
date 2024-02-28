@@ -8,7 +8,7 @@ import jakarta.persistence.Converter;
 public class FundingItemOptionAttributeConverter implements AttributeConverter<FundingItemOptionType, String> {
     @Override
     public String convertToDatabaseColumn(FundingItemOptionType attribute) {
-        return attribute.getOptionType();
+        return attribute.getCode();
     }
 
     @Override

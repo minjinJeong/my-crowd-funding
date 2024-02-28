@@ -8,7 +8,7 @@ import jakarta.persistence.Converter;
 public class FundingStatusAttributeConverter implements AttributeConverter<FundingStatus, String> {
     @Override
     public String convertToDatabaseColumn(FundingStatus attribute) {
-        return attribute.getStatusCode();
+        return attribute.getCode();
     }
 
     @Override
