@@ -6,9 +6,13 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("BANK")
+@SuperBuilder
 @Getter
 public class BankEntity extends MemberPaymentMethodEntity {
 
@@ -17,5 +21,5 @@ public class BankEntity extends MemberPaymentMethodEntity {
 
     private String accountHolder;
 
-    private String accountBirthday;
+    private LocalDate accountBirthday;
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+// TODO : JPA 연동 후 삭제
 public class MemoryMemberRepository implements MemberRepository {
 
     private static final Map<Long, MemberEntity> store = new HashMap<>();
