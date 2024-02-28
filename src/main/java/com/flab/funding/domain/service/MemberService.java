@@ -31,4 +31,10 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     public Member getMemberByUserKey(String userKey) {
         return memberPort.getMemberByUserKey(userKey);
     }
+
+    // TODO : Login 기능 구현
+    @Override
+    public Member login(Member member) {
+        return null;
+    }
 }
