@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-27T18:30:35+0900",
+    date = "2024-02-29T17:42:50+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -42,15 +42,15 @@ public class FundingMapperImpl implements FundingMapper {
 
         funding.isAdult( fundingRegisterRequest.getIsAdult() );
         funding.pricePlan( fundingRegisterRequest.getPricePlan() );
-        funding.categoryCode( fundingRegisterRequest.getCategoryCode() );
+        funding.category( fundingRegisterRequest.getCategory() );
         funding.expectAmount( fundingRegisterRequest.getExpectAmount() );
         funding.title( fundingRegisterRequest.getTitle() );
-        funding.fundingDesc( fundingRegisterRequest.getFundingDesc() );
+        funding.fundingDescription( fundingRegisterRequest.getFundingDescription() );
         funding.fundingIntroduce( fundingRegisterRequest.getFundingIntroduce() );
-        funding.budgetDesc( fundingRegisterRequest.getBudgetDesc() );
-        funding.scheduleDesc( fundingRegisterRequest.getScheduleDesc() );
-        funding.teamDesc( fundingRegisterRequest.getTeamDesc() );
-        funding.rewardDesc( fundingRegisterRequest.getRewardDesc() );
+        funding.budgetDescription( fundingRegisterRequest.getBudgetDescription() );
+        funding.scheduleDescription( fundingRegisterRequest.getScheduleDescription() );
+        funding.teamDescription( fundingRegisterRequest.getTeamDescription() );
+        funding.rewardDescription( fundingRegisterRequest.getRewardDescription() );
         funding.tags( fundingTagRegisterRequestListToFundingTagEntityList( fundingRegisterRequest.getTags() ) );
         funding.startAt( fundingRegisterRequest.getStartAt() );
         funding.endAt( fundingRegisterRequest.getEndAt() );
@@ -96,7 +96,7 @@ public class FundingMapperImpl implements FundingMapper {
 
         fundingCreator.fundingKey( fundingCreatorRegisterRequest.getFundingKey() );
         fundingCreator.isValid( fundingCreatorRegisterRequest.getIsValid() );
-        fundingCreator.businessNum( fundingCreatorRegisterRequest.getBusinessNum() );
+        fundingCreator.businessNumber( fundingCreatorRegisterRequest.getBusinessNumber() );
         fundingCreator.representative( fundingCreatorRegisterRequest.getRepresentative() );
         fundingCreator.introduce( fundingCreatorRegisterRequest.getIntroduce() );
 
@@ -149,7 +149,7 @@ public class FundingMapperImpl implements FundingMapper {
 
         fundingCreatorInfoResponse.fundingKey( fundingCreator.getFundingKey() );
         fundingCreatorInfoResponse.isValid( fundingCreator.getIsValid() );
-        fundingCreatorInfoResponse.businessNum( fundingCreator.getBusinessNum() );
+        fundingCreatorInfoResponse.businessNumber( fundingCreator.getBusinessNumber() );
         fundingCreatorInfoResponse.representative( fundingCreator.getRepresentative() );
         fundingCreatorInfoResponse.introduce( fundingCreator.getIntroduce() );
 

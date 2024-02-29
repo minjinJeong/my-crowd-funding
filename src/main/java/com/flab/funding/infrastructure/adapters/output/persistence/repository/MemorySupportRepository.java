@@ -42,9 +42,9 @@ public class MemorySupportRepository implements SupportRepository {
                 .supportDelivery(supportDeliveryEntity)
                 .supportPayment(supportPaymentEntity)
                 .createdAt(LocalDateTime.now())
-                .createdBy(support.getMember().getId().toString())
+                .createdBy("ADMIN")
                 .updatedAt(LocalDateTime.now())
-                .updatedBy(support.getMember().getId().toString())
+                .updatedBy("ADMIN")
                 .build();
 
         store.put(id, savedSupport);

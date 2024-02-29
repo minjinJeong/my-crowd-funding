@@ -10,5 +10,5 @@ public enum SupportStatus {
     SUCCESS("20"),
     FAILURE("30");
 
-    private final String statusCode;
+    private final String code;
 }

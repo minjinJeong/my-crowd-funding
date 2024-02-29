@@ -47,7 +47,7 @@ public class MemberPaymentMethodRestAdapterTest {
         MemberPaymentMethodRegisterRequest request = MemberPaymentMethodRegisterRequest.builder()
                 .userKey("1L")
                 .isDefault(true)
-                .paymentNum("3565 43")
+                .paymentNumber("3565 43")
                 .build();
 
         //when
@@ -62,13 +62,13 @@ public class MemberPaymentMethodRestAdapterTest {
                         requestFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
                                 fieldWithPath("isDefault").description("대표 결제 수단"),
-                                fieldWithPath("paymentNum").description("카드 번호/계좌 번호")
+                                fieldWithPath("paymentNumber").description("카드 번호/계좌 번호")
                         ),
                         responseFields(
                                 fieldWithPath("paymentMethodKey").description("결제 수단 ID(외부용)"),
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
                                 fieldWithPath("isDefault").description("대표 결제 수단"),
-                                fieldWithPath("paymentNum").description("카드 번호/계좌 번호"),
+                                fieldWithPath("paymentNumber").description("카드 번호/계좌 번호"),
                                 fieldWithPath("createdAt").description("등록일자"),
                                 fieldWithPath("updatedAt").description("수정일자")
                         )));

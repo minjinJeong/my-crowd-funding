@@ -8,7 +8,7 @@ import jakarta.persistence.Converter;
 public class SupportDeliveryStatusAttributeConverter implements AttributeConverter<SupportDeliveryStatus, String> {
     @Override
     public String convertToDatabaseColumn(SupportDeliveryStatus attribute) {
-        return attribute.getStatusCode();
+        return attribute.getCode();
     }
 
     @Override

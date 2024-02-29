@@ -25,15 +25,13 @@ public class SupportEntity {
     @JoinColumn(name = "user_id")
     private MemberEntity member;
 
-    // TODO : merge 후 FundingEntity로 변경
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funding_id")
-    private String funding;
+    private FundingEntity funding;
 
-    // TODO : merge 후 FundingRewardEntity로 변경
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funding_reward_id")
-    private String reward;
+    private FundingRewardEntity reward;
 
     private String supportKey;
 

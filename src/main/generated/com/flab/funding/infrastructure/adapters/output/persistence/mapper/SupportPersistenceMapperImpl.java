@@ -3,6 +3,8 @@ package com.flab.funding.infrastructure.adapters.output.persistence.mapper;
 import com.flab.funding.domain.model.Support;
 import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.domain.model.SupportPayment;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportDeliveryEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportEntity;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-27T20:32:30+0900",
+    date = "2024-02-29T17:42:50+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -27,6 +29,8 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         SupportEntity.SupportEntityBuilder supportEntity = SupportEntity.builder();
 
         supportEntity.member( supportToMemberEntity( support ) );
+        supportEntity.funding( supportToFundingEntity( support ) );
+        supportEntity.reward( supportToFundingRewardEntity( support ) );
         supportEntity.id( support.getId() );
         supportEntity.supportKey( support.getSupportKey() );
         supportEntity.status( support.getStatus() );
@@ -49,6 +53,8 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         Support.SupportBuilder support = Support.builder();
 
         support.userId( supportEntityMemberId( supportEntity ) );
+        support.fundingId( supportEntityFundingId( supportEntity ) );
+        support.rewardId( supportEntityRewardId( supportEntity ) );
         support.id( supportEntity.getId() );
         support.supportKey( supportEntity.getSupportKey() );
         support.status( supportEntity.getStatus() );
@@ -72,6 +78,30 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         memberEntity.id( support.getUserId() );
 
         return memberEntity.build();
+    }
+
+    protected FundingEntity supportToFundingEntity(Support support) {
+        if ( support == null ) {
+            return null;
+        }
+
+        FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
+
+        fundingEntity.id( support.getFundingId() );
+
+        return fundingEntity.build();
+    }
+
+    protected FundingRewardEntity supportToFundingRewardEntity(Support support) {
+        if ( support == null ) {
+            return null;
+        }
+
+        FundingRewardEntity.FundingRewardEntityBuilder fundingRewardEntity = FundingRewardEntity.builder();
+
+        fundingRewardEntity.id( support.getRewardId() );
+
+        return fundingRewardEntity.build();
     }
 
     protected SupportDeliveryEntity supportDeliveryToSupportDeliveryEntity(SupportDelivery supportDelivery) {
@@ -119,6 +149,36 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
             return null;
         }
         Long id = member.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Long supportEntityFundingId(SupportEntity supportEntity) {
+        if ( supportEntity == null ) {
+            return null;
+        }
+        FundingEntity funding = supportEntity.getFunding();
+        if ( funding == null ) {
+            return null;
+        }
+        Long id = funding.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Long supportEntityRewardId(SupportEntity supportEntity) {
+        if ( supportEntity == null ) {
+            return null;
+        }
+        FundingRewardEntity reward = supportEntity.getReward();
+        if ( reward == null ) {
+            return null;
+        }
+        Long id = reward.getId();
         if ( id == null ) {
             return null;
         }

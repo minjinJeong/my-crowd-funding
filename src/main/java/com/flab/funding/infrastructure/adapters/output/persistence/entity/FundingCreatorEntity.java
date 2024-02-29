@@ -28,7 +28,7 @@ public class FundingCreatorEntity {
     @Column(columnDefinition = "TINYINT(1)")
     private boolean isValid;
 
-    private String businessNum;
+    private String businessNumber;
 
     private String representative;
 

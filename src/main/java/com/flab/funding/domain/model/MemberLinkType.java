@@ -10,5 +10,5 @@ public enum MemberLinkType {
     GOOGLE("01"),
     NAVER("02");
 
-    private final String type;
+    private final String code;
 }

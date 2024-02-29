@@ -13,5 +13,5 @@ public enum SupportDeliveryStatus {
     COMPLETE("40"),
     REFUNDED("50");
 
-    private final String statusCode;
+    private final String code;
 }

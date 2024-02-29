@@ -76,9 +76,9 @@ public class SupportRestAdapterTest {
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("rewardId").description("후원한 리워드 번호"),
                                 fieldWithPath("supportDelivery").description("배송지"),
-                                fieldWithPath("supportDelivery[].").description("배송지 ID"),
+                                fieldWithPath("supportDelivery.memberDeliveryAddressId").description("배송지 ID"),
                                 fieldWithPath("supportPayment").description("결제수단"),
-                                fieldWithPath("supportPayment[].").description("결제수단 ID")
+                                fieldWithPath("supportPayment.memberPaymentMethodId").description("결제수단 ID")
                         ),
                         responseFields(
                                 fieldWithPath("supportKey").description("후원번호(외부용)"),

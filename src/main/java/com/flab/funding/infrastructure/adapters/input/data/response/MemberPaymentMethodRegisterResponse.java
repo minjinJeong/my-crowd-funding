@@ -13,7 +13,7 @@ public class MemberPaymentMethodRegisterResponse {
     private String paymentMethodKey;
     private String userKey;
     private boolean isDefault;
-    private String paymentNum;
+    private String paymentNumber;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
