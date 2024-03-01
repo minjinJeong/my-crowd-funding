@@ -21,19 +21,19 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         return supportPort.saveSupport(support);
     }
 
-    // TODO : support API 완성 필요
+    // TODO : 로직 필요
     @Override
-    public SupportDelivery shippedOut(SupportDelivery supportDelivery) {
+    public SupportDelivery shippedOut(String supportKey) {
         return null;
     }
 
     @Override
-    public SupportDelivery outForDelivery(SupportDelivery supportDelivery) {
+    public SupportDelivery outForDelivery(String supportKey) {
         return null;
     }
 
     @Override
-    public SupportDelivery deliveryComplete(SupportDelivery supportDelivery) {
+    public SupportDelivery deliveryComplete(String supportKey) {
         return null;
     }
 

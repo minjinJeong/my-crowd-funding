@@ -4,13 +4,12 @@ import com.flab.funding.application.ports.input.RegisterSupportUseCase;
 import com.flab.funding.application.ports.input.SupportDeliveryUseCase;
 import com.flab.funding.application.ports.input.SupportPaymentUseCase;
 import com.flab.funding.domain.model.Support;
+import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.response.SupportInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.SupportRegisterResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +24,11 @@ public class SupportRestAdapter {
     public SupportRegisterResponse createSupport(@RequestBody SupportRegisterRequest request) {
         Support support = registerSupportUseCase.registSupport(request.toSupport());
         return SupportRegisterResponse.from(support);
+    }
+
+    @PatchMapping("/supports/{supportKey}/shipped-out")
+    public SupportInfoResponse shippedOut(@PathVariable("supportKey") String supportKey) {
+        SupportDelivery supportDelivery = supportDeliveryUseCase.shippedOut(supportKey);
+        return SupportInfoResponse.from(supportDelivery);
     }
 }
