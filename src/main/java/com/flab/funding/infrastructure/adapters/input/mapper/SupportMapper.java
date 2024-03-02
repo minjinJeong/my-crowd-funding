@@ -3,7 +3,7 @@ package com.flab.funding.infrastructure.adapters.input.mapper;
 import com.flab.funding.domain.model.Support;
 import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.response.SupportInfoResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.SupportDeliveryInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.SupportRegisterResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -18,5 +18,5 @@ public interface SupportMapper {
 
     SupportRegisterResponse toSupportRegisterResponse(Support support);
 
-    SupportInfoResponse toSupportInfoResponse(SupportDelivery supportDelivery);
+    SupportDeliveryInfoResponse toSupportDeliveryInfoResponse(SupportDelivery supportDelivery);
 }

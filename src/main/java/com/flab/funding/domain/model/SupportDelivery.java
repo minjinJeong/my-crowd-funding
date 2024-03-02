@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class SupportDelivery {
     private Long id;
     private Long supportId;
+    private String supportKey;
     private Long memberDeliveryAddressId;
     private SupportDeliveryStatus status;
     private String shipmentName;
@@ -18,4 +19,19 @@ public class SupportDelivery {
     private LocalDateTime trackingAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public SupportDelivery shippedOut() {
+        this.status = SupportDeliveryStatus.SHIPPED;
+        return this;
+    }
+
+    public SupportDelivery inDelivery() {
+        this.status = SupportDeliveryStatus.IN_DELIVERY;
+        return this;
+    }
+
+    public SupportDelivery complete() {
+        this.status = SupportDeliveryStatus.COMPLETE;
+        return this;
+    }
 }

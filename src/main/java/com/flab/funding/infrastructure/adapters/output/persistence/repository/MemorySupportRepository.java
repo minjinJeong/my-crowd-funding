@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class MemorySupportRepository implements SupportRepository {
@@ -84,5 +85,20 @@ public class MemorySupportRepository implements SupportRepository {
 
         payments.put(id, savedSupportPayment);
         return savedSupportPayment;
+    }
+
+    @Override
+    public Optional<SupportEntity> getSupportBySupportKey(String supportKey) {
+        return Optional.empty();
+    }
+
+    @Override
+    public SupportDeliveryEntity save(SupportDeliveryEntity support) {
+        return null;
+    }
+
+    @Override
+    public Optional<SupportDeliveryEntity> getSupportDeliveryBySupportKey(String supportKey) {
+        return Optional.empty();
     }
 }

@@ -6,7 +6,7 @@ import com.flab.funding.application.ports.input.SupportPaymentUseCase;
 import com.flab.funding.domain.model.Support;
 import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.response.SupportInfoResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.SupportDeliveryInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.SupportRegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +27,8 @@ public class SupportRestAdapter {
     }
 
     @PatchMapping("/supports/{supportKey}/shipped-out")
-    public SupportInfoResponse shippedOut(@PathVariable("supportKey") String supportKey) {
+    public SupportDeliveryInfoResponse shippedOut(@PathVariable("supportKey") String supportKey) {
         SupportDelivery supportDelivery = supportDeliveryUseCase.shippedOut(supportKey);
-        return SupportInfoResponse.from(supportDelivery);
+        return SupportDeliveryInfoResponse.from(supportDelivery);
     }
 }

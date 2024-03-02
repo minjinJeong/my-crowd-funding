@@ -10,6 +10,7 @@ import com.flab.funding.domain.model.SupportPayment;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
 
+// TODO : JPA 연동 후 로직 수정
 @UseCase
 @RequiredArgsConstructor
 public class SupportService implements RegisterSupportUseCase, SupportDeliveryUseCase, SupportPaymentUseCase {
@@ -21,20 +22,22 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         return supportPort.saveSupport(support);
     }
 
-    // TODO : 로직 필요
     @Override
     public SupportDelivery shippedOut(String supportKey) {
-        return null;
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
+        return supportPort.saveSupportDelivery(findSupportDelivery.shippedOut());
     }
 
     @Override
     public SupportDelivery outForDelivery(String supportKey) {
-        return null;
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
+        return supportPort.saveSupportDelivery(findSupportDelivery.inDelivery());
     }
 
     @Override
     public SupportDelivery deliveryComplete(String supportKey) {
-        return null;
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
+        return supportPort.saveSupportDelivery(findSupportDelivery.complete());
     }
 
     @Override

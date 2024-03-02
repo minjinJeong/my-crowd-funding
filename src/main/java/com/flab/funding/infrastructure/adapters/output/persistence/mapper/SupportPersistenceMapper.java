@@ -1,6 +1,8 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.mapper;
 
 import com.flab.funding.domain.model.Support;
+import com.flab.funding.domain.model.SupportDelivery;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportDeliveryEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,4 +23,7 @@ public interface SupportPersistenceMapper {
     @Mapping(source = "funding.id", target = "fundingId")
     @Mapping(source = "reward.id", target = "rewardId")
     Support toSupport(SupportEntity supportEntity);
+
+    @Mapping(source = "support.supportKey", target = "supportKey")
+    SupportDelivery toSupportDelivery(SupportDeliveryEntity supportDelivery);
 }
