@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-29T17:42:50+0900",
+    date = "2024-03-03T21:52:04+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -58,7 +58,7 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         support.id( supportEntity.getId() );
         support.supportKey( supportEntity.getSupportKey() );
         support.status( supportEntity.getStatus() );
-        support.supportDelivery( supportDeliveryEntityToSupportDelivery( supportEntity.getSupportDelivery() ) );
+        support.supportDelivery( toSupportDelivery( supportEntity.getSupportDelivery() ) );
         support.supportPayment( supportPaymentEntityToSupportPayment( supportEntity.getSupportPayment() ) );
         support.createdAt( supportEntity.getCreatedAt() );
         support.createdBy( supportEntity.getCreatedBy() );
@@ -66,6 +66,27 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         support.updatedBy( supportEntity.getUpdatedBy() );
 
         return support.build();
+    }
+
+    @Override
+    public SupportDelivery toSupportDelivery(SupportDeliveryEntity supportDelivery) {
+        if ( supportDelivery == null ) {
+            return null;
+        }
+
+        SupportDelivery.SupportDeliveryBuilder supportDelivery1 = SupportDelivery.builder();
+
+        supportDelivery1.supportKey( supportDeliverySupportSupportKey( supportDelivery ) );
+        supportDelivery1.id( supportDelivery.getId() );
+        supportDelivery1.status( supportDelivery.getStatus() );
+        supportDelivery1.shipmentName( supportDelivery.getShipmentName() );
+        supportDelivery1.shipmentAt( supportDelivery.getShipmentAt() );
+        supportDelivery1.trackingName( supportDelivery.getTrackingName() );
+        supportDelivery1.trackingAt( supportDelivery.getTrackingAt() );
+        supportDelivery1.createdAt( supportDelivery.getCreatedAt() );
+        supportDelivery1.updatedAt( supportDelivery.getUpdatedAt() );
+
+        return supportDelivery1.build();
     }
 
     protected MemberEntity supportToMemberEntity(Support support) {
@@ -185,25 +206,6 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         return id;
     }
 
-    protected SupportDelivery supportDeliveryEntityToSupportDelivery(SupportDeliveryEntity supportDeliveryEntity) {
-        if ( supportDeliveryEntity == null ) {
-            return null;
-        }
-
-        SupportDelivery.SupportDeliveryBuilder supportDelivery = SupportDelivery.builder();
-
-        supportDelivery.id( supportDeliveryEntity.getId() );
-        supportDelivery.status( supportDeliveryEntity.getStatus() );
-        supportDelivery.shipmentName( supportDeliveryEntity.getShipmentName() );
-        supportDelivery.shipmentAt( supportDeliveryEntity.getShipmentAt() );
-        supportDelivery.trackingName( supportDeliveryEntity.getTrackingName() );
-        supportDelivery.trackingAt( supportDeliveryEntity.getTrackingAt() );
-        supportDelivery.createdAt( supportDeliveryEntity.getCreatedAt() );
-        supportDelivery.updatedAt( supportDeliveryEntity.getUpdatedAt() );
-
-        return supportDelivery.build();
-    }
-
     protected SupportPayment supportPaymentEntityToSupportPayment(SupportPaymentEntity supportPaymentEntity) {
         if ( supportPaymentEntity == null ) {
             return null;
@@ -219,5 +221,20 @@ public class SupportPersistenceMapperImpl implements SupportPersistenceMapper {
         supportPayment.updatedAt( supportPaymentEntity.getUpdatedAt() );
 
         return supportPayment.build();
+    }
+
+    private String supportDeliverySupportSupportKey(SupportDeliveryEntity supportDeliveryEntity) {
+        if ( supportDeliveryEntity == null ) {
+            return null;
+        }
+        SupportEntity support = supportDeliveryEntity.getSupport();
+        if ( support == null ) {
+            return null;
+        }
+        String supportKey = support.getSupportKey();
+        if ( supportKey == null ) {
+            return null;
+        }
+        return supportKey;
     }
 }

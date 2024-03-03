@@ -40,6 +40,7 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         return supportPort.saveSupportDelivery(findSupportDelivery.complete());
     }
 
+    // TODO 결제는 스케줄러로 실행
     @Override
     public SupportPayment payForSupport(SupportPayment supportPayment) {
         return null;

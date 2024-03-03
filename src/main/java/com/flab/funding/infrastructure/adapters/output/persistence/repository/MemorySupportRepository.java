@@ -57,7 +57,7 @@ public class MemorySupportRepository implements SupportRepository {
 
         SupportDeliveryEntity savedSupportDelivery = SupportDeliveryEntity.builder()
                 .id(deliveryId)
-                .support(SupportEntity.builder().id(supportId).build())
+                .support(SupportEntity.builder().id(supportId).supportKey(supportId.toString()).build())
                 .memberDeliveryAddress(supportDelivery.getMemberDeliveryAddress())
                 .status(SupportDeliveryStatus.READY)
                 .createdAt(LocalDateTime.now())
@@ -89,16 +89,24 @@ public class MemorySupportRepository implements SupportRepository {
 
     @Override
     public Optional<SupportEntity> getSupportBySupportKey(String supportKey) {
-        return Optional.empty();
+        return Optional.ofNullable(store.get(Long.valueOf(supportKey)));
     }
 
     @Override
-    public SupportDeliveryEntity save(SupportDeliveryEntity support) {
-        return null;
+    public SupportDeliveryEntity save(SupportDeliveryEntity supportDeliveryEntity) {
+        return savedSupportDeliveryEntity(supportDeliveryEntity.getSupport().getId(), supportDeliveryEntity);
     }
 
     @Override
     public Optional<SupportDeliveryEntity> getSupportDeliveryBySupportKey(String supportKey) {
-        return Optional.empty();
+        Long supportId = Long.valueOf(supportKey);
+
+        SupportDeliveryEntity findSupportDelivery = deliveries.values()
+                .stream()
+                .filter(delivery -> supportId.equals(delivery.getSupport().getId()))
+                .findFirst()
+                .orElse(null);
+
+        return Optional.ofNullable(findSupportDelivery);
     }
 }

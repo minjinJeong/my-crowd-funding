@@ -1,7 +1,6 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
 import com.flab.funding.domain.model.Support;
-import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.domain.model.SupportStatus;
 import com.flab.funding.infrastructure.adapters.output.persistence.converter.SupportStatusAttributeConverter;
 import com.flab.funding.infrastructure.adapters.output.persistence.mapper.SupportPersistenceMapper;
@@ -60,9 +59,5 @@ public class SupportEntity {
 
     public Support toSupport() {
         return SupportPersistenceMapper.INSTANCE.toSupport(this);
-    }
-
-    public SupportDelivery toSupportDelivery() {
-        return SupportPersistenceMapper.INSTANCE.toSupportDelivery();
     }
 }

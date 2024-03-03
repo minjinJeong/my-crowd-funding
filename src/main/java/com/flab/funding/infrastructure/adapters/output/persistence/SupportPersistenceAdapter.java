@@ -34,7 +34,7 @@ public class SupportPersistenceAdapter implements SupportPort {
     @Override
     public SupportDelivery saveSupportDelivery(SupportDelivery supportDelivery) {
         SupportDeliveryEntity supportDeliveryEntity = SupportDeliveryEntity.from(supportDelivery);
-        SupportEntity savedSupportDelivery = supportRepository.save(supportDeliveryEntity);
+        SupportDeliveryEntity savedSupportDelivery = supportRepository.save(supportDeliveryEntity);
         return savedSupportDelivery.toSupportDelivery();
     }
 

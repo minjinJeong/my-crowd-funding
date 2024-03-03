@@ -20,7 +20,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -84,5 +87,70 @@ public class SupportRestAdapterTest {
                                 fieldWithPath("supportKey").description("후원번호(외부용)"),
                                 fieldWithPath("status").description("후원상태")
                         )));
+    }
+
+    @Test
+    public void shippedOut() throws Exception {
+        //given
+        String supportKey = "1";
+
+        //when
+
+        //then
+        this.mockMvc.perform(patch("/supports/{supportKey}/shipped-out"
+                , supportKey))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        pathParameters(
+                                parameterWithName("supportKey").description("후원번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("supportKey").description("후원번호(외부용)"),
+                                fieldWithPath("status").description("배송 상태")
+                        )));
+    }
+
+    @Test
+    public void inDelivery() throws Exception {
+        //given
+        String supportKey = "1";
+
+        //when
+
+        //then
+        this.mockMvc.perform(patch("/supports/{supportKey}/in-delivery"
+                        , supportKey))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        pathParameters(
+                                parameterWithName("supportKey").description("후원번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("supportKey").description("후원번호(외부용)"),
+                                fieldWithPath("status").description("배송 상태")
+                        )));
+
+    }
+
+    @Test
+    public void complete() throws Exception {
+        //given
+        String supportKey = "1";
+
+        //when
+
+        //then
+        this.mockMvc.perform(patch("/supports/{supportKey}/complete"
+                        , supportKey))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        pathParameters(
+                                parameterWithName("supportKey").description("후원번호(외부용)")
+                        ),
+                        responseFields(
+                                fieldWithPath("supportKey").description("후원번호(외부용)"),
+                                fieldWithPath("status").description("배송 상태")
+                        )));
+
     }
 }

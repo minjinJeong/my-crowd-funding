@@ -6,13 +6,14 @@ import com.flab.funding.domain.model.SupportPayment;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportDeliveryRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportPaymentRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.response.SupportDeliveryInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.SupportRegisterResponse;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-29T17:42:50+0900",
+    date = "2024-03-03T21:52:05+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -45,6 +46,20 @@ public class SupportMapperImpl implements SupportMapper {
         supportRegisterResponse.status( support.getStatus() );
 
         return supportRegisterResponse.build();
+    }
+
+    @Override
+    public SupportDeliveryInfoResponse toSupportDeliveryInfoResponse(SupportDelivery supportDelivery) {
+        if ( supportDelivery == null ) {
+            return null;
+        }
+
+        SupportDeliveryInfoResponse.SupportDeliveryInfoResponseBuilder supportDeliveryInfoResponse = SupportDeliveryInfoResponse.builder();
+
+        supportDeliveryInfoResponse.supportKey( supportDelivery.getSupportKey() );
+        supportDeliveryInfoResponse.status( supportDelivery.getStatus() );
+
+        return supportDeliveryInfoResponse.build();
     }
 
     protected SupportDelivery supportDeliveryRequestToSupportDelivery(SupportDeliveryRequest supportDeliveryRequest) {

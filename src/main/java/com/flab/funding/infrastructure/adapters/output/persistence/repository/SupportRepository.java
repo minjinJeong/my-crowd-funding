@@ -10,7 +10,7 @@ public interface SupportRepository {
 
     Optional<SupportEntity> getSupportBySupportKey(String supportKey);
 
-    SupportDeliveryEntity save(SupportDeliveryEntity support);
+    SupportDeliveryEntity save(SupportDeliveryEntity supportDeliveryEntity);
 
     Optional<SupportDeliveryEntity> getSupportDeliveryBySupportKey(String supportKey);
 }

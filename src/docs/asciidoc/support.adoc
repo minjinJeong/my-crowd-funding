@@ -1,8 +1,12 @@
 == 후원내역
 === 후원하기
+operation::support-rest-adapter-test/register-support[snippets='http-request,http-response,request-fields,response-fields']
 
 === 배송시작
+operation::support-rest-adapter-test/shipped-out[snippets='http-request,http-response,path-parameters,response-fields']
 
 === 배송중
+operation::support-rest-adapter-test/in-delivery[snippets='http-request,http-response,path-parameters,response-fields']
 
 === 배송완료
+operation::support-rest-adapter-test/complete[snippets='http-request,http-response,path-parameters,response-fields']

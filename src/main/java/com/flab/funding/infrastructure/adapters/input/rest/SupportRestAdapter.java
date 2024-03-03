@@ -31,4 +31,16 @@ public class SupportRestAdapter {
         SupportDelivery supportDelivery = supportDeliveryUseCase.shippedOut(supportKey);
         return SupportDeliveryInfoResponse.from(supportDelivery);
     }
+
+    @PatchMapping("/supports/{supportKey}/in-delivery")
+    public SupportDeliveryInfoResponse outForDelivery(@PathVariable("supportKey") String supportKey) {
+        SupportDelivery supportDelivery = supportDeliveryUseCase.outForDelivery(supportKey);
+        return SupportDeliveryInfoResponse.from(supportDelivery);
+    }
+
+    @PatchMapping("/supports/{supportKey}/complete")
+    public SupportDeliveryInfoResponse deliveryComplete(@PathVariable("supportKey") String supportKey) {
+        SupportDelivery supportDelivery = supportDeliveryUseCase.deliveryComplete(supportKey);
+        return SupportDeliveryInfoResponse.from(supportDelivery);
+    }
 }
