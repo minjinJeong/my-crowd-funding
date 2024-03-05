@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@Table(name = "user")
+@Table(name = "member")
 public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String userKey;

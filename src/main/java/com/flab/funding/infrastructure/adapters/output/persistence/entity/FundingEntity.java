@@ -30,7 +30,7 @@ public class FundingEntity {
     private String fundingKey;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private MemberEntity member;
 
     @ColumnDefault("false")
