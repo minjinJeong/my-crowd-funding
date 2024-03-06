@@ -40,26 +40,28 @@ public class FundingEntity {
     private String pricePlan;
 
     @Convert(converter = FundingCategoryAttributeConverter.class)
-    private FundingCategory categoryCode;
+    @Column(name = "category_code")
+    private FundingCategory category;
 
     private BigInteger expectAmount;
 
     @Convert(converter = FundingStatusAttributeConverter.class)
+    @Column(name = "status_code")
     private FundingStatus status;
 
     private String title;
 
-    private String fundingDesc;
+    private String fundingDescription;
 
     private String fundingIntroduce;
 
-    private String budgetDesc;
+    private String budgetDescription;
 
-    private String scheduleDesc;
+    private String scheduleDescription;
 
-    private String teamDesc;
+    private String teamDescription;
 
-    private String rewardDesc;
+    private String rewardDescription;
 
     @OneToMany(mappedBy = "funding", cascade = CascadeType.ALL)
     private List<FundingTagEntity> tags;

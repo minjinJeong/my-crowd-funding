@@ -23,7 +23,7 @@ public class MemoryMemberRepository implements MemberRepository {
                 .email(member.getEmail())
                 .userName(member.getUserName())
                 .nickName(member.getNickName())
-                .phoneNum(member.getPhoneNum())
+                .phoneNumber(member.getPhoneNumber())
                 .gender(member.getGender())
                 .birthday(member.getBirthday())
                 .password(member.getPassword())

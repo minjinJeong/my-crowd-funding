@@ -6,16 +6,12 @@ import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
-
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
+@RequiredArgsConstructor
 public class MemberService implements RegisterMemberUseCase, DeregisterMemberUseCase, LoginUseCase {
     private final MemberPort memberPort;
-
-    public MemberService(MemberPort memberPort) {
-        this.memberPort = memberPort;
-    }
 
     @Override
     public Member registMember(Member member) {

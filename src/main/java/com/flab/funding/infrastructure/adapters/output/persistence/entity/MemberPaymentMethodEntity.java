@@ -31,7 +31,7 @@ public class MemberPaymentMethodEntity {
     @Column(columnDefinition = "TINYINT(1)")
     private boolean isDefault;
 
-    private String paymentNum;
+    private String paymentNumber;
 
     private LocalDateTime createdAt;
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-22T19:59:16+0900",
+    date = "2024-03-03T21:52:05+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -26,7 +26,7 @@ public class MemberPaymentMethodPersistenceMapperImpl implements MemberPaymentMe
         memberPaymentMethodEntity.id( paymentMethod.getId() );
         memberPaymentMethodEntity.paymentMethodKey( paymentMethod.getPaymentMethodKey() );
         memberPaymentMethodEntity.isDefault( paymentMethod.getIsDefault() );
-        memberPaymentMethodEntity.paymentNum( paymentMethod.getPaymentNum() );
+        memberPaymentMethodEntity.paymentNumber( paymentMethod.getPaymentNumber() );
         memberPaymentMethodEntity.createdAt( paymentMethod.getCreatedAt() );
         memberPaymentMethodEntity.updatedAt( paymentMethod.getUpdatedAt() );
 
@@ -45,7 +45,7 @@ public class MemberPaymentMethodPersistenceMapperImpl implements MemberPaymentMe
         paymentMethod.id( paymentMethodEntity.getId() );
         paymentMethod.paymentMethodKey( paymentMethodEntity.getPaymentMethodKey() );
         paymentMethod.isDefault( paymentMethodEntity.getIsDefault() );
-        paymentMethod.paymentNum( paymentMethodEntity.getPaymentNum() );
+        paymentMethod.paymentNumber( paymentMethodEntity.getPaymentNumber() );
         paymentMethod.createdAt( paymentMethodEntity.getCreatedAt() );
         paymentMethod.updatedAt( paymentMethodEntity.getUpdatedAt() );
 

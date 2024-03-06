@@ -12,7 +12,7 @@ public class FundingCreator {
     private Long fundingId;
     private String fundingKey;
     private boolean isValid;
-    private String businessNum;
+    private String businessNumber;
     private String representative;
     private String introduce;
     private LocalDateTime createdAt;

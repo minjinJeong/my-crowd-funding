@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class MemberPaymentMethodRegisterRequest {
     private String userKey;
     private boolean isDefault;
-    private String paymentNum;
+    private String paymentNumber;
 
     public PaymentMethod toPaymentMethod() {
         return MemberPaymentMethodMapper.INSTANCE.toPaymentMethod(this);
