@@ -9,16 +9,13 @@ import com.flab.funding.domain.model.FundingCreator;
 import com.flab.funding.domain.model.FundingItem;
 import com.flab.funding.domain.model.FundingReward;
 import com.flab.funding.infrastructure.config.UseCase;
+import lombok.RequiredArgsConstructor;
 
-// TODO : 펀딩 로직 생성 필요
 @UseCase
+@RequiredArgsConstructor
 public class FundingService implements RegisterFundingUseCase, ReviewFundingUseCase, CancelFundingUseCase {
 
     private final FundingPort fundingPort;
-
-    public FundingService(FundingPort fundingPort) {
-        this.fundingPort = fundingPort;
-    }
 
     @Override
     public Funding registFunding(Funding funding) {

@@ -11,7 +11,7 @@ public class FundingCreatorInfoResponse {
 
     private String fundingKey;
     private boolean isValid;
-    private String businessNum;
+    private String businessNumber;
     private String representative;
     private String introduce;
 

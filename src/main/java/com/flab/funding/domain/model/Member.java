@@ -16,7 +16,7 @@ public class Member {
     private String email;
     private String userName;
     private String nickName;
-    private String phoneNum;
+    private String phoneNumber;
     private MemberGender gender;
     private LocalDate birthday;
     private String password;

@@ -16,7 +16,7 @@ public class PaymentMethod {
 
     private boolean isDefault;
 
-    private String paymentNum;
+    private String paymentNumber;
 
     private LocalDateTime createdAt;
 

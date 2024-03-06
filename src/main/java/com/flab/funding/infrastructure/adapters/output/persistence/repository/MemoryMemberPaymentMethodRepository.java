@@ -21,7 +21,7 @@ public class MemoryMemberPaymentMethodRepository implements MemberPaymentMethodR
                 .paymentMethodKey(id.toString())
                 .member(paymentMethodEntity.getMember())
                 .isDefault(paymentMethodEntity.getIsDefault())
-                .paymentNum(paymentMethodEntity.getPaymentNum())
+                .paymentNumber(paymentMethodEntity.getPaymentNumber())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .bankCode(BankCode.KOOKMIN)

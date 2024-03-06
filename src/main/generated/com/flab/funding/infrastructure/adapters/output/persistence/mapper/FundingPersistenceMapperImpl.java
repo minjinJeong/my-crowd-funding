@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-02-27T18:30:35+0900",
+    date = "2024-03-03T21:52:05+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -39,16 +39,16 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingEntity.member( funding.getMember() );
         fundingEntity.isAdult( funding.getIsAdult() );
         fundingEntity.pricePlan( funding.getPricePlan() );
-        fundingEntity.categoryCode( funding.getCategoryCode() );
+        fundingEntity.category( funding.getCategory() );
         fundingEntity.expectAmount( funding.getExpectAmount() );
         fundingEntity.status( funding.getStatus() );
         fundingEntity.title( funding.getTitle() );
-        fundingEntity.fundingDesc( funding.getFundingDesc() );
+        fundingEntity.fundingDescription( funding.getFundingDescription() );
         fundingEntity.fundingIntroduce( funding.getFundingIntroduce() );
-        fundingEntity.budgetDesc( funding.getBudgetDesc() );
-        fundingEntity.scheduleDesc( funding.getScheduleDesc() );
-        fundingEntity.teamDesc( funding.getTeamDesc() );
-        fundingEntity.rewardDesc( funding.getRewardDesc() );
+        fundingEntity.budgetDescription( funding.getBudgetDescription() );
+        fundingEntity.scheduleDescription( funding.getScheduleDescription() );
+        fundingEntity.teamDescription( funding.getTeamDescription() );
+        fundingEntity.rewardDescription( funding.getRewardDescription() );
         List<FundingTagEntity> list = funding.getTags();
         if ( list != null ) {
             fundingEntity.tags( new ArrayList<FundingTagEntity>( list ) );
@@ -76,16 +76,16 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         funding.member( fundingEntity.getMember() );
         funding.isAdult( fundingEntity.getIsAdult() );
         funding.pricePlan( fundingEntity.getPricePlan() );
-        funding.categoryCode( fundingEntity.getCategoryCode() );
+        funding.category( fundingEntity.getCategory() );
         funding.expectAmount( fundingEntity.getExpectAmount() );
         funding.status( fundingEntity.getStatus() );
         funding.title( fundingEntity.getTitle() );
-        funding.fundingDesc( fundingEntity.getFundingDesc() );
+        funding.fundingDescription( fundingEntity.getFundingDescription() );
         funding.fundingIntroduce( fundingEntity.getFundingIntroduce() );
-        funding.budgetDesc( fundingEntity.getBudgetDesc() );
-        funding.scheduleDesc( fundingEntity.getScheduleDesc() );
-        funding.teamDesc( fundingEntity.getTeamDesc() );
-        funding.rewardDesc( fundingEntity.getRewardDesc() );
+        funding.budgetDescription( fundingEntity.getBudgetDescription() );
+        funding.scheduleDescription( fundingEntity.getScheduleDescription() );
+        funding.teamDescription( fundingEntity.getTeamDescription() );
+        funding.rewardDescription( fundingEntity.getRewardDescription() );
         List<FundingTagEntity> list = fundingEntity.getTags();
         if ( list != null ) {
             funding.tags( new ArrayList<FundingTagEntity>( list ) );
@@ -111,7 +111,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingCreatorEntity.funding( fundingCreatorToFundingEntity( fundingCreator ) );
         fundingCreatorEntity.id( fundingCreator.getId() );
         fundingCreatorEntity.isValid( fundingCreator.getIsValid() );
-        fundingCreatorEntity.businessNum( fundingCreator.getBusinessNum() );
+        fundingCreatorEntity.businessNumber( fundingCreator.getBusinessNumber() );
         fundingCreatorEntity.representative( fundingCreator.getRepresentative() );
         fundingCreatorEntity.introduce( fundingCreator.getIntroduce() );
         fundingCreatorEntity.createdAt( fundingCreator.getCreatedAt() );
@@ -132,7 +132,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingCreator.fundingKey( fundingCreatorEntityFundingFundingKey( fundingCreatorEntity ) );
         fundingCreator.id( fundingCreatorEntity.getId() );
         fundingCreator.isValid( fundingCreatorEntity.getIsValid() );
-        fundingCreator.businessNum( fundingCreatorEntity.getBusinessNum() );
+        fundingCreator.businessNumber( fundingCreatorEntity.getBusinessNumber() );
         fundingCreator.representative( fundingCreatorEntity.getRepresentative() );
         fundingCreator.introduce( fundingCreatorEntity.getIntroduce() );
         fundingCreator.createdAt( fundingCreatorEntity.getCreatedAt() );
