@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-03T21:52:05+0900",
+    date = "2024-03-06T20:19:48+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -46,6 +46,7 @@ public class SupportDeliveryPersistenceMapperImpl implements SupportDeliveryPers
         SupportDelivery.SupportDeliveryBuilder supportDelivery = SupportDelivery.builder();
 
         supportDelivery.supportId( supportDeliveryEntitySupportId( supportDeliveryEntity ) );
+        supportDelivery.supportKey( supportDeliveryEntitySupportSupportKey( supportDeliveryEntity ) );
         supportDelivery.memberDeliveryAddressId( supportDeliveryEntityMemberDeliveryAddressId( supportDeliveryEntity ) );
         supportDelivery.id( supportDeliveryEntity.getId() );
         supportDelivery.status( supportDeliveryEntity.getStatus() );
@@ -96,6 +97,21 @@ public class SupportDeliveryPersistenceMapperImpl implements SupportDeliveryPers
             return null;
         }
         return id;
+    }
+
+    private String supportDeliveryEntitySupportSupportKey(SupportDeliveryEntity supportDeliveryEntity) {
+        if ( supportDeliveryEntity == null ) {
+            return null;
+        }
+        SupportEntity support = supportDeliveryEntity.getSupport();
+        if ( support == null ) {
+            return null;
+        }
+        String supportKey = support.getSupportKey();
+        if ( supportKey == null ) {
+            return null;
+        }
+        return supportKey;
     }
 
     private Long supportDeliveryEntityMemberDeliveryAddressId(SupportDeliveryEntity supportDeliveryEntity) {

@@ -146,7 +146,7 @@ public class MemoryFundingRepository implements FundingRepository {
             FundingItemOptionEntity savedItemOptionEntity = FundingItemOptionEntity.builder()
                     .id(id)
                     .fundingItem(FundingItemEntity.builder().id(fundingItemId).build())
-                    .option(itemOption.getOption())
+                    .optionName(itemOption.getOptionName())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
