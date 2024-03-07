@@ -1,4 +1,4 @@
-package com.flab.funding.support;
+package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportDeliveryRequest;
