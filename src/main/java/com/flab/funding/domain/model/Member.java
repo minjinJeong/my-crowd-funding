@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -26,7 +27,12 @@ public class Member {
 
     public Member activate() {
         this.status = MemberStatus.ACTIVATE;
+        makeUserKey();
         return this;
+    }
+
+    private void makeUserKey() {
+        this.userKey = UUID.randomUUID().toString();
     }
 
     public Member deactivate() {

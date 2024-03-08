@@ -42,6 +42,6 @@ public class MemberServiceTest {
         Member findMember = memberService.getMemberByUserKey(savedMember.getUserKey());
 
         //then
-        assertEquals(savedMember, findMember);
+        assertEquals(savedMember.getId(), findMember.getId());
     }
 }
