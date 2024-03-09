@@ -4,6 +4,7 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Member
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -39,5 +40,10 @@ public class MemoryMemberRepository implements MemberRepository {
     @Override
     public Optional<MemberEntity> findByUserKey(String userKey) {
         return Optional.ofNullable(store.get(Long.valueOf(userKey)));
+    }
+
+    @Override
+    public List<MemberEntity> findByEmail(String email) {
+        return null;
     }
 }

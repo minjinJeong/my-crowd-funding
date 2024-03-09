@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -43,5 +44,26 @@ public class MemberServiceTest {
 
         //then
         assertEquals(savedMember.getId(), findMember.getId());
+    }
+    
+    @Test
+    public void 중복_회원_예외() throws Exception {
+        //given
+        Member member = Member.builder()
+                .linkType(MemberLinkType.NONE)
+                .email("Test@gmail.com")
+                .userName("홍길순")
+                .nickName("테스터")
+                .phoneNumber("010-1111-2222")
+                .gender(MemberGender.FEMALE)
+                .birthday(LocalDate.of(1998,1,30))
+                .password("")
+                .build();
+        
+        //when
+        memberService.registMember(member);
+        
+        //then
+        assertThrows(IllegalStateException.class, () -> memberService.registMember(member));
     }
 }

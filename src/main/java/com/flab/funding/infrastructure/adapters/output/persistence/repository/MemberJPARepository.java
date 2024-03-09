@@ -21,12 +21,22 @@ public class MemberJPARepository implements MemberRepository {
 
     @Override
     public Optional<MemberEntity> findByUserKey(String userKey) {
-        List<MemberEntity> findMember = em.createQuery(
+        List<MemberEntity> findMembers = em.createQuery(
                         "select m from MemberEntity m" +
                                 " where m.userKey = :userKey", MemberEntity.class
                 )
                 .setParameter("userKey", userKey)
                 .getResultList();
-        return findMember.stream().findAny();
+        return findMembers.stream().findAny();
+    }
+
+    @Override
+    public List<MemberEntity> findByEmail(String email) {
+        return em.createQuery(
+                        "select m from MemberEntity m" +
+                                " where m.email = :email", MemberEntity.class
+                )
+                .setParameter("email", email)
+                .getResultList();
     }
 }

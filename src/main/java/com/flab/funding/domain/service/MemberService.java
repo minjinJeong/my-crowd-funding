@@ -8,6 +8,8 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @UseCase
 @RequiredArgsConstructor
 public class MemberService implements RegisterMemberUseCase, DeregisterMemberUseCase, LoginUseCase {
@@ -15,7 +17,15 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
 
     @Override
     public Member registMember(Member member) {
+        validateDuplicateMember(member);
         return memberPort.saveMember(member.activate());
+    }
+
+    private void validateDuplicateMember(Member member) {
+        List<Member> findMembers = memberPort.getMemberByEmail(member.getEmail());
+        if(!findMembers.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
     }
 
     @Override
