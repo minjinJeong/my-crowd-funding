@@ -4,6 +4,7 @@ import com.flab.funding.application.ports.input.DeregisterMemberUseCase;
 import com.flab.funding.application.ports.input.LoginUseCase;
 import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
+import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberPort.getMemberByEmail(member.getEmail());
         if(!findMembers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            throw new DuplicateMemberException();
         }
     }
 

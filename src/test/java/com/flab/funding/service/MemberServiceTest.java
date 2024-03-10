@@ -1,5 +1,6 @@
 package com.flab.funding.service;
 
+import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
@@ -64,6 +65,6 @@ public class MemberServiceTest {
         memberService.registMember(member);
         
         //then
-        assertThrows(IllegalStateException.class, () -> memberService.registMember(member));
+        assertThrows(DuplicateMemberException.class, () -> memberService.registMember(member));
     }
 }
