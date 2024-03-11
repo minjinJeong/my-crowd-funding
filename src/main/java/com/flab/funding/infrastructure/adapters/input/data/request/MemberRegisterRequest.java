@@ -4,6 +4,8 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.input.mapper.MemberMapper;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +18,13 @@ import java.time.LocalDate;
 @Builder
 @Getter
 public class MemberRegisterRequest {
+
     private MemberLinkType linkType;
+
+    @NotEmpty
+    @Email
     private String email;
+
     private String userName;
     private String nickName;
     private String phoneNumber;

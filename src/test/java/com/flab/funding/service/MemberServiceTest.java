@@ -67,4 +67,23 @@ public class MemberServiceTest {
         //then
         assertThrows(DuplicateMemberException.class, () -> memberService.registMember(member));
     }
+
+    @Test
+    public void 회원_이메일_누락() throws Exception {
+        //given
+        Member member = Member.builder()
+                .linkType(MemberLinkType.NONE)
+                .userName("홍길순")
+                .nickName("테스터")
+                .phoneNumber("010-1111-2222")
+                .gender(MemberGender.FEMALE)
+                .birthday(LocalDate.of(1998,1,30))
+                .password("")
+                .build();
+
+        //when
+        Member savedMember = memberService.registMember(member);
+
+        //then
+    }
 }
