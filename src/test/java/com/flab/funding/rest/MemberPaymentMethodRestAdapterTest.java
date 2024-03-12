@@ -56,7 +56,7 @@ public class MemberPaymentMethodRestAdapterTest {
         // given
         MemberRegisterRequest request = MemberRegisterRequest.builder()
                 .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
+                .email("PaymentMethod@gmail.com")
                 .userName("홍길순")
                 .nickName("테스터")
                 .phoneNumber("010-1111-2222")
