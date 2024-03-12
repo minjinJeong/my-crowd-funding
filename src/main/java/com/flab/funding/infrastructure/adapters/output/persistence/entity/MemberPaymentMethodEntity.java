@@ -28,7 +28,6 @@ public class MemberPaymentMethodEntity {
     private MemberEntity member;
 
     @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isDefault;
 
     private String paymentNumber;

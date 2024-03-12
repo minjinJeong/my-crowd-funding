@@ -1,6 +1,7 @@
 package com.flab.funding.infrastructure.adapters.input.mapper;
 
 import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberDeliveryAddressRegisterResponse;
 import javax.annotation.processing.Generated;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-11T22:11:59+0900",
+    date = "2024-03-12T18:47:53+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -22,7 +23,7 @@ public class MemberDeliveryAddressMapperImpl implements MemberDeliveryAddressMap
 
         DeliveryAddress.DeliveryAddressBuilder deliveryAddress = DeliveryAddress.builder();
 
-        deliveryAddress.userKey( deliveryAddressRegisterRequest.getUserKey() );
+        deliveryAddress.member( toMember( deliveryAddressRegisterRequest.getUserKey() ) );
         deliveryAddress.isDefault( deliveryAddressRegisterRequest.getIsDefault() );
         deliveryAddress.zipCode( deliveryAddressRegisterRequest.getZipCode() );
         deliveryAddress.address( deliveryAddressRegisterRequest.getAddress() );
@@ -41,8 +42,8 @@ public class MemberDeliveryAddressMapperImpl implements MemberDeliveryAddressMap
 
         MemberDeliveryAddressRegisterResponse.MemberDeliveryAddressRegisterResponseBuilder memberDeliveryAddressRegisterResponse = MemberDeliveryAddressRegisterResponse.builder();
 
+        memberDeliveryAddressRegisterResponse.userKey( deliveryAddressMemberUserKey( deliveryAddress ) );
         memberDeliveryAddressRegisterResponse.deliveryAddressKey( deliveryAddress.getDeliveryAddressKey() );
-        memberDeliveryAddressRegisterResponse.userKey( deliveryAddress.getUserKey() );
         memberDeliveryAddressRegisterResponse.isDefault( deliveryAddress.getIsDefault() );
         memberDeliveryAddressRegisterResponse.zipCode( deliveryAddress.getZipCode() );
         memberDeliveryAddressRegisterResponse.address( deliveryAddress.getAddress() );
@@ -53,5 +54,20 @@ public class MemberDeliveryAddressMapperImpl implements MemberDeliveryAddressMap
         memberDeliveryAddressRegisterResponse.updatedAt( deliveryAddress.getUpdatedAt() );
 
         return memberDeliveryAddressRegisterResponse.build();
+    }
+
+    private String deliveryAddressMemberUserKey(DeliveryAddress deliveryAddress) {
+        if ( deliveryAddress == null ) {
+            return null;
+        }
+        Member member = deliveryAddress.getMember();
+        if ( member == null ) {
+            return null;
+        }
+        String userKey = member.getUserKey();
+        if ( userKey == null ) {
+            return null;
+        }
+        return userKey;
     }
 }

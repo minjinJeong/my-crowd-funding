@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -12,7 +13,7 @@ public class DeliveryAddress {
 
     private String deliveryAddressKey;
 
-    private String userKey;
+    private Member member;
 
     private boolean isDefault;
 
@@ -29,4 +30,15 @@ public class DeliveryAddress {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public DeliveryAddress register(Member member) {
+        this.member = member;
+        makeKey();
+        return this;
+    }
+
+    // TODO key 생성 로직 수정
+    private void makeKey() {
+        this.deliveryAddressKey = UUID.randomUUID().toString();
+    }
 }

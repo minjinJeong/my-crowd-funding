@@ -1,7 +1,11 @@
 package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flab.funding.domain.model.MemberGender;
+import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.LocalDate;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -34,18 +41,50 @@ public class MemberDeliveryAddressRestAdapterTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String userKey;
+
     @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
+
+        registerMember();
+    }
+
+    private void registerMember() throws Exception {
+        // given
+        MemberRegisterRequest request = MemberRegisterRequest.builder()
+                .linkType(MemberLinkType.NONE)
+                .email("Test@gmail.com")
+                .userName("홍길순")
+                .nickName("테스터")
+                .phoneNumber("010-1111-2222")
+                .gender(MemberGender.FEMALE)
+                .birthday(LocalDate.of(1998,1,30))
+                .password("")
+                .build();
+
+        // when
+        // then
+        ResultActions resultActions = this.mockMvc.perform(post("/members")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        MemberRegisterResponse response = objectMapper.readValue(
+                resultActions.andReturn().getResponse().getContentAsString(),
+                MemberRegisterResponse.class);
+
+        userKey = response.getUserKey();
     }
 
     @Test
     void registerDeliveryAddress() throws Exception {
         // given
         MemberDeliveryAddressRegisterRequest request = MemberDeliveryAddressRegisterRequest.builder()
-                .userKey("1L")
+                .userKey(userKey)
                 .isDefault(true)
                 .zipCode("01234")
                 .address("서울특별시 강서구")

@@ -7,6 +7,7 @@ import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     private final MemberPort memberPort;
 
     @Override
+    @Transactional
     public Member registMember(Member member) {
         validateDuplicateMember(member);
         return memberPort.saveMember(member.activate());
@@ -30,8 +32,10 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     }
 
     @Override
+    @Transactional
     public Member deregistMember(Member member) {
-        return memberPort.saveMember(member.deactivate());
+        Member findmember = memberPort.getMemberByUserKey(member.getUserKey());
+        return memberPort.saveMember(findmember.deactivate());
     }
 
     @Override

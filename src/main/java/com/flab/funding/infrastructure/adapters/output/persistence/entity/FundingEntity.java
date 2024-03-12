@@ -34,7 +34,6 @@ public class FundingEntity {
     private MemberEntity member;
 
     @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isAdult;
 
     private String pricePlan;

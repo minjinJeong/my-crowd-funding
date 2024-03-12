@@ -18,4 +18,12 @@ public class MemberDeliveryAddressPersistenceAdapter implements MemberDeliveryAd
         MemberDeliveryAddressEntity savedEntity = memberDeliveryAddressRepository.save(deliveryAddressEntity);
         return savedEntity.toDeliveryAddress();
     }
+
+    @Override
+    public DeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey) {
+        MemberDeliveryAddressEntity findMemberDeliveryAddressEntity =
+                memberDeliveryAddressRepository.findByDeliveryAddressKey(deliveryAddressKey)
+                        .orElse(MemberDeliveryAddressEntity.builder().build());
+        return findMemberDeliveryAddressEntity.toDeliveryAddress();
+    }
 }

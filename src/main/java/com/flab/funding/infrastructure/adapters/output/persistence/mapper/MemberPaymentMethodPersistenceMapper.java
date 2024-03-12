@@ -14,18 +14,7 @@ public interface MemberPaymentMethodPersistenceMapper {
 
     MemberPaymentMethodPersistenceMapper INSTANCE = Mappers.getMapper(MemberPaymentMethodPersistenceMapper.class);
 
-    @Mapping(source = "userKey", target = "member", qualifiedByName = "toMemberEntity")
     MemberPaymentMethodEntity toMemberPaymentMethodEntity(PaymentMethod paymentMethod);
 
-    @Mapping(source = "member.userKey", target = "userKey")
     PaymentMethod toPaymentMethod(MemberPaymentMethodEntity paymentMethodEntity);
-
-    @Named("toMemberEntity")
-    default MemberEntity toMemberEntity(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        return MemberEntity.builder().userKey(value).build();
-    }
 }
