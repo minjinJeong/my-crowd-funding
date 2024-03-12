@@ -32,6 +32,7 @@ Reference
 
 
 # 프로젝트 구조
+![funding_architecture drawio](https://github.com/f-lab-edu/my-crowd-funding/assets/31675724/6098edbf-3d43-4e08-b814-3e8da9219c46)
 
 ## ERD
 ![Funding(2)](https://github.com/f-lab-edu/my-crowd-funding/assets/31675724/5cbf05b5-9bac-4f60-974b-12a06ca0c724)
