@@ -13,6 +13,6 @@ public class GenderAttributeConverter implements AttributeConverter<MemberGender
 
     @Override
     public MemberGender convertToEntityAttribute(String dbData) {
-        return MemberGender.valueOf(dbData);
+        return MemberGender.valueOfLabel(dbData);
     }
 }

@@ -13,6 +13,6 @@ public class SupportPaymentStatusAttributeConverter implements AttributeConverte
 
     @Override
     public SupportPaymentStatus convertToEntityAttribute(String dbData) {
-        return SupportPaymentStatus.valueOf(dbData);
+        return SupportPaymentStatus.valueOfLabel(dbData);
     }
 }

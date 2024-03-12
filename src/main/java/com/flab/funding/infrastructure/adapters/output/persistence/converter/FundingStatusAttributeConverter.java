@@ -13,6 +13,6 @@ public class FundingStatusAttributeConverter implements AttributeConverter<Fundi
 
     @Override
     public FundingStatus convertToEntityAttribute(String dbData) {
-        return FundingStatus.valueOf(dbData);
+        return FundingStatus.valueOfLabel(dbData);
     }
 }

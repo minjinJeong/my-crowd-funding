@@ -11,4 +11,12 @@ public enum SupportStatus {
     FAILURE("30");
 
     private final String code;
+
+    public static SupportStatus valueOfLabel(String code) {
+        for (SupportStatus supportStatus : values()) {
+            if (supportStatus.getCode().equalsIgnoreCase(code))
+                return supportStatus;
+        }
+        throw new IllegalArgumentException();
+    }
 }

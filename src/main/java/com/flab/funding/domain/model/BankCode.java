@@ -12,4 +12,12 @@ public enum BankCode {
     HANA("081");
 
     private final String code;
+
+    public static BankCode valueOfLabel(String code) {
+        for (BankCode bankCode : values()) {
+            if (bankCode.getCode().equalsIgnoreCase(code))
+                return bankCode;
+        }
+        throw new IllegalArgumentException();
+    }
 }

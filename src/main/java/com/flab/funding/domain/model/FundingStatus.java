@@ -15,4 +15,12 @@ public enum FundingStatus {
     END("50");
 
     private final String code;
+
+    public static FundingStatus valueOfLabel(String code) {
+        for (FundingStatus fundingStatus : values()) {
+            if (fundingStatus.getCode().equalsIgnoreCase(code))
+                return fundingStatus;
+        }
+        throw new IllegalArgumentException();
+    }
 }
