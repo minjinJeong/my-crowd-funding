@@ -28,7 +28,6 @@ public class FundingRewardEntity {
     private FundingEntity funding;
 
     @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isDelivery;
 
     private String rewardTitle;

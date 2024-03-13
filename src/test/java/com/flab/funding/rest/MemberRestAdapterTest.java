@@ -1,12 +1,15 @@
-package com.flab.funding.member;
+package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MemberRestAdapterTest {
 
     @Autowired
@@ -43,6 +49,8 @@ public class MemberRestAdapterTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    private String userKey;
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
@@ -52,6 +60,7 @@ public class MemberRestAdapterTest {
     }
 
     @Test
+    @Rollback(value = false)
     void registerMember() throws Exception {
 
         // given
@@ -68,7 +77,7 @@ public class MemberRestAdapterTest {
 
         // when
         // then
-        this.mockMvc.perform(post("/members")
+        ResultActions resultActions = this.mockMvc.perform(post("/members")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -88,13 +97,19 @@ public class MemberRestAdapterTest {
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
                                 fieldWithPath("status").description("회원상태")
                         )));
+
+        MemberRegisterResponse response = objectMapper.readValue(
+                resultActions.andReturn().getResponse().getContentAsString(),
+                MemberRegisterResponse.class);
+
+        userKey = response.getUserKey();
     }
 
     @Test
     void deregisterMember() throws Exception {
         //given
         MemberInfoRequest request = MemberInfoRequest.builder()
-                .userKey("1")
+                .userKey(userKey)
                 .build();
 
         //when
@@ -128,7 +143,7 @@ public class MemberRestAdapterTest {
     void getMember() throws Exception {
         //given
         MemberInfoRequest request = MemberInfoRequest.builder()
-                .userKey("1")
+                .userKey(userKey)
                 .build();
 
         //when

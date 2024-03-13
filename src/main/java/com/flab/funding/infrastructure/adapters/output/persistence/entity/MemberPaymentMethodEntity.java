@@ -24,11 +24,10 @@ public class MemberPaymentMethodEntity {
     private String paymentMethodKey;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private MemberEntity member;
 
     @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isDefault;
 
     private String paymentNumber;

@@ -10,4 +10,12 @@ public enum MemberGender {
     FEMALE("F");
 
     private final String gender;
+
+    public static MemberGender valueOfGender(String gender) {
+        for (MemberGender memberGender : values()) {
+            if (memberGender.getGender().equalsIgnoreCase(gender))
+                return memberGender;
+        }
+        throw new IllegalArgumentException();
+    }
 }

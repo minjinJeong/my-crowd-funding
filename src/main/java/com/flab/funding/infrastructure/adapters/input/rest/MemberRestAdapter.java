@@ -8,6 +8,7 @@ import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoReq
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class MemberRestAdapter {
 
     @PostMapping("/members")
     @ResponseBody
-    public MemberRegisterResponse createMember(@RequestBody MemberRegisterRequest request) {
+    public MemberRegisterResponse createMember(@RequestBody @Valid MemberRegisterRequest request) {
         Member member = registerMemberUseCase.registMember(request.toMember());
         return MemberRegisterResponse.from(member);
     }

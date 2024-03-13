@@ -14,4 +14,12 @@ public enum SupportDeliveryStatus {
     REFUNDED("50");
 
     private final String code;
+
+    public static SupportDeliveryStatus valueOfCode(String code) {
+        for (SupportDeliveryStatus supportDeliveryStatus : values()) {
+            if (supportDeliveryStatus.getCode().equalsIgnoreCase(code))
+                return supportDeliveryStatus;
+        }
+        throw new IllegalArgumentException();
+    }
 }

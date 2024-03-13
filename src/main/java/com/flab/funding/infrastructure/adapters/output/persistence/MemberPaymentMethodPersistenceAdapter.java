@@ -18,4 +18,13 @@ public class MemberPaymentMethodPersistenceAdapter implements MemberPaymentMetho
         MemberPaymentMethodEntity savedEntity = memberPaymentMethodRepository.save(paymentMethodEntity);
         return savedEntity.toPaymentMethod();
     }
+
+    @Override
+    public PaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey) {
+        MemberPaymentMethodEntity findPaymentMethodEntity = memberPaymentMethodRepository
+                .findByPaymentMethodKey(paymentMethodKey)
+                .orElse(MemberPaymentMethodEntity.builder().build());
+
+        return findPaymentMethodEntity.toPaymentMethod();
+    }
 }

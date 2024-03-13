@@ -12,4 +12,12 @@ public enum MemberStatus {
     WITHDRAW("90");
 
     private final String code;
+
+    public static MemberStatus valueOfCode(String code) {
+        for (MemberStatus memberStatus : values()) {
+            if (memberStatus.getCode().equalsIgnoreCase(code))
+                return memberStatus;
+        }
+        throw new IllegalArgumentException();
+    }
 }

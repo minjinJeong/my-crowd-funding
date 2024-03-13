@@ -7,12 +7,21 @@ import com.flab.funding.infrastructure.adapters.output.persistence.repository.Me
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class MemberPersistenceAdapter implements MemberPort {
+
     private final MemberRepository memberRepository;
+
+    @Override
+    public Member saveMember(Member member) {
+        MemberEntity memberEntity = MemberEntity.from(member);
+        MemberEntity savedMember = memberRepository.save(memberEntity);
+        return savedMember.toMember();
+    }
 
     @Override
     public Member getMemberByUserKey(String userKey) {
@@ -21,9 +30,8 @@ public class MemberPersistenceAdapter implements MemberPort {
     }
 
     @Override
-    public Member saveMember(Member member) {
-        MemberEntity memberEntity = MemberEntity.from(member);
-        MemberEntity savedMember = memberRepository.save(memberEntity);
-        return savedMember.toMember();
+    public List<Member> getMemberByEmail(String email) {
+        List<MemberEntity> findMembers = memberRepository.findByEmail(email);
+        return findMembers.stream().map(MemberEntity::toMember).collect(Collectors.toList());
     }
 }

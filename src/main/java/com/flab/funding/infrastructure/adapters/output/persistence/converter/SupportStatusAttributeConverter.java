@@ -13,6 +13,6 @@ public class SupportStatusAttributeConverter implements AttributeConverter<Suppo
 
     @Override
     public SupportStatus convertToEntityAttribute(String dbData) {
-        return SupportStatus.valueOf(dbData);
+        return SupportStatus.valueOfCode(dbData);
     }
 }

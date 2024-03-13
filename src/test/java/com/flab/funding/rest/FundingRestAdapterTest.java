@@ -1,4 +1,4 @@
-package com.flab.funding.funding;
+package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.FundingCategory;

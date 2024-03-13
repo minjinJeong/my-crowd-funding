@@ -11,4 +11,12 @@ public enum FundingItemOptionType {
     MULTIPLE_CHOICE("20");
 
     private final String code;
+
+    public static FundingItemOptionType valueOfCode(String code) {
+        for (FundingItemOptionType fundingItemOptionType : values()) {
+            if (fundingItemOptionType.getCode().equalsIgnoreCase(code))
+                return fundingItemOptionType;
+        }
+        throw new IllegalArgumentException();
+    }
 }

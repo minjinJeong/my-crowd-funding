@@ -25,7 +25,6 @@ public class FundingCreatorEntity {
     private FundingEntity funding;
 
     @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isValid;
 
     private String businessNumber;

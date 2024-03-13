@@ -13,6 +13,6 @@ public class FundingItemOptionAttributeConverter implements AttributeConverter<F
 
     @Override
     public FundingItemOptionType convertToEntityAttribute(String dbData) {
-        return FundingItemOptionType.valueOf(dbData);
+        return FundingItemOptionType.valueOfCode(dbData);
     }
 }

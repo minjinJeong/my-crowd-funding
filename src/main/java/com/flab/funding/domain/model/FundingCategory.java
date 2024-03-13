@@ -23,4 +23,12 @@ public enum FundingCategory {
     VIDEO("19");
 
     private final String code;
+
+    public static FundingCategory valueOfCode(String code) {
+        for (FundingCategory fundingCategory : values()) {
+            if (fundingCategory.getCode().equalsIgnoreCase(code))
+                return fundingCategory;
+        }
+        throw new IllegalArgumentException();
+    }
 }

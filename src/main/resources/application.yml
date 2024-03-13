@@ -1,9 +1,17 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/h2
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/funding?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: sa
+    password:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
