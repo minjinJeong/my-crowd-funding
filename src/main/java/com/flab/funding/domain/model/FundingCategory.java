@@ -24,7 +24,7 @@ public enum FundingCategory {
 
     private final String code;
 
-    public static FundingCategory valueOfLabel(String code) {
+    public static FundingCategory valueOfCode(String code) {
         for (FundingCategory fundingCategory : values()) {
             if (fundingCategory.getCode().equalsIgnoreCase(code))
                 return fundingCategory;

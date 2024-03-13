@@ -33,12 +33,12 @@ public class DeliveryAddress {
 
     public DeliveryAddress register(Member member) {
         this.member = member;
-        makeKey();
+        this.deliveryAddressKey = makeKey();
         return this;
     }
 
     // TODO key 생성 로직 수정
-    private void makeKey() {
-        this.deliveryAddressKey = UUID.randomUUID().toString();
+    private String makeKey() {
+        return UUID.randomUUID().toString();
     }
 }

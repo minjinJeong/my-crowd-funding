@@ -12,7 +12,7 @@ public enum SupportStatus {
 
     private final String code;
 
-    public static SupportStatus valueOfLabel(String code) {
+    public static SupportStatus valueOfCode(String code) {
         for (SupportStatus supportStatus : values()) {
             if (supportStatus.getCode().equalsIgnoreCase(code))
                 return supportStatus;

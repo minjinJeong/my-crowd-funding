@@ -13,6 +13,6 @@ public class SupportDeliveryStatusAttributeConverter implements AttributeConvert
 
     @Override
     public SupportDeliveryStatus convertToEntityAttribute(String dbData) {
-        return SupportDeliveryStatus.valueOfLabel(dbData);
+        return SupportDeliveryStatus.valueOfCode(dbData);
     }
 }

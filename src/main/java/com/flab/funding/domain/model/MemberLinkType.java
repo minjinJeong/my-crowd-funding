@@ -12,7 +12,7 @@ public enum MemberLinkType {
 
     private final String code;
 
-    public static MemberLinkType valueOfLabel(String code) {
+    public static MemberLinkType valueOfCode(String code) {
         for (MemberLinkType memberLinkType : values()) {
             if (memberLinkType.getCode().equalsIgnoreCase(code))
                 return memberLinkType;

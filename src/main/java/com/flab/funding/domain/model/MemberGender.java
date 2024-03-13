@@ -11,7 +11,7 @@ public enum MemberGender {
 
     private final String gender;
 
-    public static MemberGender valueOfLabel(String gender) {
+    public static MemberGender valueOfGender(String gender) {
         for (MemberGender memberGender : values()) {
             if (memberGender.getGender().equalsIgnoreCase(gender))
                 return memberGender;

@@ -13,7 +13,7 @@ public enum BankCode {
 
     private final String code;
 
-    public static BankCode valueOfLabel(String code) {
+    public static BankCode valueOfCode(String code) {
         for (BankCode bankCode : values()) {
             if (bankCode.getCode().equalsIgnoreCase(code))
                 return bankCode;

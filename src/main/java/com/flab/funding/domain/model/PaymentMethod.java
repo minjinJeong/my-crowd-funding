@@ -25,12 +25,12 @@ public class PaymentMethod {
 
     public PaymentMethod register(Member member) {
         this.member = member;
-        makeKey();
+        this.paymentMethodKey = makeKey();
         return this;
     }
 
     // TODO key 생성 로직 수정
-    private void makeKey() {
-        this.paymentMethodKey = UUID.randomUUID().toString();
+    private String makeKey() {
+        return UUID.randomUUID().toString();
     }
 }

@@ -12,7 +12,7 @@ public enum FundingItemOptionType {
 
     private final String code;
 
-    public static FundingItemOptionType valueOfLabel(String code) {
+    public static FundingItemOptionType valueOfCode(String code) {
         for (FundingItemOptionType fundingItemOptionType : values()) {
             if (fundingItemOptionType.getCode().equalsIgnoreCase(code))
                 return fundingItemOptionType;

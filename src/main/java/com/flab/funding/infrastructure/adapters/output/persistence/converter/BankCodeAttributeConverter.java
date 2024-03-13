@@ -13,6 +13,6 @@ public class BankCodeAttributeConverter implements AttributeConverter<BankCode, 
 
     @Override
     public BankCode convertToEntityAttribute(String dbData) {
-        return BankCode.valueOfLabel(dbData);
+        return BankCode.valueOfCode(dbData);
     }
 }

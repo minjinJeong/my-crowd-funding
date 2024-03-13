@@ -13,7 +13,7 @@ public enum MemberStatus {
 
     private final String code;
 
-    public static MemberStatus valueOfLabel(String code) {
+    public static MemberStatus valueOfCode(String code) {
         for (MemberStatus memberStatus : values()) {
             if (memberStatus.getCode().equalsIgnoreCase(code))
                 return memberStatus;

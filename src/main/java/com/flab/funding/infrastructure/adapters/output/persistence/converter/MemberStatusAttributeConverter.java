@@ -13,6 +13,6 @@ public class MemberStatusAttributeConverter implements AttributeConverter<Member
 
     @Override
     public MemberStatus convertToEntityAttribute(String dbData) {
-        return MemberStatus.valueOfLabel(dbData);
+        return MemberStatus.valueOfCode(dbData);
     }
 }

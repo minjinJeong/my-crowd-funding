@@ -14,7 +14,7 @@ public enum SupportPaymentStatus {
 
     private final String code;
 
-    public static SupportPaymentStatus valueOfLabel(String code) {
+    public static SupportPaymentStatus valueOfCode(String code) {
         for (SupportPaymentStatus supportPaymentStatus : values()) {
             if (supportPaymentStatus.getCode().equalsIgnoreCase(code))
                 return supportPaymentStatus;

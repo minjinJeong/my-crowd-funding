@@ -27,13 +27,13 @@ public class Member {
 
     public Member activate() {
         this.status = MemberStatus.ACTIVATE;
-        makeKey();
+        this.userKey = makeKey();
         return this;
     }
 
     // TODO key 생성 로직 수정
-    private void makeKey() {
-        this.userKey = UUID.randomUUID().toString();
+    private String makeKey() {
+        return UUID.randomUUID().toString();
     }
 
     public Member deactivate() {

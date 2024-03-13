@@ -13,6 +13,6 @@ public class FundingCategoryAttributeConverter implements AttributeConverter<Fun
 
     @Override
     public FundingCategory convertToEntityAttribute(String dbData) {
-        return FundingCategory.valueOfLabel(dbData);
+        return FundingCategory.valueOfCode(dbData);
     }
 }

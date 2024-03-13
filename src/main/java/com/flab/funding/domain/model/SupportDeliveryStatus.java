@@ -15,7 +15,7 @@ public enum SupportDeliveryStatus {
 
     private final String code;
 
-    public static SupportDeliveryStatus valueOfLabel(String code) {
+    public static SupportDeliveryStatus valueOfCode(String code) {
         for (SupportDeliveryStatus supportDeliveryStatus : values()) {
             if (supportDeliveryStatus.getCode().equalsIgnoreCase(code))
                 return supportDeliveryStatus;

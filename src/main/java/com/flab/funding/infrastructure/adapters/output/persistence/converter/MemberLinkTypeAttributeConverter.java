@@ -13,6 +13,6 @@ public class MemberLinkTypeAttributeConverter implements AttributeConverter<Memb
 
     @Override
     public MemberLinkType convertToEntityAttribute(String dbData) {
-        return MemberLinkType.valueOfLabel(dbData);
+        return MemberLinkType.valueOfCode(dbData);
     }
 }

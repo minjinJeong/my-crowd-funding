@@ -16,7 +16,7 @@ public enum FundingStatus {
 
     private final String code;
 
-    public static FundingStatus valueOfLabel(String code) {
+    public static FundingStatus valueOfCode(String code) {
         for (FundingStatus fundingStatus : values()) {
             if (fundingStatus.getCode().equalsIgnoreCase(code))
                 return fundingStatus;
