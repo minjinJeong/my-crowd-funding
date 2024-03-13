@@ -8,7 +8,7 @@ import jakarta.persistence.Converter;
 public class MemberLinkTypeAttributeConverter implements AttributeConverter<MemberLinkType, String> {
     @Override
     public String convertToDatabaseColumn(MemberLinkType attribute) {
-        return attribute.getLinkType();
+        return attribute.getCode();
     }
 
     @Override

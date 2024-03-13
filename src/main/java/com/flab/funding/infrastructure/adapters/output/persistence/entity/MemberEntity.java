@@ -30,6 +30,7 @@ public class MemberEntity {
     private String userKey;
 
     @Convert(converter = MemberStatusAttributeConverter.class)
+    @Column(name = "status_code")
     private MemberStatus status;
 
     @Convert(converter = MemberLinkTypeAttributeConverter.class)
@@ -41,7 +42,7 @@ public class MemberEntity {
 
     private String nickName;
 
-    private String phoneNum;
+    private String phoneNumber;
 
     @Convert(converter = GenderAttributeConverter.class)
     private MemberGender gender;

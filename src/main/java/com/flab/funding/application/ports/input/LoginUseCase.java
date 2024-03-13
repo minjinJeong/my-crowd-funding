@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface LoginUseCase {
     Member getMemberByUserKey(String userKey);
+
+    Member login(Member member);
 }

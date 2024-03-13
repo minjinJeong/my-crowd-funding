@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,7 +26,10 @@ import java.time.LocalDate;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
@@ -56,7 +60,7 @@ public class MemberRestAdapterTest {
                 .email("Test@gmail.com")
                 .userName("홍길순")
                 .nickName("테스터")
-                .phoneNum("010-1111-2222")
+                .phoneNumber("010-1111-2222")
                 .gender(MemberGender.FEMALE)
                 .birthday(LocalDate.of(1998,1,30))
                 .password("")
@@ -75,7 +79,7 @@ public class MemberRestAdapterTest {
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("userName").description("이름"),
                                 fieldWithPath("nickName").description("닉네임"),
-                                fieldWithPath("phoneNum").description("핸드폰 번호"),
+                                fieldWithPath("phoneNumber").description("핸드폰 번호"),
                                 fieldWithPath("gender").description("성별"),
                                 fieldWithPath("birthday").description("생년월일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -114,7 +118,7 @@ public class MemberRestAdapterTest {
                                 fieldWithPath("status").description("회원상태"),
                                 fieldWithPath("nickName").description("닉네임"),
                                 fieldWithPath("email").description("이메일"),
-                                fieldWithPath("phoneNum").description("핸드폰 번호"),
+                                fieldWithPath("phoneNumber").description("핸드폰 번호"),
                                 fieldWithPath("linkType").description("계정연동"),
                                 fieldWithPath("lastLoginAt").description("최근 로그인 일자")
                         )));
@@ -130,20 +134,19 @@ public class MemberRestAdapterTest {
         //when
 
         //then
-        this.mockMvc.perform(get("/members/{userKey}", request.getUserKey())
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{userKey}"
+                                , request.getUserKey()))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
-                        requestFields(
-                                fieldWithPath("userKey").description("회원번호(외부용)")
+                        pathParameters(
+                                parameterWithName("userKey").description("회원번호(외부용)")
                         ),
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),
                                 fieldWithPath("status").description("회원상태"),
                                 fieldWithPath("nickName").description("닉네임"),
                                 fieldWithPath("email").description("이메일"),
-                                fieldWithPath("phoneNum").description("핸드폰 번호"),
+                                fieldWithPath("phoneNumber").description("핸드폰 번호"),
                                 fieldWithPath("linkType").description("계정연동"),
                                 fieldWithPath("lastLoginAt").description("최근 로그인 일자")
                         )));

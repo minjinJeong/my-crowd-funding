@@ -8,12 +8,8 @@
 :sectnums:
 :docinfo: shared-head
 
-== 회원
-=== 회원가입
-operation::member-service-test/register-member[snippets='http-request,http-response,request-fields,response-fields']
+include::{docdir}/src/docs/asciidoc/member.adoc[]
 
-=== 회원탈퇴
-operation::member-service-test/deregister-member[snippets='http-request,http-response,request-fields,response-fields']
+include::{docdir}/src/docs/asciidoc/funding.adoc[]
 
-=== 회원 정보 조회
-operation::member-service-test/get-member[snippets='http-request,http-response,request-fields,response-fields']
+include::{docdir}/src/docs/asciidoc/support.adoc[]
