@@ -33,7 +33,7 @@ public class MemberDeliveryAddressServiceTest {
 
     @BeforeEach
     void setUp() {
-        Member savedMember = memberService.registMember(getMember());
+        Member savedMember = memberService.registerMember(getMember());
         userKey = savedMember.getUserKey();
     }
 
@@ -57,7 +57,7 @@ public class MemberDeliveryAddressServiceTest {
 
         //when
         DeliveryAddress savedDeliveryAddress =
-                memberDeliveryAddressService.registDeliveryAddress(deliveryAddress);
+                memberDeliveryAddressService.registerDeliveryAddress(deliveryAddress);
 
         DeliveryAddress findDeliveryAddress =
                 memberDeliveryAddressService.getDeliveryAddressByDeliveryAddressKey(savedDeliveryAddress.getDeliveryAddressKey());

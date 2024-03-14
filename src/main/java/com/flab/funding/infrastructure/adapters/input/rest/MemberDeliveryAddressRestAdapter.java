@@ -18,8 +18,8 @@ public class MemberDeliveryAddressRestAdapter {
 
     @PostMapping("/deliveryAddresses")
     @ResponseBody
-    public MemberDeliveryAddressRegisterResponse registMemberDeliveryAddress(@RequestBody MemberDeliveryAddressRegisterRequest request) {
-        DeliveryAddress deliveryAddress = registerDeliveryAddressUseCase.registDeliveryAddress(request.toDeliveryAddress());
+    public MemberDeliveryAddressRegisterResponse registerMemberDeliveryAddress(@RequestBody MemberDeliveryAddressRegisterRequest request) {
+        DeliveryAddress deliveryAddress = registerDeliveryAddressUseCase.registerDeliveryAddress(request.toDeliveryAddress());
         return MemberDeliveryAddressRegisterResponse.from(deliveryAddress);
     }
 

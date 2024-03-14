@@ -18,7 +18,7 @@ public class MemberPaymentMethodService implements RegisterPaymentMethodUseCase 
 
     @Override
     @Transactional
-    public PaymentMethod registPaymentMethod(PaymentMethod paymentMethod) {
+    public PaymentMethod registerPaymentMethod(PaymentMethod paymentMethod) {
         Member member =
                 memberPort.getMemberByUserKey(paymentMethod.getMember().getUserKey());
 

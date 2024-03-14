@@ -34,8 +34,8 @@ public class Funding {
     private LocalDateTime updatedAt;
     private String updatedBy;
 
-    public Funding regist() {
-        this.status = FundingStatus.REGIST;
+    public Funding register() {
+        this.status = FundingStatus.REGISTER;
         return this;
     }
 

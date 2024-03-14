@@ -25,15 +25,15 @@ public class FundingRestAdapter {
 
     @PostMapping("/funding")
     @ResponseBody
-    public FundingRegisterResponse registFunding(@RequestBody FundingRegisterRequest request) {
-        Funding funding = registerFundingUseCase.registFunding(request.toFunding());
+    public FundingRegisterResponse registerFunding(@RequestBody FundingRegisterRequest request) {
+        Funding funding = registerFundingUseCase.registerFunding(request.toFunding());
         return FundingRegisterResponse.from(funding);
     }
 
     @PostMapping("/funding/creators")
     @ResponseBody
-    public FundingCreatorInfoResponse registFundingCreator(@RequestBody FundingCreatorRegisterRequest request) {
-        FundingCreator fundingCreator = registerFundingUseCase.registFundingCreator(request.toFundingCreator());
+    public FundingCreatorInfoResponse registerFundingCreator(@RequestBody FundingCreatorRegisterRequest request) {
+        FundingCreator fundingCreator = registerFundingUseCase.registerFundingCreator(request.toFundingCreator());
         return FundingCreatorInfoResponse.from(fundingCreator);
     }
 

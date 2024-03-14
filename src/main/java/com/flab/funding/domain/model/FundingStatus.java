@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum FundingStatus {
 
-    REGIST("00"),
+    REGISTER("00"),
     REVIEW_WAIT("10"),
     OPEN_WAIT("20"),
     PROGRESS("30"),

@@ -23,14 +23,14 @@ public class MemberRestAdapter {
     @PostMapping("/members")
     @ResponseBody
     public MemberRegisterResponse createMember(@RequestBody @Valid MemberRegisterRequest request) {
-        Member member = registerMemberUseCase.registMember(request.toMember());
+        Member member = registerMemberUseCase.registerMember(request.toMember());
         return MemberRegisterResponse.from(member);
     }
 
     @DeleteMapping("/members")
     @ResponseBody
     public MemberInfoResponse deleteMember(@RequestBody MemberInfoRequest request) {
-        Member member = deregisterMemberUseCase.deregistMember(request.toMember());
+        Member member = deregisterMemberUseCase.deregisterMember(request.toMember());
         return MemberInfoResponse.from(member);
     }
 

@@ -18,7 +18,7 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
     private final SupportPort supportPort;
 
     @Override
-    public Support registSupport(Support support) {
+    public Support registerSupport(Support support) {
         return supportPort.saveSupport(support);
     }
 

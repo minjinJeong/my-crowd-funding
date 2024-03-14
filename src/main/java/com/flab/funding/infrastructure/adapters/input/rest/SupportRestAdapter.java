@@ -22,7 +22,7 @@ public class SupportRestAdapter {
     @PostMapping("/supports")
     @ResponseBody
     public SupportRegisterResponse createSupport(@RequestBody SupportRegisterRequest request) {
-        Support support = registerSupportUseCase.registSupport(request.toSupport());
+        Support support = registerSupportUseCase.registerSupport(request.toSupport());
         return SupportRegisterResponse.from(support);
     }
 

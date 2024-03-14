@@ -18,7 +18,7 @@ public class MemberDeliveryAddressService implements RegisterDeliveryAddressUseC
 
     @Override
     @Transactional
-    public DeliveryAddress registDeliveryAddress(DeliveryAddress deliveryAddress) {
+    public DeliveryAddress registerDeliveryAddress(DeliveryAddress deliveryAddress) {
         Member member =
                 memberPort.getMemberByUserKey(deliveryAddress.getMember().getUserKey());
 

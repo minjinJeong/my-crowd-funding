@@ -32,7 +32,7 @@ public class MemberServiceTest {
         Member member = getMember();
 
         //when
-        Member savedMember = memberService.registMember(member);
+        Member savedMember = memberService.registerMember(member);
         Member findMember = memberService.getMemberByUserKey(savedMember.getUserKey());
 
         //then
@@ -68,19 +68,19 @@ public class MemberServiceTest {
         Member member = getMember();
         
         //when
-        memberService.registMember(member);
+        memberService.registerMember(member);
 
         //then
-        assertThrows(DuplicateMemberException.class, () -> memberService.registMember(member));
+        assertThrows(DuplicateMemberException.class, () -> memberService.registerMember(member));
     }
 
     @Test
     public void 회원탈퇴() throws Exception {
         //given
-        Member member = memberService.registMember(getMember());
+        Member member = memberService.registerMember(getMember());
 
         //when
-        Member deregistMember = memberService.deregistMember(member);
+        Member deregistMember = memberService.deregisterMember(member);
         Member findMember = memberService.getMemberByUserKey(deregistMember.getUserKey());
 
         //then

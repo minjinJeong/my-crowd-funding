@@ -7,9 +7,9 @@ import com.flab.funding.domain.model.FundingReward;
 
 public interface RegisterFundingUseCase {
 
-    Funding registFunding(Funding funding);
+    Funding registerFunding(Funding funding);
 
-    FundingCreator registFundingCreator(FundingCreator fundingCreator);
+    FundingCreator registerFundingCreator(FundingCreator fundingCreator);
 
     FundingItem makeFundingItem(FundingItem fundingItem);
 

@@ -18,8 +18,8 @@ public class MemberPaymentMethodRestAdapter {
 
     @PostMapping("/paymentMethods")
     @ResponseBody
-    public MemberPaymentMethodRegisterResponse registMemberPaymentMethod(@RequestBody MemberPaymentMethodRegisterRequest request) {
-        PaymentMethod paymentMethod = registerPaymentMethodUseCase.registPaymentMethod(request.toPaymentMethod());
+    public MemberPaymentMethodRegisterResponse registerMemberPaymentMethod(@RequestBody MemberPaymentMethodRegisterRequest request) {
+        PaymentMethod paymentMethod = registerPaymentMethodUseCase.registerPaymentMethod(request.toPaymentMethod());
         return MemberPaymentMethodRegisterResponse.from(paymentMethod);
     }
 }

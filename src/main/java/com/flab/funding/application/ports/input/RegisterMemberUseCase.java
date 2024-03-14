@@ -4,5 +4,5 @@ import com.flab.funding.domain.model.Member;
 
 public interface RegisterMemberUseCase {
 
-    Member registMember(Member member);
+    Member registerMember(Member member);
 }

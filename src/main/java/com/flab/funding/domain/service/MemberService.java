@@ -20,7 +20,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
 
     @Override
     @Transactional
-    public Member registMember(Member member) {
+    public Member registerMember(Member member) {
         validateDuplicateMember(member);
         return memberPort.saveMember(member.activate());
     }
@@ -34,7 +34,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
 
     @Override
     @Transactional
-    public Member deregistMember(Member member) {
+    public Member deregisterMember(Member member) {
         Member findmember = memberPort.getMemberByUserKey(member.getUserKey());
         return memberPort.saveMember(findmember.deactivate());
     }
