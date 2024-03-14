@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SupportPaymentStatus {
+
     READY("00"),
     PROCESSING("10"),
     SUCCESS("20"),

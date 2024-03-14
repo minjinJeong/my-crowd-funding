@@ -6,6 +6,7 @@ import jakarta.persistence.Converter;
 
 @Converter
 public class FundingCategoryAttributeConverter implements AttributeConverter<FundingCategory, String> {
+
     @Override
     public String convertToDatabaseColumn(FundingCategory attribute) {
         return attribute.getCode();

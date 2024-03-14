@@ -19,18 +19,16 @@ import java.time.LocalDate;
 @Getter
 public class MemberRegisterRequest {
 
-    private MemberLinkType linkType;
-
     @NotEmpty
     @Email
     private String email;
-
+    private String password;
     private String userName;
     private String nickName;
     private String phoneNumber;
     private MemberGender gender;
     private LocalDate birthday;
-    private String password;
+    private MemberLinkType linkType;
 
     public Member toMember() {
         return MemberMapper.INSTANCE.toMember(this);

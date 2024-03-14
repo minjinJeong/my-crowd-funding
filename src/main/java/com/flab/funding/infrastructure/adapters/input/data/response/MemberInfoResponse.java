@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class MemberInfoResponse {
+
     private String userKey;
     private MemberStatus status;
     private String nickName;

@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 public class FundingItem {
+
     private Long id;
     private Long fundingId;
     private String fundingKey;

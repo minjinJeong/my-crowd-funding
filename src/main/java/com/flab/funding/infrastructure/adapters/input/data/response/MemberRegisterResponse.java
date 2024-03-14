@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class MemberRegisterResponse {
+
     private String userKey;
     private MemberStatus status;
 

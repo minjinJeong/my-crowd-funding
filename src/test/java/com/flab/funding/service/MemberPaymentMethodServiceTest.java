@@ -33,7 +33,7 @@ public class MemberPaymentMethodServiceTest {
 
     @BeforeEach
     void setUp() {
-        Member savedMember = memberService.registMember(getMember());
+        Member savedMember = memberService.registerMember(getMember());
         userKey = savedMember.getUserKey();
     }
 
@@ -56,7 +56,7 @@ public class MemberPaymentMethodServiceTest {
         PaymentMethod paymentMethod = getPaymentMethod();
 
         //when
-        PaymentMethod savedPaymentMethod = memberPaymentMethodService.registPaymentMethod(paymentMethod);
+        PaymentMethod savedPaymentMethod = memberPaymentMethodService.registerPaymentMethod(paymentMethod);
         PaymentMethod findPaymentMethod =
                 memberPaymentMethodService.getPaymentMethodByPaymentMethodKey(savedPaymentMethod.getPaymentMethodKey());
 

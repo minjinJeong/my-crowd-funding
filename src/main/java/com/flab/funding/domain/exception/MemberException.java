@@ -1,6 +1,7 @@
 package com.flab.funding.domain.exception;
 
 public class MemberException extends RuntimeException {
+
     private String code;
     private String message;
 

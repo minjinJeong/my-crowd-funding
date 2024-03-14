@@ -6,10 +6,16 @@ import com.flab.funding.domain.model.FundingItem;
 import com.flab.funding.domain.model.FundingReward;
 
 public interface FundingPort {
+
     Funding getFundingByFundingKey(String fundingKey);
+
     Funding saveFunding(Funding funding);
+
     FundingCreator saveFundingCreator(FundingCreator fundingCreator);
+
     FundingItem saveFundingItem(FundingItem fundingItem);
+
     FundingReward saveFundingReward(FundingReward fundingReward);
+
 }
 

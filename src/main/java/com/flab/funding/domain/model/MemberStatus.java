@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MemberStatus {
+
     ACTIVATE("10"),
     SUSPENDED("20"),
     DORMANT("30"),

@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FundingCategory {
+
     BOARD_GAME("01"),
     DIGITAL_GAME("02"),
     WEBTOON("03"),

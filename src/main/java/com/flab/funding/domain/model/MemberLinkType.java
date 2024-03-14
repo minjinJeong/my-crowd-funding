@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MemberLinkType {
+
     NONE("00"),
     GOOGLE("01"),
     NAVER("02");

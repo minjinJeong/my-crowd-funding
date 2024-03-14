@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum BankCode {
+
     KOREA("001"),
     KOOKMIN("004"),
     WOORI("020"),

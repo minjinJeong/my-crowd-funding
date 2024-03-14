@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class MemberPaymentMethodRestAdapter {
+
     private final RegisterPaymentMethodUseCase registerPaymentMethodUseCase;
 
     @PostMapping("/paymentMethods")
     @ResponseBody
-    public MemberPaymentMethodRegisterResponse registMemberPaymentMethod(@RequestBody MemberPaymentMethodRegisterRequest request) {
-        PaymentMethod paymentMethod = registerPaymentMethodUseCase.registPaymentMethod(request.toPaymentMethod());
+    public MemberPaymentMethodRegisterResponse registerMemberPaymentMethod(@RequestBody MemberPaymentMethodRegisterRequest request) {
+        PaymentMethod paymentMethod = registerPaymentMethodUseCase.registerPaymentMethod(request.toPaymentMethod());
         return MemberPaymentMethodRegisterResponse.from(paymentMethod);
     }
 }

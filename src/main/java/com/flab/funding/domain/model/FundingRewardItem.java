@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class FundingRewardItem {
+
     private Long id;
     private Long fundingId;
     private Long fundingRewardId;

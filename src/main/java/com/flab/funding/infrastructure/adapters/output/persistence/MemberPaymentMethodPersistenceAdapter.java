@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class MemberPaymentMethodPersistenceAdapter implements MemberPaymentMethodPort {
+
     private final MemberPaymentMethodRepository memberPaymentMethodRepository;
 
     @Override

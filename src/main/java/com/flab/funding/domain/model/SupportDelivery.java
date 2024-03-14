@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class SupportDelivery {
+
     private Long id;
     private Long supportId;
     private String supportKey;

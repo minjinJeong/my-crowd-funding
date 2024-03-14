@@ -14,12 +14,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberPaymentMethodService implements RegisterPaymentMethodUseCase {
 
     private final MemberPaymentMethodPort paymentMethodPort;
-
     private final MemberPort memberPort;
 
     @Override
     @Transactional
-    public PaymentMethod registPaymentMethod(PaymentMethod paymentMethod) {
+    public PaymentMethod registerPaymentMethod(PaymentMethod paymentMethod) {
         Member member =
                 memberPort.getMemberByUserKey(paymentMethod.getMember().getUserKey());
 

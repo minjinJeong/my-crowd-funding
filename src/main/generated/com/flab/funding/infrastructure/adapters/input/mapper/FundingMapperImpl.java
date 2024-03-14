@@ -11,7 +11,7 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemOp
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardItemRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewarderRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingTagRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingCreatorInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.FundingInfoResponse;

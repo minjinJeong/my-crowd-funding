@@ -14,12 +14,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberDeliveryAddressService implements RegisterDeliveryAddressUseCase {
 
     private final MemberDeliveryAddressPort deliveryAddressPort;
-
     private final MemberPort memberPort;
 
     @Override
     @Transactional
-    public DeliveryAddress registDeliveryAddress(DeliveryAddress deliveryAddress) {
+    public DeliveryAddress registerDeliveryAddress(DeliveryAddress deliveryAddress) {
         Member member =
                 memberPort.getMemberByUserKey(deliveryAddress.getMember().getUserKey());
 
