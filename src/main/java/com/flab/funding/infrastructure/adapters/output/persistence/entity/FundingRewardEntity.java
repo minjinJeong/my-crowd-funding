@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Table(name = "funding_reward")
 public class FundingRewardEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funding_reward_id")

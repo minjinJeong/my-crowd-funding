@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class MemberDeliveryAddressRestAdapter {
+
     private final RegisterDeliveryAddressUseCase registerDeliveryAddressUseCase;
 
     @PostMapping("/deliveryAddresses")

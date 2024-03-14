@@ -15,6 +15,7 @@ import java.util.List;
 @UseCase
 @RequiredArgsConstructor
 public class MemberService implements RegisterMemberUseCase, DeregisterMemberUseCase, LoginUseCase {
+
     private final MemberPort memberPort;
 
     @Override

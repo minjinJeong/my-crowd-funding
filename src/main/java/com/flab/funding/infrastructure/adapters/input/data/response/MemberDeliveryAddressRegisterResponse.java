@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class MemberDeliveryAddressRegisterResponse {
+
     private String deliveryAddressKey;
     private String userKey;
     private boolean isDefault;

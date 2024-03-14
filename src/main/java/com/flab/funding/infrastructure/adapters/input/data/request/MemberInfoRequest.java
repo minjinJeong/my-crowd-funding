@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class MemberInfoRequest {
+
     private String userKey;
 
     public Member toMember() {

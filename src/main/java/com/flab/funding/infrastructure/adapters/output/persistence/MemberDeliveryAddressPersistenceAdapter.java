@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class MemberDeliveryAddressPersistenceAdapter implements MemberDeliveryAddressPort {
+
     private final MemberDeliveryAddressRepository memberDeliveryAddressRepository;
 
     @Override

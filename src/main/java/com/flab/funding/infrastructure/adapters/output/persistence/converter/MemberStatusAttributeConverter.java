@@ -6,6 +6,7 @@ import jakarta.persistence.Converter;
 
 @Converter
 public class MemberStatusAttributeConverter implements AttributeConverter<MemberStatus, String> {
+
     @Override
     public String convertToDatabaseColumn(MemberStatus attribute) {
         return attribute.getCode();

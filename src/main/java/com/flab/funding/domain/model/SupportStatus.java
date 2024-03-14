@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SupportStatus {
+
     RESERVATION("10"),
     SUCCESS("20"),
     FAILURE("30");

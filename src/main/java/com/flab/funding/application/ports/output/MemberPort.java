@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberPort {
+
     Member saveMember(Member member);
+
     Member getMemberByUserKey(String userKey);
+
     List<Member> getMemberByEmail(String email);
+
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FundingItemOptionType {
+
     NONE("00"),
     SHORT_ANSWER("10"),
     MULTIPLE_CHOICE("20");

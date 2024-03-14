@@ -10,6 +10,7 @@ import java.util.UUID;
 @Builder
 @Getter
 public class Member {
+
     private Long id;
     private String userKey;
     private MemberStatus status;

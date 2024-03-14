@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberDeliveryAddressService implements RegisterDeliveryAddressUseCase {
 
     private final MemberDeliveryAddressPort deliveryAddressPort;
-
     private final MemberPort memberPort;
 
     @Override

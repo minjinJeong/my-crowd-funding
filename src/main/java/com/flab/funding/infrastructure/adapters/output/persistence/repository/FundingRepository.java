@@ -8,9 +8,14 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Fundin
 import java.util.Optional;
 
 public interface FundingRepository {
+
     FundingEntity save(FundingEntity fundingEntity);
+
     FundingCreatorEntity save(FundingCreatorEntity fundingCreatorEntity);
+
     FundingItemEntity save(FundingItemEntity fundingItemEntity);
+
     FundingRewardEntity save(FundingRewardEntity fundingRewardEntity);
+
     Optional<FundingEntity> findByFundingKey(String fundingKey);
 }

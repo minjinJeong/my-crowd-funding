@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class SupportPayment {
+
     private Long id;
     private Long supportId;
     private Long memberPaymentMethodId;

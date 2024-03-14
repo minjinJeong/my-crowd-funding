@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberPaymentMethodService implements RegisterPaymentMethodUseCase {
 
     private final MemberPaymentMethodPort paymentMethodPort;
-
     private final MemberPort memberPort;
 
     @Override

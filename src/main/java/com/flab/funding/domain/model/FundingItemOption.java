@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class FundingItemOption {
+
     private Long id;
     private Long fundingItemId;
     private String option;

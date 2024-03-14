@@ -6,6 +6,7 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Suppor
 import java.util.Optional;
 
 public interface SupportRepository {
+
     SupportEntity save(SupportEntity support);
 
     Optional<SupportEntity> getSupportBySupportKey(String supportKey);

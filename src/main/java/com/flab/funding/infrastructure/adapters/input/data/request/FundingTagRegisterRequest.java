@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class FundingTagRegisterRequest {
+
     private String tag;
 }

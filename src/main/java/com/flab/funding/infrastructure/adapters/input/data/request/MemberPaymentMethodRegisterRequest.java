@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class MemberPaymentMethodRegisterRequest {
+
     private String userKey;
     private boolean isDefault;
     private String paymentNumber;

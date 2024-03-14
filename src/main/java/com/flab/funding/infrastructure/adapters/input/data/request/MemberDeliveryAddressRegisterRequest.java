@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class MemberDeliveryAddressRegisterRequest {
+
     private String userKey;
     private boolean isDefault;
     private String zipCode;

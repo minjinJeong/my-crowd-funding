@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class SupportPaymentRequest {
+
     private Long memberPaymentMethodId;
 }

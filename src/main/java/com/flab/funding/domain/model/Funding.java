@@ -1,7 +1,5 @@
 package com.flab.funding.domain.model;
 
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingTagEntity;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,9 +10,10 @@ import java.util.List;
 @Builder
 @Getter
 public class Funding {
+
     private Long id;
     private String fundingKey;
-    private MemberEntity member;
+    private Member member;
     private boolean isAdult;
     private String pricePlan;
     private FundingCategory category;
@@ -27,7 +26,7 @@ public class Funding {
     private String scheduleDescription;
     private String teamDescription;
     private String rewardDescription;
-    private List<FundingTagEntity> tags;
+    private List<FundingTag> tags;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;

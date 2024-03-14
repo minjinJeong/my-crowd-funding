@@ -6,6 +6,7 @@ import com.flab.funding.domain.model.FundingItem;
 import com.flab.funding.domain.model.FundingReward;
 
 public interface RegisterFundingUseCase {
+
     Funding registFunding(Funding funding);
 
     FundingCreator registFundingCreator(FundingCreator fundingCreator);
