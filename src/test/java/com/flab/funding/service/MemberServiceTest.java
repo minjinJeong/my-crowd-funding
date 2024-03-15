@@ -80,7 +80,7 @@ public class MemberServiceTest {
         Member member = memberService.registerMember(getMember());
 
         //when
-        Member deregistMember = memberService.deregisterMember(member);
+        Member deregistMember = memberService.deregisterMember(member.getUserKey());
         Member findMember = memberService.getMemberByUserKey(deregistMember.getUserKey());
 
         //then

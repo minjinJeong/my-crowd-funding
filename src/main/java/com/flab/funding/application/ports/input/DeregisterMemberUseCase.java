@@ -4,5 +4,5 @@ import com.flab.funding.domain.model.Member;
 
 public interface DeregisterMemberUseCase {
 
-    Member deregisterMember(Member member);
+    Member deregisterMember(String userKey);
 }

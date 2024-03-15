@@ -4,7 +4,6 @@ import com.flab.funding.application.ports.input.DeregisterMemberUseCase;
 import com.flab.funding.application.ports.input.LoginUseCase;
 import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
@@ -27,10 +26,10 @@ public class MemberRestAdapter {
         return MemberRegisterResponse.from(member);
     }
 
-    @DeleteMapping("/members")
+    @DeleteMapping("/members/{userKey}")
     @ResponseBody
-    public MemberInfoResponse deleteMember(@RequestBody MemberInfoRequest request) {
-        Member member = deregisterMemberUseCase.deregisterMember(request.toMember());
+    public MemberInfoResponse deleteMember(@PathVariable("userKey") String userKey) {
+        Member member = deregisterMemberUseCase.deregisterMember(userKey);
         return MemberInfoResponse.from(member);
     }
 
