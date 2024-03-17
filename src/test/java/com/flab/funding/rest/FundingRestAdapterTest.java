@@ -1,23 +1,20 @@
 package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flab.funding.domain.model.FundingCategory;
-import com.flab.funding.domain.model.FundingItemOptionType;
+import com.flab.funding.domain.model.*;
+import com.flab.funding.domain.service.FundingService;
 import com.flab.funding.infrastructure.adapters.input.data.request.*;
-import org.junit.jupiter.api.BeforeEach;
+import com.flab.funding.infrastructure.adapters.input.rest.FundingRestAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -25,18 +22,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(RestDocumentationExtension.class)
-@SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@WebMvcTest(FundingRestAdapter.class)
+@AutoConfigureRestDocs
 public class FundingRestAdapterTest {
 
     @Autowired
@@ -45,12 +44,8 @@ public class FundingRestAdapterTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-    }
+    @MockBean
+    private FundingService fundingService;
 
     @Test
     void registerFunding() throws Exception {
@@ -78,6 +73,14 @@ public class FundingRestAdapterTest {
                 .startAt(LocalDateTime.of(2024, 2, 1, 12, 0))
                 .endAt(LocalDateTime.of(2024, 2, 28, 12, 0))
                 .build();
+
+        Funding response = Funding.builder()
+                .fundingKey("FF-0001")
+                .status(FundingStatus.REGISTER)
+                .build();
+
+        given(fundingService.registerFunding(any(request.toFunding().getClass())))
+                .willReturn(response);
 
         // when
         // then
@@ -120,19 +123,23 @@ public class FundingRestAdapterTest {
     @Test
     public void waitForFundingReview() throws Exception {
         //given
-        FundingInfoRequest request = FundingInfoRequest.builder()
-                .fundingKey("1")
+        String request = "FF-0001";
+
+        Funding response = Funding.builder()
+                .fundingKey("FF-0001")
+                .status(FundingStatus.REVIEW_WAIT)
                 .build();
+
+        given(fundingService.waitForFundingReview(eq(request))).willReturn(response);
 
         //when
 
         //then
-        this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/funding/{fundingKey}/wait"
-                        , request.getFundingKey()))
+        this.mockMvc.perform(patch("/funding/{fundingKey}/wait", request))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         pathParameters(
-                              parameterWithName("fundingKey").description("펀딩번호(외부용)")
+                                parameterWithName("fundingKey").description("펀딩번호(외부용)")
                         ),
                         responseFields(
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
@@ -144,15 +151,19 @@ public class FundingRestAdapterTest {
     @Test
     public void completeFundingReview() throws Exception {
         //given
-        FundingInfoRequest request = FundingInfoRequest.builder()
-                .fundingKey("1")
+        String request = "FF-0001";
+
+        Funding response = Funding.builder()
+                .fundingKey("FF-0001")
+                .status(FundingStatus.OPEN_WAIT)
                 .build();
+
+        given(fundingService.completeFundingReview(eq(request))).willReturn(response);
 
         //when
 
         //then
-        this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/funding/{fundingKey}/complete"
-                        , request.getFundingKey()))
+        this.mockMvc.perform(patch("/funding/{fundingKey}/complete", request))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         pathParameters(
@@ -168,15 +179,19 @@ public class FundingRestAdapterTest {
     @Test
     public void cancelFunding() throws Exception {
         //given
-        FundingInfoRequest request = FundingInfoRequest.builder()
-                .fundingKey("1")
+        String request = "FF-0001";
+
+        Funding response = Funding.builder()
+                .fundingKey("FF-0001")
+                .status(FundingStatus.CANCEL)
                 .build();
+
+        given(fundingService.cancelFunding(eq(request))).willReturn(response);
 
         //when
 
         //then
-        this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/funding/{fundingKey}/cancel"
-                        , request.getFundingKey()))
+        this.mockMvc.perform(patch("/funding/{fundingKey}/cancel", request))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         pathParameters(
@@ -194,12 +209,23 @@ public class FundingRestAdapterTest {
 
         // given
         FundingCreatorRegisterRequest request = FundingCreatorRegisterRequest.builder()
-                .fundingKey("1")
+                .fundingKey("FF-0001")
                 .isValid(true)
                 .businessNumber("12345678")
                 .representative("홍길동")
                 .introduce("안녕하세요, 개인 사업자 홍길동입니다.")
                 .build();
+
+        FundingCreator response = FundingCreator.builder()
+                .fundingKey("FF-0001")
+                .isValid(true)
+                .businessNumber("12345678")
+                .representative("홍길동")
+                .introduce("안녕하세요, 개인 사업자 홍길동입니다.")
+                .build();
+
+        given(fundingService.registerFundingCreator(any(request.toFundingCreator().getClass())))
+                .willReturn(response);
 
         // when
         // then
@@ -229,18 +255,35 @@ public class FundingRestAdapterTest {
     void makeFundingItem() throws Exception {
 
         // given
-        List<FundingItemOptionRequest> itemOptions = new  ArrayList<>();
-        itemOptions.add(createItemOption("3mm"));
-        itemOptions.add(createItemOption("5mm"));
-        itemOptions.add(createItemOption("7mm"));
-        itemOptions.add(createItemOption("9mm"));
+        List<FundingItemOptionRequest> requestItemOptions = new  ArrayList<>();
+        requestItemOptions.add(createRequestItemOption("3mm"));
+        requestItemOptions.add(createRequestItemOption("5mm"));
+        requestItemOptions.add(createRequestItemOption("7mm"));
+        requestItemOptions.add(createRequestItemOption("9mm"));
 
         FundingItemRegisterRequest request = FundingItemRegisterRequest.builder()
-                .fundingKey("1")
+                .fundingKey("FF-0001")
                 .itemName("은 귀걸이")
                 .optionType(FundingItemOptionType.NONE)
-                .fundingItemOptions(itemOptions)
+                .fundingItemOptions(requestItemOptions)
                 .build();
+
+        List<FundingItemOption> responseItemOptions = new ArrayList<>();
+        responseItemOptions.add(createResponseItemOption("3mm"));
+        responseItemOptions.add(createResponseItemOption("5mm"));
+        responseItemOptions.add(createResponseItemOption("7mm"));
+        responseItemOptions.add(createResponseItemOption("9mm"));
+
+
+        FundingItem response = FundingItem.builder()
+                .fundingKey("FF-0001")
+                .itemName("은 귀걸이")
+                .optionType(FundingItemOptionType.NONE)
+                .fundingItemOptions(responseItemOptions)
+                .build();
+
+        given(fundingService.makeFundingItem(any(request.toFundingItem().getClass())))
+                .willReturn(response);
 
         // when
         // then
@@ -266,31 +309,54 @@ public class FundingRestAdapterTest {
                         )));
     }
 
-    private FundingItemOptionRequest createItemOption(String option) {
+    private FundingItemOptionRequest createRequestItemOption(String option) {
         return FundingItemOptionRequest.builder()
                 .option(option)
                 .build();
+    }
+
+    private FundingItemOption createResponseItemOption(String option) {
+        return FundingItemOption.builder().option(option).build();
     }
 
     @Test
     void makeFundingReward() throws Exception {
 
         // given
-        List<FundingRewardItemRequest> rewardItems = new ArrayList<>();
-        rewardItems.add(createRewardItem(1L));
-        rewardItems.add(createRewardItem(2L));
-        rewardItems.add(createRewardItem(3L));
+        List<FundingRewardItemRequest> requestRewardItems = new ArrayList<>();
+        requestRewardItems.add(createRequestRewardItem(1L));
+        requestRewardItems.add(createRequestRewardItem(2L));
+        requestRewardItems.add(createRequestRewardItem(3L));
 
         FundingRewardRegisterRequest request = FundingRewardRegisterRequest.builder()
-                .fundingKey("1")
+                .fundingKey("FF-0001")
                 .isDelivery(true)
                 .rewardTitle("귀걸이 세트")
                 .amount(BigInteger.valueOf(15000))
-                .fundingRewardItems(rewardItems)
+                .fundingRewardItems(requestRewardItems)
                 .countLimit(10)
                 .personalLimit(5)
                 .expectDate(LocalDate.of(2024, 3, 31))
                 .build();
+
+        List<FundingRewardItem> responseRewardItems = new ArrayList<>();
+        responseRewardItems.add(createResponseRewardItem(1L));
+        responseRewardItems.add(createResponseRewardItem(2L));
+        responseRewardItems.add(createResponseRewardItem(3L));
+
+        FundingReward response = FundingReward.builder()
+                .fundingKey("FF-0001")
+                .isDelivery(true)
+                .rewardTitle("귀걸이 세트")
+                .amount(BigInteger.valueOf(15000))
+                .fundingRewardItems(responseRewardItems)
+                .countLimit(10)
+                .personalLimit(5)
+                .expectDate(LocalDate.of(2024, 3, 31))
+                .build();
+
+        given(fundingService.makeFundingReward(any(request.toFundingReward().getClass())))
+                .willReturn(response);
 
         // when
         // then
@@ -324,8 +390,14 @@ public class FundingRestAdapterTest {
                         )));
     }
 
-    private FundingRewardItemRequest createRewardItem(Long fundingItemId) {
+    private FundingRewardItemRequest createRequestRewardItem(Long fundingItemId) {
         return FundingRewardItemRequest.builder()
+                .fundingItemId(fundingItemId)
+                .build();
+    }
+
+    private FundingRewardItem createResponseRewardItem(Long fundingItemId) {
+        return FundingRewardItem.builder()
                 .fundingItemId(fundingItemId)
                 .build();
     }

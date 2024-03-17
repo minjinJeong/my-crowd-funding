@@ -1,25 +1,30 @@
 package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flab.funding.domain.model.Support;
+import com.flab.funding.domain.model.SupportDelivery;
+import com.flab.funding.domain.model.SupportDeliveryStatus;
+import com.flab.funding.domain.model.SupportStatus;
+import com.flab.funding.domain.service.SupportService;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportDeliveryRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportPaymentRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegisterRequest;
-import org.junit.jupiter.api.BeforeEach;
+import com.flab.funding.infrastructure.adapters.input.rest.SupportRestAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -27,10 +32,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(RestDocumentationExtension.class)
-@SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@WebMvcTest(SupportRestAdapter.class)
+@AutoConfigureRestDocs
 public class SupportRestAdapterTest {
 
     @Autowired
@@ -39,32 +43,28 @@ public class SupportRestAdapterTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-    }
+    @MockBean
+    private SupportService supportService;
 
     @Test
     void registerSupport() throws Exception {
 
         // given
-        SupportDeliveryRequest deliveryRequest = SupportDeliveryRequest.builder()
-                .memberDeliveryAddressId(1L)
-                .build();
-
-        SupportPaymentRequest paymentRequest = SupportPaymentRequest.builder()
-                .memberPaymentMethodId(1L)
-                .build();
-
         SupportRegisterRequest request = SupportRegisterRequest.builder()
-                .userKey("1")
-                .fundingKey("1")
+                .userKey("MM-0001")
+                .fundingKey("FF-0001")
                 .rewardId(1L)
-                .supportDelivery(deliveryRequest)
-                .supportPayment(paymentRequest)
+                .supportDelivery(getDeliveryRequest())
+                .supportPayment(getPaymentRequest())
                 .build();
+
+        Support response = Support.builder()
+                .supportKey("SS-0001")
+                .status(SupportStatus.RESERVATION)
+                .build();
+
+        given(supportService.registerSupport(any(request.toSupport().getClass())))
+                .willReturn(response);
 
         // when
         // then
@@ -79,9 +79,9 @@ public class SupportRestAdapterTest {
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("rewardId").description("후원한 리워드 번호"),
                                 fieldWithPath("supportDelivery").description("배송지"),
-                                fieldWithPath("supportDelivery.memberDeliveryAddressId").description("배송지 ID"),
+                                fieldWithPath("supportDelivery.memberDeliveryAddressKey").description("배송지 번호"),
                                 fieldWithPath("supportPayment").description("결제수단"),
-                                fieldWithPath("supportPayment.memberPaymentMethodId").description("결제수단 ID")
+                                fieldWithPath("supportPayment.memberPaymentMethodKey").description("결제수단 번호")
                         ),
                         responseFields(
                                 fieldWithPath("supportKey").description("후원번호(외부용)"),
@@ -89,16 +89,33 @@ public class SupportRestAdapterTest {
                         )));
     }
 
+    private SupportDeliveryRequest getDeliveryRequest() {
+        return SupportDeliveryRequest.builder()
+                .memberDeliveryAddressKey("DA-0001")
+                .build();
+    }
+
+    private SupportPaymentRequest getPaymentRequest() {
+        return SupportPaymentRequest.builder()
+                .memberPaymentMethodKey("PM-0001")
+                .build();
+    }
+
     @Test
     public void shippedOut() throws Exception {
         //given
-        String supportKey = "1";
+        String request = "SS-0001";
+
+        SupportDelivery response = SupportDelivery.builder()
+                .supportKey("SS-0001")
+                .status(SupportDeliveryStatus.SHIPPED)
+                .build();
+
+        given(supportService.shippedOut(eq(request))).willReturn(response);
 
         //when
-
         //then
-        this.mockMvc.perform(patch("/supports/{supportKey}/shipped-out"
-                , supportKey))
+        this.mockMvc.perform(patch("/supports/{supportKey}/shipped-out", request))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         pathParameters(
@@ -113,13 +130,18 @@ public class SupportRestAdapterTest {
     @Test
     public void inDelivery() throws Exception {
         //given
-        String supportKey = "1";
+        String request = "SS-0001";
+
+        SupportDelivery response = SupportDelivery.builder()
+                .supportKey("SS-0001")
+                .status(SupportDeliveryStatus.IN_DELIVERY)
+                .build();
+
+        given(supportService.outForDelivery(eq(request))).willReturn(response);
 
         //when
-
         //then
-        this.mockMvc.perform(patch("/supports/{supportKey}/in-delivery"
-                        , supportKey))
+        this.mockMvc.perform(patch("/supports/{supportKey}/in-delivery", request))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         pathParameters(
@@ -135,13 +157,18 @@ public class SupportRestAdapterTest {
     @Test
     public void complete() throws Exception {
         //given
-        String supportKey = "1";
+        String request = "SS-0001";
+
+        SupportDelivery response = SupportDelivery.builder()
+                .supportKey("SS-0001")
+                .status(SupportDeliveryStatus.COMPLETE)
+                .build();
+
+        given(supportService.deliveryComplete(eq(request))).willReturn(response);
 
         //when
-
         //then
-        this.mockMvc.perform(patch("/supports/{supportKey}/complete"
-                        , supportKey))
+        this.mockMvc.perform(patch("/supports/{supportKey}/complete", request))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         pathParameters(

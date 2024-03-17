@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SupportDeliveryRequest {
 
-    private Long memberDeliveryAddressId;
+    private String memberDeliveryAddressKey;
 }
