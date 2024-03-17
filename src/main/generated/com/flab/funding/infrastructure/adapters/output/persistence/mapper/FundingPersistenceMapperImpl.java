@@ -6,6 +6,8 @@ import com.flab.funding.domain.model.FundingItem;
 import com.flab.funding.domain.model.FundingItemOption;
 import com.flab.funding.domain.model.FundingReward;
 import com.flab.funding.domain.model.FundingRewardItem;
+import com.flab.funding.domain.model.FundingTag;
+import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingCreatorEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemEntity;
@@ -13,6 +15,7 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Fundin
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardItemEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingTagEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-12T18:47:53+0900",
+    date = "2024-03-17T20:12:32+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -36,7 +39,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         fundingEntity.id( funding.getId() );
         fundingEntity.fundingKey( funding.getFundingKey() );
-        fundingEntity.member( funding.getMember() );
+        fundingEntity.member( memberToMemberEntity( funding.getMember() ) );
         fundingEntity.isAdult( funding.getIsAdult() );
         fundingEntity.pricePlan( funding.getPricePlan() );
         fundingEntity.category( funding.getCategory() );
@@ -49,10 +52,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingEntity.scheduleDescription( funding.getScheduleDescription() );
         fundingEntity.teamDescription( funding.getTeamDescription() );
         fundingEntity.rewardDescription( funding.getRewardDescription() );
-        List<FundingTagEntity> list = funding.getTags();
-        if ( list != null ) {
-            fundingEntity.tags( new ArrayList<FundingTagEntity>( list ) );
-        }
+        fundingEntity.tags( fundingTagListToFundingTagEntityList( funding.getTags() ) );
         fundingEntity.startAt( funding.getStartAt() );
         fundingEntity.endAt( funding.getEndAt() );
         fundingEntity.createdAt( funding.getCreatedAt() );
@@ -73,7 +73,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         funding.id( fundingEntity.getId() );
         funding.fundingKey( fundingEntity.getFundingKey() );
-        funding.member( fundingEntity.getMember() );
+        funding.member( memberEntityToMember( fundingEntity.getMember() ) );
         funding.isAdult( fundingEntity.getIsAdult() );
         funding.pricePlan( fundingEntity.getPricePlan() );
         funding.category( fundingEntity.getCategory() );
@@ -86,10 +86,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         funding.scheduleDescription( fundingEntity.getScheduleDescription() );
         funding.teamDescription( fundingEntity.getTeamDescription() );
         funding.rewardDescription( fundingEntity.getRewardDescription() );
-        List<FundingTagEntity> list = fundingEntity.getTags();
-        if ( list != null ) {
-            funding.tags( new ArrayList<FundingTagEntity>( list ) );
-        }
+        funding.tags( fundingTagEntityListToFundingTagList( fundingEntity.getTags() ) );
         funding.startAt( fundingEntity.getStartAt() );
         funding.endAt( fundingEntity.getEndAt() );
         funding.createdAt( fundingEntity.getCreatedAt() );
@@ -261,6 +258,112 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         fundingRewardItem.updatedAt( fundingRewardItemEntity.getUpdatedAt() );
 
         return fundingRewardItem.build();
+    }
+
+    protected MemberEntity memberToMemberEntity(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberEntity.MemberEntityBuilder memberEntity = MemberEntity.builder();
+
+        memberEntity.id( member.getId() );
+        memberEntity.userKey( member.getUserKey() );
+        memberEntity.status( member.getStatus() );
+        memberEntity.linkType( member.getLinkType() );
+        memberEntity.email( member.getEmail() );
+        memberEntity.userName( member.getUserName() );
+        memberEntity.nickName( member.getNickName() );
+        memberEntity.phoneNumber( member.getPhoneNumber() );
+        memberEntity.gender( member.getGender() );
+        memberEntity.birthday( member.getBirthday() );
+        memberEntity.password( member.getPassword() );
+        memberEntity.lastLoginAt( member.getLastLoginAt() );
+        memberEntity.createdAt( member.getCreatedAt() );
+        memberEntity.updatedAt( member.getUpdatedAt() );
+
+        return memberEntity.build();
+    }
+
+    protected FundingTagEntity fundingTagToFundingTagEntity(FundingTag fundingTag) {
+        if ( fundingTag == null ) {
+            return null;
+        }
+
+        FundingTagEntity.FundingTagEntityBuilder fundingTagEntity = FundingTagEntity.builder();
+
+        fundingTagEntity.id( fundingTag.getId() );
+        fundingTagEntity.tag( fundingTag.getTag() );
+        fundingTagEntity.createdAt( fundingTag.getCreatedAt() );
+        fundingTagEntity.updatedAt( fundingTag.getUpdatedAt() );
+
+        return fundingTagEntity.build();
+    }
+
+    protected List<FundingTagEntity> fundingTagListToFundingTagEntityList(List<FundingTag> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingTagEntity> list1 = new ArrayList<FundingTagEntity>( list.size() );
+        for ( FundingTag fundingTag : list ) {
+            list1.add( fundingTagToFundingTagEntity( fundingTag ) );
+        }
+
+        return list1;
+    }
+
+    protected Member memberEntityToMember(MemberEntity memberEntity) {
+        if ( memberEntity == null ) {
+            return null;
+        }
+
+        Member.MemberBuilder member = Member.builder();
+
+        member.id( memberEntity.getId() );
+        member.userKey( memberEntity.getUserKey() );
+        member.status( memberEntity.getStatus() );
+        member.linkType( memberEntity.getLinkType() );
+        member.email( memberEntity.getEmail() );
+        member.userName( memberEntity.getUserName() );
+        member.nickName( memberEntity.getNickName() );
+        member.phoneNumber( memberEntity.getPhoneNumber() );
+        member.gender( memberEntity.getGender() );
+        member.birthday( memberEntity.getBirthday() );
+        member.password( memberEntity.getPassword() );
+        member.lastLoginAt( memberEntity.getLastLoginAt() );
+        member.createdAt( memberEntity.getCreatedAt() );
+        member.updatedAt( memberEntity.getUpdatedAt() );
+
+        return member.build();
+    }
+
+    protected FundingTag fundingTagEntityToFundingTag(FundingTagEntity fundingTagEntity) {
+        if ( fundingTagEntity == null ) {
+            return null;
+        }
+
+        FundingTag.FundingTagBuilder fundingTag = FundingTag.builder();
+
+        fundingTag.id( fundingTagEntity.getId() );
+        fundingTag.tag( fundingTagEntity.getTag() );
+        fundingTag.createdAt( fundingTagEntity.getCreatedAt() );
+        fundingTag.updatedAt( fundingTagEntity.getUpdatedAt() );
+
+        return fundingTag.build();
+    }
+
+    protected List<FundingTag> fundingTagEntityListToFundingTagList(List<FundingTagEntity> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<FundingTag> list1 = new ArrayList<FundingTag>( list.size() );
+        for ( FundingTagEntity fundingTagEntity : list ) {
+            list1.add( fundingTagEntityToFundingTag( fundingTagEntity ) );
+        }
+
+        return list1;
     }
 
     protected FundingEntity fundingCreatorToFundingEntity(FundingCreator fundingCreator) {

@@ -1,38 +1,34 @@
 package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flab.funding.domain.model.MemberGender;
-import com.flab.funding.domain.model.MemberLinkType;
+import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.Member;
+import com.flab.funding.domain.service.MemberDeliveryAddressService;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
-import org.junit.jupiter.api.BeforeEach;
+import com.flab.funding.infrastructure.adapters.input.rest.MemberDeliveryAddressRestAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(RestDocumentationExtension.class)
-@SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@WebMvcTest(MemberDeliveryAddressRestAdapter.class)
+@AutoConfigureRestDocs
 public class MemberDeliveryAddressRestAdapterTest {
 
     @Autowired
@@ -41,50 +37,15 @@ public class MemberDeliveryAddressRestAdapterTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private String userKey;
-
-    @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-
-        registerMember();
-    }
-
-    private void registerMember() throws Exception {
-        // given
-        MemberRegisterRequest request = MemberRegisterRequest.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998,1,30))
-                .password("")
-                .build();
-
-        // when
-        // then
-        ResultActions resultActions = this.mockMvc.perform(post("/members")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        MemberRegisterResponse response = objectMapper.readValue(
-                resultActions.andReturn().getResponse().getContentAsString(),
-                MemberRegisterResponse.class);
-
-        userKey = response.getUserKey();
-    }
+    @MockBean
+    private MemberDeliveryAddressService memberDeliveryAddressService;
 
     @Test
     void registerDeliveryAddress() throws Exception {
+
         // given
         MemberDeliveryAddressRegisterRequest request = MemberDeliveryAddressRegisterRequest.builder()
-                .userKey(userKey)
+                .userKey("MM-0001")
                 .isDefault(true)
                 .zipCode("01234")
                 .address("서울특별시 강서구")
@@ -93,7 +54,20 @@ public class MemberDeliveryAddressRestAdapterTest {
                 .recipientPhone("010-1111-2222")
                 .build();
 
-        System.out.println("objectMapper.writeValueAsString(request) = " + objectMapper.writeValueAsString(request));
+        DeliveryAddress response = DeliveryAddress.builder()
+                .deliveryAddressKey("DA-0001")
+                .member(Member.builder().userKey("MM-0001").build())
+                .isDefault(true)
+                .zipCode("01234")
+                .address("서울특별시 강서구")
+                .addressDetail("OO 아파트 xxx동 xxxx호")
+                .recipientName("홍길동")
+                .recipientPhone("010-1111-2222")
+                .createdAt(LocalDateTime.of(2024, 3, 15, 10, 9))
+                .updatedAt(LocalDateTime.of(2024, 3, 15, 10, 9))
+                .build();
+
+        given(memberDeliveryAddressService.registerDeliveryAddress(any(request.toDeliveryAddress().getClass()))).willReturn(response);
 
         //when
         //then

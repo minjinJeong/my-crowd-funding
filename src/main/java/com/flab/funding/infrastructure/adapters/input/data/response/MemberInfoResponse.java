@@ -15,8 +15,8 @@ public class MemberInfoResponse {
 
     private String userKey;
     private MemberStatus status;
-    private String nickName;
     private String email;
+    private String nickName;
     private String phoneNumber;
     private MemberLinkType linkType;
     private LocalDateTime lastLoginAt;

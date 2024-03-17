@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SupportPaymentRequest {
 
-    private Long memberPaymentMethodId;
+    private String memberPaymentMethodKey;
 }
