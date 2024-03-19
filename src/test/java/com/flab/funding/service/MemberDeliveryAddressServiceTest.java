@@ -1,59 +1,52 @@
 package com.flab.funding.service;
 
+import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.DeliveryAddress;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
-import com.flab.funding.domain.service.MemberService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
+import org.mapstruct.Named;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Transactional
+@ExtendWith({MockitoExtension.class})
 public class MemberDeliveryAddressServiceTest {
 
-    @Autowired
+    @InjectMocks
     private MemberDeliveryAddressService memberDeliveryAddressService;
 
-    @Autowired
-    private MemberService memberService;
+    @Mock
+    private MemberDeliveryAddressPort memberDeliveryAddressPort;
 
-    private String userKey;
-
-    @BeforeEach
-    void setUp() {
-        Member savedMember = memberService.registerMember(getMember());
-        userKey = savedMember.getUserKey();
-    }
-
-    private Member getMember() {
-        return Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("DeliveryAddress@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
-    }
+    @Mock
+    private MemberPort memberPort;
 
     @Test
-    public void 배송지_등록() throws Exception {
+    @Named("배송지 등록")
+    public void registerDeliveryAddress() {
         //given
         DeliveryAddress deliveryAddress = getDeliveryAddress();
+
+        given(memberPort.getMemberByUserKey(eq(deliveryAddress.getMember().getUserKey())))
+                .willReturn(getMember());
+
+        given(memberDeliveryAddressPort.saveDeliveryAddress(any(DeliveryAddress.class)))
+                .willReturn(deliveryAddress.register(getMember()));
+
+        given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
+                .willReturn(deliveryAddress);
 
         //when
         DeliveryAddress savedDeliveryAddress =
@@ -78,7 +71,7 @@ public class MemberDeliveryAddressServiceTest {
     private DeliveryAddress getDeliveryAddress() {
 
         return DeliveryAddress.builder()
-                .member(getSavedMember())
+                .member(getMember())
                 .isDefault(true)
                 .zipCode("01234")
                 .address("서울특별시 강서구")
@@ -88,7 +81,17 @@ public class MemberDeliveryAddressServiceTest {
                 .build();
     }
 
-    private Member getSavedMember() {
-        return Member.builder().userKey(userKey).build();
+    private Member getMember() {
+        return Member.builder()
+                .userKey("MM-0001")
+                .linkType(MemberLinkType.NONE)
+                .email("DeliveryAddress@gmail.com")
+                .userName("홍길순")
+                .nickName("테스터")
+                .phoneNumber("010-1111-2222")
+                .gender(MemberGender.FEMALE)
+                .birthday(LocalDate.of(1998, 1, 30))
+                .password("")
+                .build();
     }
 }
