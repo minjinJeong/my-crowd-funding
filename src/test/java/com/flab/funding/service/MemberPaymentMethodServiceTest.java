@@ -43,7 +43,7 @@ public class MemberPaymentMethodServiceTest {
                 .willReturn(getMember());
 
         given(memberPaymentMethodPort.savePaymentMethod(any(PaymentMethod.class)))
-                .willReturn(paymentMethod.register(getMember()));
+                .willReturn(paymentMethod);
 
         given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
                 .willReturn(paymentMethod);

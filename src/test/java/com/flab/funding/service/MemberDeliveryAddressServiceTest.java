@@ -43,7 +43,7 @@ public class MemberDeliveryAddressServiceTest {
                 .willReturn(getMember());
 
         given(memberDeliveryAddressPort.saveDeliveryAddress(any(DeliveryAddress.class)))
-                .willReturn(deliveryAddress.register(getMember()));
+                .willReturn(deliveryAddress);
 
         given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
                 .willReturn(deliveryAddress);

@@ -37,7 +37,7 @@ public class MemberServiceTest {
         //given
         Member member = getMember();
 
-        given(memberPort.saveMember(any(member.getClass())))
+        given(memberPort.saveMember(any(Member.class)))
                 .willReturn(member);
 
         given(memberPort.getMemberByEmail(member.getEmail()))
@@ -51,7 +51,6 @@ public class MemberServiceTest {
         Member findMember = memberService.getMemberByUserKey(savedMember.getUserKey());
 
         //then
-        assertEquals(savedMember.getId(), findMember.getId());
         assertEquals(savedMember.getId(), findMember.getId());
         assertEquals(savedMember.getUserKey(), findMember.getUserKey());
         assertEquals(savedMember.getLinkType(), findMember.getLinkType());
@@ -100,7 +99,7 @@ public class MemberServiceTest {
         given(memberPort.getMemberByUserKey(any()))
                 .willReturn(member);
 
-        given(memberPort.saveMember(any(member.getClass())))
+        given(memberPort.saveMember(any(Member.class)))
                 .willReturn(member);
 
         //when
