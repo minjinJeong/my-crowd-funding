@@ -1,59 +1,52 @@
 package com.flab.funding.service;
 
+import com.flab.funding.application.ports.output.MemberPaymentMethodPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.model.PaymentMethod;
 import com.flab.funding.domain.service.MemberPaymentMethodService;
-import com.flab.funding.domain.service.MemberService;
-import org.junit.jupiter.api.BeforeEach;
+import jdk.jfr.Name;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Transactional
+@ExtendWith({MockitoExtension.class})
 public class MemberPaymentMethodServiceTest {
 
-    @Autowired
+    @InjectMocks
     private MemberPaymentMethodService memberPaymentMethodService;
 
-    @Autowired
-    private MemberService memberService;
+    @Mock
+    private MemberPaymentMethodPort memberPaymentMethodPort;
 
-    private String userKey;
-
-    @BeforeEach
-    void setUp() {
-        Member savedMember = memberService.registerMember(getMember());
-        userKey = savedMember.getUserKey();
-    }
-
-    private Member getMember() {
-        return Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
-    }
+    @Mock
+    private MemberPort memberPort;
 
     @Test
-    public void 결제수단_등록() throws Exception {
+    @Name("결제수단 등록")
+    public void registerPaymentMethod() {
         //given
         PaymentMethod paymentMethod = getPaymentMethod();
+
+        given(memberPort.getMemberByUserKey(eq(paymentMethod.getMember().getUserKey())))
+                .willReturn(getMember());
+
+        given(memberPaymentMethodPort.savePaymentMethod(any(PaymentMethod.class)))
+                .willReturn(paymentMethod);
+
+        given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
+                .willReturn(paymentMethod);
 
         //when
         PaymentMethod savedPaymentMethod = memberPaymentMethodService.registerPaymentMethod(paymentMethod);
@@ -70,13 +63,23 @@ public class MemberPaymentMethodServiceTest {
 
     private PaymentMethod getPaymentMethod() {
         return PaymentMethod.builder()
-                .member(getSavedMember())
+                .member(getMember())
                 .isDefault(true)
                 .paymentNumber("3565 43")
                 .build();
     }
 
-    private Member getSavedMember() {
-        return Member.builder().userKey(userKey).build();
+    private Member getMember() {
+        return Member.builder()
+                .userKey("MM-0001")
+                .linkType(MemberLinkType.NONE)
+                .email("Test@gmail.com")
+                .userName("홍길순")
+                .nickName("테스터")
+                .phoneNumber("010-1111-2222")
+                .gender(MemberGender.FEMALE)
+                .birthday(LocalDate.of(1998, 1, 30))
+                .password("")
+                .build();
     }
 }
