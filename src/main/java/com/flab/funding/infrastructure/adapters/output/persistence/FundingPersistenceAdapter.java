@@ -52,4 +52,19 @@ public class FundingPersistenceAdapter implements FundingPort {
         FundingRewardEntity savedFundingReward = fundingRepository.save(fundingRewardEntity);
         return savedFundingReward.toFundingReward();
     }
+
+    @Override
+    public FundingCreator getFundingCreatorByFundingKey(String fundingKey) {
+        return null;
+    }
+
+    @Override
+    public FundingItem getFundingItemByFundingKey(String fundingKey) {
+        return null;
+    }
+
+    @Override
+    public FundingReward getFundingRewardByFundingKey(String fundingKey) {
+        return null;
+    }
 }

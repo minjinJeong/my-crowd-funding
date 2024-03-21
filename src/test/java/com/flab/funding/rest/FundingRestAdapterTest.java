@@ -57,7 +57,7 @@ public class FundingRestAdapterTest {
         fundingTagRegisterRequests.add(createTag("검색 키워드3"));
 
         FundingRegisterRequest request = FundingRegisterRequest.builder()
-                .userKey("1L")
+                .userKey("MM-0001")
                 .isAdult(false)
                 .pricePlan("00")
                 .category(FundingCategory.FOOD)
