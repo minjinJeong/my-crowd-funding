@@ -6,4 +6,6 @@ public interface RegisterSupportUseCase {
 
     Support registerSupport(Support support);
 
+    Support getSupportBySupportKey(String supportKey);
+
 }

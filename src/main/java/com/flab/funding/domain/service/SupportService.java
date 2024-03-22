@@ -19,7 +19,12 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
 
     @Override
     public Support registerSupport(Support support) {
-        return supportPort.saveSupport(support);
+        return supportPort.saveSupport(support.register());
+    }
+
+    @Override
+    public Support getSupportBySupportKey(String supportKey) {
+        return supportPort.getSupportBySupportKey(supportKey);
     }
 
     @Override
