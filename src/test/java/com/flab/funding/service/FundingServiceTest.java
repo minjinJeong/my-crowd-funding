@@ -3,6 +3,7 @@ package com.flab.funding.service;
 import com.flab.funding.application.ports.output.FundingPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.FundingService;
+import jdk.jfr.Name;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.Named;
@@ -16,8 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -48,6 +48,7 @@ public class FundingServiceTest {
 
         //then
         assertEquals(savedFunding.getId(), findFunding.getId());
+        assertNotNull(savedFunding.getFundingKey());
         assertEquals(savedFunding.getFundingKey(), findFunding.getFundingKey());
         assertEquals(savedFunding.getMember().getUserKey(), findFunding.getMember().getUserKey());
         assertEquals(savedFunding.getIsAdult(), findFunding.getIsAdult());
@@ -244,5 +245,62 @@ public class FundingServiceTest {
         return FundingRewardItem.builder()
                 .fundingItemId(fundingItemId)
                 .build();
+    }
+    
+    @Test
+    @Name("펀딩 심사대기")
+    public void waitForReview() {
+        //given
+        Funding funding = getFunding().register();
+
+        given(fundingPort.saveFunding(any(Funding.class)))
+                .willReturn(funding);
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(funding);
+        
+        //when
+        Funding savedFunding = fundingService.waitForFundingReview(funding.getFundingKey());
+
+        //then
+        assertEquals(savedFunding.getStatus(), FundingStatus.REVIEW_WAIT);
+    }
+    
+    @Test
+    @Named("펀딩 심사완료")
+    public void completeReview() {
+        //given
+        Funding funding = getFunding().register();
+
+        given(fundingPort.saveFunding(any(Funding.class)))
+                .willReturn(funding);
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(funding);
+
+        //when
+        Funding savedFunding = fundingService.completeFundingReview(funding.getFundingKey());
+
+        //then
+        assertEquals(savedFunding.getStatus(), FundingStatus.OPEN_WAIT);
+    }
+    
+    @Test
+    @Named("펀딩 취소")
+    public void cancel() {
+        //given
+        Funding funding = getFunding().register();
+
+        given(fundingPort.saveFunding(any(Funding.class)))
+                .willReturn(funding);
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(funding);
+
+        //when
+        Funding savedFunding = fundingService.cancelFunding(funding.getFundingKey());
+
+        //then
+        assertEquals(savedFunding.getStatus(), FundingStatus.CANCEL);
     }
 }
