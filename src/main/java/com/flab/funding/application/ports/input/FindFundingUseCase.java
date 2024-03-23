@@ -1,11 +1,11 @@
-package com.flab.funding.application.ports.output;
+package com.flab.funding.application.ports.input;
 
 import com.flab.funding.domain.model.Funding;
 import com.flab.funding.domain.model.FundingCreator;
 import com.flab.funding.domain.model.FundingItem;
 import com.flab.funding.domain.model.FundingReward;
 
-public interface FundingPort {
+public interface FindFundingUseCase {
 
     Funding getFundingByFundingKey(String fundingKey);
 
@@ -14,13 +14,4 @@ public interface FundingPort {
     FundingItem getFundingItemByFundingKey(String fundingKey);
 
     FundingReward getFundingRewardByFundingKey(String fundingKey);
-
-    Funding saveFunding(Funding funding);
-
-    FundingCreator saveFundingCreator(FundingCreator fundingCreator);
-
-    FundingItem saveFundingItem(FundingItem fundingItem);
-
-    FundingReward saveFundingReward(FundingReward fundingReward);
 }
-
