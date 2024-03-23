@@ -47,6 +47,7 @@ public class FundingServiceTest {
         Funding findFunding = fundingService.getFundingByFundingKey(savedFunding.getFundingKey());
 
         //then
+        assertNotNull(savedFunding.getFundingKey());
         assertEquals(savedFunding.getId(), findFunding.getId());
         assertNotNull(savedFunding.getFundingKey());
         assertEquals(savedFunding.getFundingKey(), findFunding.getFundingKey());

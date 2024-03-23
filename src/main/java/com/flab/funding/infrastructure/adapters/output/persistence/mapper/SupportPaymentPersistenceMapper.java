@@ -13,9 +13,11 @@ public interface SupportPaymentPersistenceMapper {
 
     @Mapping(source = "supportId", target = "support.id")
     @Mapping(source = "memberPaymentMethodId", target = "memberPaymentMethod.id")
+    @Mapping(source = "memberPaymentMethodKey", target = "memberPaymentMethod.paymentMethodKey")
     SupportPaymentEntity toSupportPaymentEntity(SupportPayment supportPayment);
 
     @Mapping(source = "support.id", target = "supportId")
     @Mapping(source = "memberPaymentMethod.id", target = "memberPaymentMethodId")
+    @Mapping(source = "memberPaymentMethod.paymentMethodKey", target = "memberPaymentMethodKey")
     SupportPayment toSupportPayment(SupportPaymentEntity supportPaymentEntity);
 }

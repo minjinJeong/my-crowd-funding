@@ -1,7 +1,8 @@
-package com.flab.funding.domain.service;
+package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.SupportPort;
 import com.flab.funding.domain.model.*;
+import com.flab.funding.domain.service.SupportService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.Named;

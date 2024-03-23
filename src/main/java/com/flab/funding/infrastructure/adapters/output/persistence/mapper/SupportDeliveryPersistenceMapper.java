@@ -13,10 +13,12 @@ public interface SupportDeliveryPersistenceMapper {
 
     @Mapping(source = "supportId", target = "support.id")
     @Mapping(source = "memberDeliveryAddressId", target = "memberDeliveryAddress.id")
+    @Mapping(source = "memberDeliveryAddressKey", target = "memberDeliveryAddress.deliveryAddressKey")
     SupportDeliveryEntity SupportDeliveryEntity(SupportDelivery supportDelivery);
 
     @Mapping(source = "support.id", target = "supportId")
     @Mapping(source = "support.supportKey", target = "supportKey")
     @Mapping(source = "memberDeliveryAddress.id", target = "memberDeliveryAddressId")
+    @Mapping(source = "memberDeliveryAddress.deliveryAddressKey", target = "memberDeliveryAddressKey")
     SupportDelivery toSupportDelivery(SupportDeliveryEntity supportDeliveryEntity);
 }
