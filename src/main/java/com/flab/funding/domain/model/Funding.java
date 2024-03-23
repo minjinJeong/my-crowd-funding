@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -36,7 +37,13 @@ public class Funding {
 
     public Funding register() {
         this.status = FundingStatus.REGISTER;
+        this.fundingKey = makeKey();
         return this;
+    }
+
+    // TODO key 생성 로직 수정
+    private String makeKey() {
+        return UUID.randomUUID().toString();
     }
 
     public Funding waitReview() {

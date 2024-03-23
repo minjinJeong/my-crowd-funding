@@ -13,6 +13,7 @@ public class SupportPayment {
     private Long id;
     private Long supportId;
     private Long memberPaymentMethodId;
+    private String memberPaymentMethodKey;
     private SupportPaymentStatus status;
     private BigInteger amount;
     private LocalDateTime paymentAt;

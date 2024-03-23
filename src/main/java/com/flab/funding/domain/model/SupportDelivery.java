@@ -13,6 +13,7 @@ public class SupportDelivery {
     private Long supportId;
     private String supportKey;
     private Long memberDeliveryAddressId;
+    private String memberDeliveryAddressKey;
     private SupportDeliveryStatus status;
     private String shipmentName;
     private LocalDateTime shipmentAt;

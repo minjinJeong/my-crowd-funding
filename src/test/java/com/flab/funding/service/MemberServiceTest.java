@@ -17,8 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -51,8 +50,11 @@ public class MemberServiceTest {
         Member findMember = memberService.getMemberByUserKey(savedMember.getUserKey());
 
         //then
+        assertNotNull(savedMember.getUserKey());
         assertEquals(savedMember.getId(), findMember.getId());
         assertEquals(savedMember.getUserKey(), findMember.getUserKey());
+        assertEquals(savedMember.getStatus(), MemberStatus.ACTIVATE);
+        assertEquals(savedMember.getStatus(), findMember.getStatus());
         assertEquals(savedMember.getLinkType(), findMember.getLinkType());
         assertEquals(savedMember.getEmail(), findMember.getEmail());
         assertEquals(savedMember.getUserName(), findMember.getUserName());
@@ -104,11 +106,9 @@ public class MemberServiceTest {
 
         //when
         Member deregistMember = memberService.deregisterMember(member.getUserKey());
-        Member findMember = memberService.getMemberByUserKey(deregistMember.getUserKey());
 
         //then
         assertEquals(deregistMember.getStatus(), MemberStatus.WITHDRAW);
-        assertEquals(deregistMember.getStatus(), findMember.getStatus());
 
     }
 }

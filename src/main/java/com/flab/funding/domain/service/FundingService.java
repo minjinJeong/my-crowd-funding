@@ -1,6 +1,7 @@
 package com.flab.funding.domain.service;
 
 import com.flab.funding.application.ports.input.CancelFundingUseCase;
+import com.flab.funding.application.ports.input.FindFundingUseCase;
 import com.flab.funding.application.ports.input.RegisterFundingUseCase;
 import com.flab.funding.application.ports.input.ReviewFundingUseCase;
 import com.flab.funding.application.ports.output.FundingPort;
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class FundingService implements RegisterFundingUseCase, ReviewFundingUseCase, CancelFundingUseCase {
+public class FundingService implements RegisterFundingUseCase, ReviewFundingUseCase, CancelFundingUseCase, FindFundingUseCase {
 
     private final FundingPort fundingPort;
 
@@ -55,5 +56,25 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
     public Funding cancelFunding(String fundingKey) {
         Funding funding = fundingPort.getFundingByFundingKey(fundingKey);
         return fundingPort.saveFunding(funding.cancel());
+    }
+
+    @Override
+    public Funding getFundingByFundingKey(String fundingKey) {
+        return fundingPort.getFundingByFundingKey(fundingKey);
+    }
+
+    @Override
+    public FundingCreator getFundingCreatorByFundingKey(String fundingKey) {
+        return fundingPort.getFundingCreatorByFundingKey(fundingKey);
+    }
+
+    @Override
+    public FundingItem getFundingItemByFundingKey(String fundingKey) {
+        return fundingPort.getFundingItemByFundingKey(fundingKey);
+    }
+
+    @Override
+    public FundingReward getFundingRewardByFundingKey(String fundingKey) {
+        return fundingPort.getFundingRewardByFundingKey(fundingKey);
     }
 }
