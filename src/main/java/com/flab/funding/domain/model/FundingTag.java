@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 public class FundingTag {
 
     private Long id;
-    private Long fundingId;
-    private String fundingKey;
+    private Funding funding;
     private String tag;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

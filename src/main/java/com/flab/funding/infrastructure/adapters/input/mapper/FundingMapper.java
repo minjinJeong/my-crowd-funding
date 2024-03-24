@@ -10,6 +10,8 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegist
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -24,15 +26,30 @@ public interface FundingMapper {
 
     FundingInfoResponse toFundingInfoResponse(Funding funding);
 
+    @Mapping(source = "fundingKey", target = "funding", qualifiedByName = "toFunding")
     FundingCreator toFundingCreator(FundingCreatorRegisterRequest fundingCreatorRegisterRequest);
 
+    @Mapping(source = "fundingKey", target = "funding", qualifiedByName = "toFunding")
     FundingReward toFundingReward(FundingRewardRegisterRequest fundingRewardRegisterRequest);
 
+    @Mapping(source = "fundingKey", target = "funding", qualifiedByName = "toFunding")
     FundingItem toFundingItem(FundingItemRegisterRequest fundingItemRegisterRequest);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingCreatorInfoResponse toFundingCreatorInfoResponse(FundingCreator fundingCreator);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingItemInfoResponse toFundingItemInfoResponse(FundingItem fundingItem);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingRewardInfoResponse toFundingRewardInfoResponse(FundingReward fundingReward);
+
+    @Named("toFunding")
+    default Funding toFunding(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        return Funding.builder().fundingKey(value).build();
+    }
 }

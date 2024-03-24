@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-17T20:12:32+0900",
+    date = "2024-03-24T20:52:32+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -48,6 +48,7 @@ public class SupportDeliveryPersistenceMapperImpl implements SupportDeliveryPers
         supportDelivery.supportId( supportDeliveryEntitySupportId( supportDeliveryEntity ) );
         supportDelivery.supportKey( supportDeliveryEntitySupportSupportKey( supportDeliveryEntity ) );
         supportDelivery.memberDeliveryAddressId( supportDeliveryEntityMemberDeliveryAddressId( supportDeliveryEntity ) );
+        supportDelivery.memberDeliveryAddressKey( supportDeliveryEntityMemberDeliveryAddressDeliveryAddressKey( supportDeliveryEntity ) );
         supportDelivery.id( supportDeliveryEntity.getId() );
         supportDelivery.status( supportDeliveryEntity.getStatus() );
         supportDelivery.shipmentName( supportDeliveryEntity.getShipmentName() );
@@ -80,6 +81,7 @@ public class SupportDeliveryPersistenceMapperImpl implements SupportDeliveryPers
         MemberDeliveryAddressEntity.MemberDeliveryAddressEntityBuilder memberDeliveryAddressEntity = MemberDeliveryAddressEntity.builder();
 
         memberDeliveryAddressEntity.id( supportDelivery.getMemberDeliveryAddressId() );
+        memberDeliveryAddressEntity.deliveryAddressKey( supportDelivery.getMemberDeliveryAddressKey() );
 
         return memberDeliveryAddressEntity.build();
     }
@@ -127,5 +129,20 @@ public class SupportDeliveryPersistenceMapperImpl implements SupportDeliveryPers
             return null;
         }
         return id;
+    }
+
+    private String supportDeliveryEntityMemberDeliveryAddressDeliveryAddressKey(SupportDeliveryEntity supportDeliveryEntity) {
+        if ( supportDeliveryEntity == null ) {
+            return null;
+        }
+        MemberDeliveryAddressEntity memberDeliveryAddress = supportDeliveryEntity.getMemberDeliveryAddress();
+        if ( memberDeliveryAddress == null ) {
+            return null;
+        }
+        String deliveryAddressKey = memberDeliveryAddress.getDeliveryAddressKey();
+        if ( deliveryAddressKey == null ) {
+            return null;
+        }
+        return deliveryAddressKey;
     }
 }

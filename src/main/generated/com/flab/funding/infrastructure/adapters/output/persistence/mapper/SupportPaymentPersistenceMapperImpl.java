@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-17T20:12:32+0900",
+    date = "2024-03-24T20:52:32+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -45,6 +45,7 @@ public class SupportPaymentPersistenceMapperImpl implements SupportPaymentPersis
 
         supportPayment.supportId( supportPaymentEntitySupportId( supportPaymentEntity ) );
         supportPayment.memberPaymentMethodId( supportPaymentEntityMemberPaymentMethodId( supportPaymentEntity ) );
+        supportPayment.memberPaymentMethodKey( supportPaymentEntityMemberPaymentMethodPaymentMethodKey( supportPaymentEntity ) );
         supportPayment.id( supportPaymentEntity.getId() );
         supportPayment.status( supportPaymentEntity.getStatus() );
         supportPayment.amount( supportPaymentEntity.getAmount() );
@@ -75,6 +76,7 @@ public class SupportPaymentPersistenceMapperImpl implements SupportPaymentPersis
         MemberPaymentMethodEntity.MemberPaymentMethodEntityBuilder<?, ?> memberPaymentMethodEntity = MemberPaymentMethodEntity.builder();
 
         memberPaymentMethodEntity.id( supportPayment.getMemberPaymentMethodId() );
+        memberPaymentMethodEntity.paymentMethodKey( supportPayment.getMemberPaymentMethodKey() );
 
         return memberPaymentMethodEntity.build();
     }
@@ -107,5 +109,20 @@ public class SupportPaymentPersistenceMapperImpl implements SupportPaymentPersis
             return null;
         }
         return id;
+    }
+
+    private String supportPaymentEntityMemberPaymentMethodPaymentMethodKey(SupportPaymentEntity supportPaymentEntity) {
+        if ( supportPaymentEntity == null ) {
+            return null;
+        }
+        MemberPaymentMethodEntity memberPaymentMethod = supportPaymentEntity.getMemberPaymentMethod();
+        if ( memberPaymentMethod == null ) {
+            return null;
+        }
+        String paymentMethodKey = memberPaymentMethod.getPaymentMethodKey();
+        if ( paymentMethodKey == null ) {
+            return null;
+        }
+        return paymentMethodKey;
     }
 }

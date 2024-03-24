@@ -13,8 +13,7 @@ import java.util.List;
 public class FundingReward {
 
     private Long id;
-    private Long fundingId;
-    private String fundingKey;
+    private Funding funding;
     private boolean isDelivery;
     private String rewardTitle;
     private BigInteger amount;

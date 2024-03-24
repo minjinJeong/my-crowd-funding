@@ -125,11 +125,11 @@ public class FundingServiceTest {
 
         //when
         FundingCreator savedFundingCreator = fundingService.registerFundingCreator(fundingCreator);
-        FundingCreator findFundingCreator = fundingService.getFundingCreatorByFundingKey(savedFundingCreator.getFundingKey());
+        FundingCreator findFundingCreator = fundingService.getFundingCreatorByFundingKey(savedFundingCreator.getFunding().getFundingKey());
 
         //then
         assertEquals(savedFundingCreator.getId(), findFundingCreator.getId());
-        assertEquals(savedFundingCreator.getFundingKey(), findFundingCreator.getFundingKey());
+        assertEquals(savedFundingCreator.getFunding(), findFundingCreator.getFunding());
         assertEquals(savedFundingCreator.getIsValid(), findFundingCreator.getIsValid());
         assertEquals(savedFundingCreator.getBusinessNumber(), findFundingCreator.getBusinessNumber());
         assertEquals(savedFundingCreator.getRepresentative(), findFundingCreator.getRepresentative());
@@ -138,12 +138,16 @@ public class FundingServiceTest {
 
     private FundingCreator getFundingCreator() {
         return FundingCreator.builder()
-                .fundingKey("FF-0001")
+                .funding(getFundingByFundingKey())
                 .isValid(true)
                 .businessNumber("12345678")
                 .representative("홍길동")
                 .introduce("안녕하세요, 개인 사업자 홍길동입니다.")
                 .build();
+    }
+
+    private Funding getFundingByFundingKey() {
+        return Funding.builder().fundingKey("FF-0001").build();
     }
 
     @Test
@@ -160,11 +164,11 @@ public class FundingServiceTest {
 
         //when
         FundingItem savedFundingItem = fundingService.makeFundingItem(fundingItem);
-        FundingItem findFundingItem = fundingService.getFundingItemByFundingKey(savedFundingItem.getFundingKey());
+        FundingItem findFundingItem = fundingService.getFundingItemByFundingKey(savedFundingItem.getFunding().getFundingKey());
 
         //then
         assertEquals(savedFundingItem.getId(), findFundingItem.getId());
-        assertEquals(savedFundingItem.getFundingKey(), findFundingItem.getFundingKey());
+        assertEquals(savedFundingItem.getFunding(), findFundingItem.getFunding());
         assertEquals(savedFundingItem.getItemName(), findFundingItem.getItemName());
         assertEquals(savedFundingItem.getOptionType(), findFundingItem.getOptionType());
         assertIterableEquals(savedFundingItem.getFundingItemOptions(), findFundingItem.getFundingItemOptions());
@@ -172,7 +176,7 @@ public class FundingServiceTest {
 
     private FundingItem getFundingItem() {
         return FundingItem.builder()
-                .fundingKey("FF-0001")
+                .funding(getFundingByFundingKey())
                 .itemName("은 귀걸이")
                 .optionType(FundingItemOptionType.NONE)
                 .fundingItemOptions(getFundingItemOptions())
@@ -206,11 +210,11 @@ public class FundingServiceTest {
 
         //when
         FundingReward savedFundingReward = fundingService.makeFundingReward(fundingReward);
-        FundingReward findFundingReward = fundingService.getFundingRewardByFundingKey(savedFundingReward.getFundingKey());
+        FundingReward findFundingReward = fundingService.getFundingRewardByFundingKey(savedFundingReward.getFunding().getFundingKey());
 
         //then
         assertEquals(savedFundingReward.getId(), findFundingReward.getId());
-        assertEquals(savedFundingReward.getFundingKey(), findFundingReward.getFundingKey());
+        assertEquals(savedFundingReward.getFunding(), findFundingReward.getFunding());
         assertEquals(savedFundingReward.getIsDelivery(), findFundingReward.getIsDelivery());
         assertEquals(savedFundingReward.getRewardTitle(), findFundingReward.getRewardTitle());
         assertEquals(savedFundingReward.getAmount(), findFundingReward.getAmount());
@@ -223,7 +227,7 @@ public class FundingServiceTest {
 
     private FundingReward getFundingReward() {
         return FundingReward.builder()
-                .fundingKey("FF-0001")
+                .funding(getFundingByFundingKey())
                 .isDelivery(true)
                 .rewardTitle("귀걸이 세트")
                 .amount(BigInteger.valueOf(15000))
@@ -244,7 +248,7 @@ public class FundingServiceTest {
 
     private FundingRewardItem createRewardItem(Long fundingItemId) {
         return FundingRewardItem.builder()
-                .fundingItemId(fundingItemId)
+                .fundingItem(FundingItem.builder().id(fundingItemId).build())
                 .build();
     }
     
