@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-17T20:12:32+0900",
+    date = "2024-03-24T20:52:31+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -105,8 +105,8 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingCreatorEntity.FundingCreatorEntityBuilder fundingCreatorEntity = FundingCreatorEntity.builder();
 
-        fundingCreatorEntity.funding( fundingCreatorToFundingEntity( fundingCreator ) );
         fundingCreatorEntity.id( fundingCreator.getId() );
+        fundingCreatorEntity.funding( toFundingEntity( fundingCreator.getFunding() ) );
         fundingCreatorEntity.isValid( fundingCreator.getIsValid() );
         fundingCreatorEntity.businessNumber( fundingCreator.getBusinessNumber() );
         fundingCreatorEntity.representative( fundingCreator.getRepresentative() );
@@ -125,9 +125,8 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingCreator.FundingCreatorBuilder fundingCreator = FundingCreator.builder();
 
-        fundingCreator.fundingId( fundingCreatorEntityFundingId( fundingCreatorEntity ) );
-        fundingCreator.fundingKey( fundingCreatorEntityFundingFundingKey( fundingCreatorEntity ) );
         fundingCreator.id( fundingCreatorEntity.getId() );
+        fundingCreator.funding( toFunding( fundingCreatorEntity.getFunding() ) );
         fundingCreator.isValid( fundingCreatorEntity.getIsValid() );
         fundingCreator.businessNumber( fundingCreatorEntity.getBusinessNumber() );
         fundingCreator.representative( fundingCreatorEntity.getRepresentative() );
@@ -146,8 +145,8 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingItemEntity.FundingItemEntityBuilder fundingItemEntity = FundingItemEntity.builder();
 
-        fundingItemEntity.funding( fundingItemToFundingEntity( fundingItem ) );
         fundingItemEntity.id( fundingItem.getId() );
+        fundingItemEntity.funding( toFundingEntity( fundingItem.getFunding() ) );
         fundingItemEntity.itemName( fundingItem.getItemName() );
         fundingItemEntity.optionType( fundingItem.getOptionType() );
         fundingItemEntity.fundingItemOptions( fundingItemOptionListToFundingItemOptionEntityList( fundingItem.getFundingItemOptions() ) );
@@ -165,9 +164,8 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingItem.FundingItemBuilder fundingItem = FundingItem.builder();
 
-        fundingItem.fundingId( fundingItemEntityFundingId( fundingItemEntity ) );
-        fundingItem.fundingKey( fundingItemEntityFundingFundingKey( fundingItemEntity ) );
         fundingItem.id( fundingItemEntity.getId() );
+        fundingItem.funding( toFunding( fundingItemEntity.getFunding() ) );
         fundingItem.itemName( fundingItemEntity.getItemName() );
         fundingItem.optionType( fundingItemEntity.getOptionType() );
         fundingItem.fundingItemOptions( fundingItemOptionEntityListToFundingItemOptionList( fundingItemEntity.getFundingItemOptions() ) );
@@ -185,8 +183,8 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingRewardEntity.FundingRewardEntityBuilder fundingRewardEntity = FundingRewardEntity.builder();
 
-        fundingRewardEntity.funding( fundingRewardToFundingEntity( fundingReward ) );
         fundingRewardEntity.id( fundingReward.getId() );
+        fundingRewardEntity.funding( toFundingEntity( fundingReward.getFunding() ) );
         fundingRewardEntity.isDelivery( fundingReward.getIsDelivery() );
         fundingRewardEntity.rewardTitle( fundingReward.getRewardTitle() );
         fundingRewardEntity.amount( fundingReward.getAmount() );
@@ -208,9 +206,8 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingReward.FundingRewardBuilder fundingReward = FundingReward.builder();
 
-        fundingReward.fundingId( fundingRewardEntityFundingId( fundingRewardEntity ) );
-        fundingReward.fundingKey( fundingRewardEntityFundingFundingKey( fundingRewardEntity ) );
         fundingReward.id( fundingRewardEntity.getId() );
+        fundingReward.funding( toFunding( fundingRewardEntity.getFunding() ) );
         fundingReward.isDelivery( fundingRewardEntity.getIsDelivery() );
         fundingReward.rewardTitle( fundingRewardEntity.getRewardTitle() );
         fundingReward.amount( fundingRewardEntity.getAmount() );
@@ -232,10 +229,10 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingRewardItemEntity.FundingRewardItemEntityBuilder fundingRewardItemEntity = FundingRewardItemEntity.builder();
 
-        fundingRewardItemEntity.funding( fundingRewardItemToFundingEntity( fundingRewardItem ) );
-        fundingRewardItemEntity.fundingReward( fundingRewardItemToFundingRewardEntity( fundingRewardItem ) );
-        fundingRewardItemEntity.fundingItem( fundingRewardItemToFundingItemEntity( fundingRewardItem ) );
         fundingRewardItemEntity.id( fundingRewardItem.getId() );
+        fundingRewardItemEntity.funding( toFundingEntity( fundingRewardItem.getFunding() ) );
+        fundingRewardItemEntity.fundingReward( toFundingRewardEntity( fundingRewardItem.getFundingReward() ) );
+        fundingRewardItemEntity.fundingItem( toFundingItemEntity( fundingRewardItem.getFundingItem() ) );
         fundingRewardItemEntity.createdAt( fundingRewardItem.getCreatedAt() );
         fundingRewardItemEntity.updatedAt( fundingRewardItem.getUpdatedAt() );
 
@@ -250,10 +247,10 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
 
         FundingRewardItem.FundingRewardItemBuilder fundingRewardItem = FundingRewardItem.builder();
 
-        fundingRewardItem.fundingId( fundingRewardItemEntityFundingId( fundingRewardItemEntity ) );
-        fundingRewardItem.fundingRewardId( fundingRewardItemEntityFundingRewardId( fundingRewardItemEntity ) );
-        fundingRewardItem.fundingItemId( fundingRewardItemEntityFundingItemId( fundingRewardItemEntity ) );
         fundingRewardItem.id( fundingRewardItemEntity.getId() );
+        fundingRewardItem.funding( toFunding( fundingRewardItemEntity.getFunding() ) );
+        fundingRewardItem.fundingReward( toFundingReward( fundingRewardItemEntity.getFundingReward() ) );
+        fundingRewardItem.fundingItem( toFundingItem( fundingRewardItemEntity.getFundingItem() ) );
         fundingRewardItem.createdAt( fundingRewardItemEntity.getCreatedAt() );
         fundingRewardItem.updatedAt( fundingRewardItemEntity.getUpdatedAt() );
 
@@ -293,6 +290,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         FundingTagEntity.FundingTagEntityBuilder fundingTagEntity = FundingTagEntity.builder();
 
         fundingTagEntity.id( fundingTag.getId() );
+        fundingTagEntity.funding( toFundingEntity( fundingTag.getFunding() ) );
         fundingTagEntity.tag( fundingTag.getTag() );
         fundingTagEntity.createdAt( fundingTag.getCreatedAt() );
         fundingTagEntity.updatedAt( fundingTag.getUpdatedAt() );
@@ -346,6 +344,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         FundingTag.FundingTagBuilder fundingTag = FundingTag.builder();
 
         fundingTag.id( fundingTagEntity.getId() );
+        fundingTag.funding( toFunding( fundingTagEntity.getFunding() ) );
         fundingTag.tag( fundingTagEntity.getTag() );
         fundingTag.createdAt( fundingTagEntity.getCreatedAt() );
         fundingTag.updatedAt( fundingTagEntity.getUpdatedAt() );
@@ -366,61 +365,6 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         return list1;
     }
 
-    protected FundingEntity fundingCreatorToFundingEntity(FundingCreator fundingCreator) {
-        if ( fundingCreator == null ) {
-            return null;
-        }
-
-        FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
-
-        fundingEntity.fundingKey( fundingCreator.getFundingKey() );
-
-        return fundingEntity.build();
-    }
-
-    private Long fundingCreatorEntityFundingId(FundingCreatorEntity fundingCreatorEntity) {
-        if ( fundingCreatorEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingCreatorEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        Long id = funding.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    private String fundingCreatorEntityFundingFundingKey(FundingCreatorEntity fundingCreatorEntity) {
-        if ( fundingCreatorEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingCreatorEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        String fundingKey = funding.getFundingKey();
-        if ( fundingKey == null ) {
-            return null;
-        }
-        return fundingKey;
-    }
-
-    protected FundingEntity fundingItemToFundingEntity(FundingItem fundingItem) {
-        if ( fundingItem == null ) {
-            return null;
-        }
-
-        FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
-
-        fundingEntity.id( fundingItem.getFundingId() );
-        fundingEntity.fundingKey( fundingItem.getFundingKey() );
-
-        return fundingEntity.build();
-    }
-
     protected FundingItemOptionEntity fundingItemOptionToFundingItemOptionEntity(FundingItemOption fundingItemOption) {
         if ( fundingItemOption == null ) {
             return null;
@@ -429,6 +373,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         FundingItemOptionEntity.FundingItemOptionEntityBuilder fundingItemOptionEntity = FundingItemOptionEntity.builder();
 
         fundingItemOptionEntity.id( fundingItemOption.getId() );
+        fundingItemOptionEntity.fundingItem( toFundingItemEntity( fundingItemOption.getFundingItem() ) );
         fundingItemOptionEntity.createdAt( fundingItemOption.getCreatedAt() );
         fundingItemOptionEntity.updatedAt( fundingItemOption.getUpdatedAt() );
 
@@ -448,36 +393,6 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         return list1;
     }
 
-    private Long fundingItemEntityFundingId(FundingItemEntity fundingItemEntity) {
-        if ( fundingItemEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingItemEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        Long id = funding.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    private String fundingItemEntityFundingFundingKey(FundingItemEntity fundingItemEntity) {
-        if ( fundingItemEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingItemEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        String fundingKey = funding.getFundingKey();
-        if ( fundingKey == null ) {
-            return null;
-        }
-        return fundingKey;
-    }
-
     protected FundingItemOption fundingItemOptionEntityToFundingItemOption(FundingItemOptionEntity fundingItemOptionEntity) {
         if ( fundingItemOptionEntity == null ) {
             return null;
@@ -486,6 +401,7 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         FundingItemOption.FundingItemOptionBuilder fundingItemOption = FundingItemOption.builder();
 
         fundingItemOption.id( fundingItemOptionEntity.getId() );
+        fundingItemOption.fundingItem( toFundingItem( fundingItemOptionEntity.getFundingItem() ) );
         fundingItemOption.createdAt( fundingItemOptionEntity.getCreatedAt() );
         fundingItemOption.updatedAt( fundingItemOptionEntity.getUpdatedAt() );
 
@@ -505,19 +421,6 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         return list1;
     }
 
-    protected FundingEntity fundingRewardToFundingEntity(FundingReward fundingReward) {
-        if ( fundingReward == null ) {
-            return null;
-        }
-
-        FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
-
-        fundingEntity.id( fundingReward.getFundingId() );
-        fundingEntity.fundingKey( fundingReward.getFundingKey() );
-
-        return fundingEntity.build();
-    }
-
     protected List<FundingRewardItemEntity> fundingRewardItemListToFundingRewardItemEntityList(List<FundingRewardItem> list) {
         if ( list == null ) {
             return null;
@@ -531,36 +434,6 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         return list1;
     }
 
-    private Long fundingRewardEntityFundingId(FundingRewardEntity fundingRewardEntity) {
-        if ( fundingRewardEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingRewardEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        Long id = funding.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    private String fundingRewardEntityFundingFundingKey(FundingRewardEntity fundingRewardEntity) {
-        if ( fundingRewardEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingRewardEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        String fundingKey = funding.getFundingKey();
-        if ( fundingKey == null ) {
-            return null;
-        }
-        return fundingKey;
-    }
-
     protected List<FundingRewardItem> fundingRewardItemEntityListToFundingRewardItemList(List<FundingRewardItemEntity> list) {
         if ( list == null ) {
             return null;
@@ -572,86 +445,5 @@ public class FundingPersistenceMapperImpl implements FundingPersistenceMapper {
         }
 
         return list1;
-    }
-
-    protected FundingEntity fundingRewardItemToFundingEntity(FundingRewardItem fundingRewardItem) {
-        if ( fundingRewardItem == null ) {
-            return null;
-        }
-
-        FundingEntity.FundingEntityBuilder fundingEntity = FundingEntity.builder();
-
-        fundingEntity.id( fundingRewardItem.getFundingId() );
-
-        return fundingEntity.build();
-    }
-
-    protected FundingRewardEntity fundingRewardItemToFundingRewardEntity(FundingRewardItem fundingRewardItem) {
-        if ( fundingRewardItem == null ) {
-            return null;
-        }
-
-        FundingRewardEntity.FundingRewardEntityBuilder fundingRewardEntity = FundingRewardEntity.builder();
-
-        fundingRewardEntity.id( fundingRewardItem.getFundingRewardId() );
-
-        return fundingRewardEntity.build();
-    }
-
-    protected FundingItemEntity fundingRewardItemToFundingItemEntity(FundingRewardItem fundingRewardItem) {
-        if ( fundingRewardItem == null ) {
-            return null;
-        }
-
-        FundingItemEntity.FundingItemEntityBuilder fundingItemEntity = FundingItemEntity.builder();
-
-        fundingItemEntity.id( fundingRewardItem.getFundingItemId() );
-
-        return fundingItemEntity.build();
-    }
-
-    private Long fundingRewardItemEntityFundingId(FundingRewardItemEntity fundingRewardItemEntity) {
-        if ( fundingRewardItemEntity == null ) {
-            return null;
-        }
-        FundingEntity funding = fundingRewardItemEntity.getFunding();
-        if ( funding == null ) {
-            return null;
-        }
-        Long id = funding.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    private Long fundingRewardItemEntityFundingRewardId(FundingRewardItemEntity fundingRewardItemEntity) {
-        if ( fundingRewardItemEntity == null ) {
-            return null;
-        }
-        FundingRewardEntity fundingReward = fundingRewardItemEntity.getFundingReward();
-        if ( fundingReward == null ) {
-            return null;
-        }
-        Long id = fundingReward.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    private Long fundingRewardItemEntityFundingItemId(FundingRewardItemEntity fundingRewardItemEntity) {
-        if ( fundingRewardItemEntity == null ) {
-            return null;
-        }
-        FundingItemEntity fundingItem = fundingRewardItemEntity.getFundingItem();
-        if ( fundingItem == null ) {
-            return null;
-        }
-        Long id = fundingItem.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
     }
 }

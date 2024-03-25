@@ -11,8 +11,7 @@ import java.util.List;
 public class FundingItem {
 
     private Long id;
-    private Long fundingId;
-    private String fundingKey;
+    private Funding funding;
     private String itemName;
     private FundingItemOptionType optionType;
     private List<FundingItemOption> fundingItemOptions;

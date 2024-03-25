@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class FundingItemOption {
 
     private Long id;
-    private Long fundingItemId;
+    private FundingItem fundingItem;
     private String option;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

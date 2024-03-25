@@ -11,9 +11,8 @@ import java.time.LocalDateTime;
 public class SupportPayment {
 
     private Long id;
-    private Long supportId;
-    private Long memberPaymentMethodId;
-    private String memberPaymentMethodKey;
+    private Support support;
+    private PaymentMethod paymentMethod;
     private SupportPaymentStatus status;
     private BigInteger amount;
     private LocalDateTime paymentAt;

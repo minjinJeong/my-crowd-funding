@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SupportMapper {
+public interface SupportMapper extends DefaultMethodToMapper {
 
     SupportMapper INSTANCE = Mappers.getMapper(SupportMapper.class);
 

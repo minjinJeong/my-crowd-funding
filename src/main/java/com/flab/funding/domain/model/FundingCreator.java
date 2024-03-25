@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 public class FundingCreator {
 
     private Long id;
-    private Long fundingId;
-    private String fundingKey;
+    private Funding funding;
     private boolean isValid;
     private String businessNumber;
     private String representative;

@@ -107,7 +107,7 @@ public class SupportRestAdapterTest {
         String request = "SS-0001";
 
         SupportDelivery response = SupportDelivery.builder()
-                .supportKey("SS-0001")
+                .support(getSupportRequest())
                 .status(SupportDeliveryStatus.SHIPPED)
                 .build();
 
@@ -127,13 +127,19 @@ public class SupportRestAdapterTest {
                         )));
     }
 
+    private Support getSupportRequest() {
+        return Support.builder()
+                .supportKey("SS-0001")
+                .build();
+    }
+
     @Test
     public void inDelivery() throws Exception {
         //given
         String request = "SS-0001";
 
         SupportDelivery response = SupportDelivery.builder()
-                .supportKey("SS-0001")
+                .support(getSupportRequest())
                 .status(SupportDeliveryStatus.IN_DELIVERY)
                 .build();
 
@@ -160,7 +166,7 @@ public class SupportRestAdapterTest {
         String request = "SS-0001";
 
         SupportDelivery response = SupportDelivery.builder()
-                .supportKey("SS-0001")
+                .support(getSupportRequest())
                 .status(SupportDeliveryStatus.COMPLETE)
                 .build();
 

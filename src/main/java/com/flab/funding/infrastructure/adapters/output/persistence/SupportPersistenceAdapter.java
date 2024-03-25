@@ -23,7 +23,7 @@ public class SupportPersistenceAdapter implements SupportPort {
     }
 
     @Override
-    public Support getSupportBySupportKey(String SupportKey) {
+    public Support getSupportRequest(String SupportKey) {
         SupportEntity findSupportEntity
                 = supportRepository.getSupportBySupportKey(SupportKey)
                     .orElse(SupportEntity.builder().build());
@@ -39,7 +39,7 @@ public class SupportPersistenceAdapter implements SupportPort {
     }
 
     @Override
-    public SupportDelivery getSupportDeliveryBySupportKey(String supportKey) {
+    public SupportDelivery getSupportDeliveryRequest(String supportKey) {
         SupportDeliveryEntity findSupportDeliveryEntity
                 = supportRepository.getSupportDeliveryBySupportKey(supportKey)
                     .orElse(SupportDeliveryEntity.builder().build());

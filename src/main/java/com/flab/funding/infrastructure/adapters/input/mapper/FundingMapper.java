@@ -10,11 +10,12 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegist
 import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FundingMapper {
+public interface FundingMapper extends DefaultMethodToMapper {
 
     FundingMapper INSTANCE = Mappers.getMapper(FundingMapper.class);
 
@@ -30,9 +31,12 @@ public interface FundingMapper {
 
     FundingItem toFundingItem(FundingItemRegisterRequest fundingItemRegisterRequest);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingCreatorInfoResponse toFundingCreatorInfoResponse(FundingCreator fundingCreator);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingItemInfoResponse toFundingItemInfoResponse(FundingItem fundingItem);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingRewardInfoResponse toFundingRewardInfoResponse(FundingReward fundingReward);
 }

@@ -7,9 +7,9 @@ public interface SupportPort {
 
     Support saveSupport(Support support);
 
-    Support getSupportBySupportKey(String SupportKey);
+    Support getSupportRequest(String SupportKey);
 
-    SupportDelivery getSupportDeliveryBySupportKey(String supportKey);
+    SupportDelivery getSupportDeliveryRequest(String supportKey);
 
     SupportDelivery saveSupportDelivery(SupportDelivery supportDelivery);
 

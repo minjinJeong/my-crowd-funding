@@ -217,7 +217,7 @@ public class FundingRestAdapterTest {
                 .build();
 
         FundingCreator response = FundingCreator.builder()
-                .fundingKey("FF-0001")
+                .funding(getFundingRequest())
                 .isValid(true)
                 .businessNumber("12345678")
                 .representative("홍길동")
@@ -251,6 +251,12 @@ public class FundingRestAdapterTest {
                         )));
     }
 
+    private Funding getFundingRequest() {
+        return Funding.builder()
+                .fundingKey("FF-0001")
+                .build();
+    }
+
     @Test
     void makeFundingItem() throws Exception {
 
@@ -276,7 +282,7 @@ public class FundingRestAdapterTest {
 
 
         FundingItem response = FundingItem.builder()
-                .fundingKey("FF-0001")
+                .funding(getFundingRequest())
                 .itemName("은 귀걸이")
                 .optionType(FundingItemOptionType.NONE)
                 .fundingItemOptions(responseItemOptions)
@@ -345,7 +351,7 @@ public class FundingRestAdapterTest {
         responseRewardItems.add(createResponseRewardItem(3L));
 
         FundingReward response = FundingReward.builder()
-                .fundingKey("FF-0001")
+                .funding(getFundingRequest())
                 .isDelivery(true)
                 .rewardTitle("귀걸이 세트")
                 .amount(BigInteger.valueOf(15000))
@@ -398,7 +404,7 @@ public class FundingRestAdapterTest {
 
     private FundingRewardItem createResponseRewardItem(Long fundingItemId) {
         return FundingRewardItem.builder()
-                .fundingItemId(fundingItemId)
+                .fundingItem(FundingItem.builder().id(fundingItemId).build())
                 .build();
     }
 }
