@@ -138,7 +138,7 @@ public class FundingServiceTest {
 
     private FundingCreator getFundingCreator() {
         return FundingCreator.builder()
-                .funding(getFundingByFundingKey())
+                .funding(getFundingRequest())
                 .isValid(true)
                 .businessNumber("12345678")
                 .representative("홍길동")
@@ -146,7 +146,7 @@ public class FundingServiceTest {
                 .build();
     }
 
-    private Funding getFundingByFundingKey() {
+    private Funding getFundingRequest() {
         return Funding.builder().fundingKey("FF-0001").build();
     }
 
@@ -176,7 +176,7 @@ public class FundingServiceTest {
 
     private FundingItem getFundingItem() {
         return FundingItem.builder()
-                .funding(getFundingByFundingKey())
+                .funding(getFundingRequest())
                 .itemName("은 귀걸이")
                 .optionType(FundingItemOptionType.NONE)
                 .fundingItemOptions(getFundingItemOptions())
@@ -227,7 +227,7 @@ public class FundingServiceTest {
 
     private FundingReward getFundingReward() {
         return FundingReward.builder()
-                .funding(getFundingByFundingKey())
+                .funding(getFundingRequest())
                 .isDelivery(true)
                 .rewardTitle("귀걸이 세트")
                 .amount(BigInteger.valueOf(15000))

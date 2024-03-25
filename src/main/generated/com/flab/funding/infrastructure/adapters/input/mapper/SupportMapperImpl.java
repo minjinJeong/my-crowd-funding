@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-17T20:12:32+0900",
+    date = "2024-03-25T18:49:59+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
@@ -27,7 +27,6 @@ public class SupportMapperImpl implements SupportMapper {
 
         Support.SupportBuilder support = Support.builder();
 
-        support.rewardId( supportRegisterRequest.getRewardId() );
         support.supportDelivery( supportDeliveryRequestToSupportDelivery( supportRegisterRequest.getSupportDelivery() ) );
         support.supportPayment( supportPaymentRequestToSupportPayment( supportRegisterRequest.getSupportPayment() ) );
 
@@ -56,7 +55,6 @@ public class SupportMapperImpl implements SupportMapper {
 
         SupportDeliveryInfoResponse.SupportDeliveryInfoResponseBuilder supportDeliveryInfoResponse = SupportDeliveryInfoResponse.builder();
 
-        supportDeliveryInfoResponse.supportKey( supportDelivery.getSupportKey() );
         supportDeliveryInfoResponse.status( supportDelivery.getStatus() );
 
         return supportDeliveryInfoResponse.build();

@@ -11,11 +11,9 @@ import java.util.UUID;
 public class Support {
 
     private Long id;
-    private Long userId;
-    private String userKey;
-    private Long fundingId;
-    private String fundingKey;
-    private Long rewardId;
+    private Member member;
+    private Funding funding;
+    private FundingReward reward;
     private String supportKey;
     private SupportStatus status;
     private SupportDelivery supportDelivery;

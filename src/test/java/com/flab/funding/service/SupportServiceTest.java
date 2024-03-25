@@ -33,7 +33,7 @@ public class SupportServiceTest {
         given(supportPort.saveSupport(any(Support.class)))
                 .willReturn(support);
 
-        given(supportPort.getSupportBySupportKey(any()))
+        given(supportPort.getSupportRequest(any()))
                 .willReturn(support);
 
         //when
@@ -43,9 +43,9 @@ public class SupportServiceTest {
         //then
         assertNotNull(savedSupport.getSupportKey());
         assertEquals(savedSupport.getId(), findSupport.getId());
-        assertEquals(savedSupport.getUserKey(), findSupport.getUserKey());
-        assertEquals(savedSupport.getFundingKey(), findSupport.getFundingKey());
-        assertEquals(savedSupport.getRewardId(), findSupport.getRewardId());
+        assertEquals(savedSupport.getMember().getUserKey(), findSupport.getMember().getUserKey());
+        assertEquals(savedSupport.getFunding().getFundingKey(), findSupport.getFunding().getFundingKey());
+        assertEquals(savedSupport.getReward().getId(), findSupport.getReward().getId());
         assertEquals(savedSupport.getSupportKey(), findSupport.getSupportKey());
         assertEquals(savedSupport.getStatus(), SupportStatus.RESERVATION);
         assertEquals(savedSupport.getStatus(), findSupport.getStatus());
@@ -56,24 +56,60 @@ public class SupportServiceTest {
 
     private Support getSupport() {
         return Support.builder()
-                .userKey("MM-0001")
-                .fundingKey("FF-0001")
-                .rewardId(1L)
+                .member(getMemberRequest())
+                .funding(getFundingRequest())
+                .reward(getRewardRequest())
                 .supportDelivery(getSupportDelivery())
                 .supportPayment(getSupportPayment())
                 .build();
     }
 
+    private Member getMemberRequest() {
+        return Member.builder()
+                .userKey("MM-0001")
+                .build();
+    }
+
+    private Funding getFundingRequest() {
+        return Funding.builder()
+                .fundingKey("FF-0001")
+                .build();
+    }
+
+    private FundingReward getRewardRequest() {
+        return FundingReward.builder()
+                .id(1L)
+                .build();
+    }
+
     private SupportPayment getSupportPayment() {
         return SupportPayment.builder()
-                .memberPaymentMethodKey("PM-0001")
+                .paymentMethod(getPaymentMethodRequest())
+                .build();
+    }
+
+    private PaymentMethod getPaymentMethodRequest() {
+        return PaymentMethod.builder()
+                .paymentMethodKey("PM-0001")
                 .build();
     }
 
     private SupportDelivery getSupportDelivery() {
         return SupportDelivery.builder()
+                .support(getSupportRequest())
+                .deliveryAddress(getDeliveryAddressRequest())
+                .build();
+    }
+
+    private Support getSupportRequest() {
+        return Support.builder()
                 .supportKey("SS-0001")
-                .memberDeliveryAddressKey("DA-0001")
+                .build();
+    }
+
+    private DeliveryAddress getDeliveryAddressRequest() {
+        return DeliveryAddress.builder()
+                .deliveryAddressKey("DA-0001")
                 .build();
     }
 
@@ -84,7 +120,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryBySupportKey(any()))
+        given(supportPort.getSupportDeliveryRequest(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -104,7 +140,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryBySupportKey(any()))
+        given(supportPort.getSupportDeliveryRequest(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -124,7 +160,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryBySupportKey(any()))
+        given(supportPort.getSupportDeliveryRequest(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))

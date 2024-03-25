@@ -11,12 +11,11 @@ import com.flab.funding.infrastructure.adapters.input.data.request.FundingReward
 import com.flab.funding.infrastructure.adapters.input.data.response.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FundingMapper {
+public interface FundingMapper extends DefaultMethodToMapper {
 
     FundingMapper INSTANCE = Mappers.getMapper(FundingMapper.class);
 
@@ -26,13 +25,10 @@ public interface FundingMapper {
 
     FundingInfoResponse toFundingInfoResponse(Funding funding);
 
-    @Mapping(source = "fundingKey", target = "funding", qualifiedByName = "toFunding")
     FundingCreator toFundingCreator(FundingCreatorRegisterRequest fundingCreatorRegisterRequest);
 
-    @Mapping(source = "fundingKey", target = "funding", qualifiedByName = "toFunding")
     FundingReward toFundingReward(FundingRewardRegisterRequest fundingRewardRegisterRequest);
 
-    @Mapping(source = "fundingKey", target = "funding", qualifiedByName = "toFunding")
     FundingItem toFundingItem(FundingItemRegisterRequest fundingItemRegisterRequest);
 
     @Mapping(source = "funding.fundingKey", target = "fundingKey")
@@ -43,13 +39,4 @@ public interface FundingMapper {
 
     @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingRewardInfoResponse toFundingRewardInfoResponse(FundingReward fundingReward);
-
-    @Named("toFunding")
-    default Funding toFunding(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        return Funding.builder().fundingKey(value).build();
-    }
 }
