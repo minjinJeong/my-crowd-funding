@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface FundingItemRepository extends JpaRepository<FundingItemEntity, Long> {
 
-    Optional<FundingItemEntity> findByFundingKey(String fundingKey);
+    Optional<FundingItemEntity> findByFunding_FundingKey(String fundingKey);
 }

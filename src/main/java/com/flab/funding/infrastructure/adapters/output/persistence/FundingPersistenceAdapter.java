@@ -70,7 +70,7 @@ public class FundingPersistenceAdapter implements FundingPort {
     @Override
     public FundingCreator getFundingCreatorByFundingKey(String fundingKey) {
 
-        FundingCreatorEntity fundingCreatorEntity = fundingCreatorRepository.findByFundingKey(fundingKey)
+        FundingCreatorEntity fundingCreatorEntity = fundingCreatorRepository.findByFunding_FundingKey(fundingKey)
                 .orElse(FundingCreatorEntity.builder().build());
 
         return fundingCreatorEntity.toFundingCreator();
@@ -79,7 +79,7 @@ public class FundingPersistenceAdapter implements FundingPort {
     @Override
     public FundingItem getFundingItemByFundingKey(String fundingKey) {
 
-        FundingItemEntity fundingItemEntity = fundingItemRepository.findByFundingKey(fundingKey)
+        FundingItemEntity fundingItemEntity = fundingItemRepository.findByFunding_FundingKey(fundingKey)
                 .orElse(FundingItemEntity.builder().build());
 
         return fundingItemEntity.toFundingItem();
@@ -88,7 +88,7 @@ public class FundingPersistenceAdapter implements FundingPort {
     @Override
     public FundingReward getFundingRewardByFundingKey(String fundingKey) {
 
-        FundingRewardEntity fundingRewardEntity = fundingRewardRepository.findByFundingKey(fundingKey)
+        FundingRewardEntity fundingRewardEntity = fundingRewardRepository.findByFunding_FundingKey(fundingKey)
                 .orElse(FundingRewardEntity.builder().build());
 
         return fundingRewardEntity.toFundingReward();

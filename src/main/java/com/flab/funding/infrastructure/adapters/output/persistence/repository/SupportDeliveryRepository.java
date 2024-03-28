@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface SupportDeliveryRepository extends JpaRepository<SupportDeliveryEntity, Long> {
 
-    Optional<SupportDeliveryEntity> getSupportDeliveryBySupportKey(String supportKey);
+    Optional<SupportDeliveryEntity> getSupportDeliveryBySupport_SupportKey(String supportKey);
 }
