@@ -3,10 +3,9 @@ package com.flab.funding.service;
 import com.flab.funding.application.ports.output.FundingPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.FundingService;
-import jdk.jfr.Name;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,7 +30,7 @@ public class FundingServiceTest {
     private FundingPort fundingPort;
 
     @Test
-    @Named("펀딩 등록")
+    @DisplayName("펀딩 등록")
     public void registerFunding() {
         //given
         Funding funding = getFunding();
@@ -112,7 +111,7 @@ public class FundingServiceTest {
     }
 
     @Test
-    @Named("펀딩 창장자 등록")
+    @DisplayName("펀딩 창장자 등록")
     public void registerFundingCreator() {
         //given
         FundingCreator fundingCreator = getFundingCreator();
@@ -151,7 +150,7 @@ public class FundingServiceTest {
     }
 
     @Test
-    @Named("펀딩 아이템 생성")
+    @DisplayName("펀딩 아이템 생성")
     public void makeFundingItem() {
         //given
         FundingItem fundingItem = getFundingItem();
@@ -197,7 +196,7 @@ public class FundingServiceTest {
     }
 
     @Test
-    @Named("펀딩 리워드 생성")
+    @DisplayName("펀딩 리워드 생성")
     public void makeFundingReward() {
         //given
         FundingReward fundingReward = getFundingReward();
@@ -253,7 +252,7 @@ public class FundingServiceTest {
     }
     
     @Test
-    @Name("펀딩 심사대기")
+    @DisplayName("펀딩 심사대기")
     public void waitForReview() {
         //given
         Funding funding = getFunding().register();
@@ -272,7 +271,7 @@ public class FundingServiceTest {
     }
     
     @Test
-    @Named("펀딩 심사완료")
+    @DisplayName("펀딩 심사완료")
     public void completeReview() {
         //given
         Funding funding = getFunding().register();
@@ -291,7 +290,7 @@ public class FundingServiceTest {
     }
     
     @Test
-    @Named("펀딩 취소")
+    @DisplayName("펀딩 취소")
     public void cancel() {
         //given
         Funding funding = getFunding().register();

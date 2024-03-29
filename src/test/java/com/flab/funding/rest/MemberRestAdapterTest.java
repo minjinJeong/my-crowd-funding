@@ -8,6 +8,7 @@ import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.rest.MemberRestAdapter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class MemberRestAdapterTest {
     private MemberService memberService;
 
     @Test
+    @DisplayName("회원가입")
     void registerMember() throws Exception {
 
         // given
@@ -95,6 +97,7 @@ public class MemberRestAdapterTest {
     }
 
     @Test
+    @DisplayName("회원탈퇴")
     void deregisterMember() throws Exception {
         //given
         String request = "MM-0001";
@@ -133,6 +136,7 @@ public class MemberRestAdapterTest {
     }
 
     @Test
+    @DisplayName("회원조회")
     void getMember() throws Exception {
         //given
         String request = "MM-0001";

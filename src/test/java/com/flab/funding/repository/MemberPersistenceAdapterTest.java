@@ -6,11 +6,12 @@ import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.output.persistence.MemberPersistenceAdapter;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -20,20 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@DataJpaTest
 public class MemberPersistenceAdapterTest {
 
-    private final MemberRepository memberRepository;
     private final MemberPort memberPort;
 
     @Autowired
     public MemberPersistenceAdapterTest(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
         this.memberPort = new MemberPersistenceAdapter(memberRepository);
     }
 
     @Test
-    @Named("회원가입")
+    @DisplayName("회원가입")
     public void saveMember() {
         //given
         Member member = getMember().activate();
@@ -61,7 +60,7 @@ public class MemberPersistenceAdapterTest {
     }
 
     @Test
-    @Named("회원 키로 회원조회")
+    @DisplayName("회원 키로 회원조회")
     public void getMemberByUserKey() {
         //given
         Member member = getMember().activate();
@@ -76,7 +75,7 @@ public class MemberPersistenceAdapterTest {
     }
 
     @Test
-    @Named("이메일로 회원조회")
+    @DisplayName("이메일로 회원조회")
     public void getMemberByEmail() {
         //given
         Member member = getMember().activate();

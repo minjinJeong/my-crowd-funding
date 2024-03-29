@@ -7,9 +7,9 @@ import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,7 +31,7 @@ public class MemberServiceTest {
     private MemberPort memberPort;
 
     @Test
-    @Named("회원가입")
+    @DisplayName("회원가입")
     public void join() {
         //given
         Member member = getMember();
@@ -79,7 +79,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    @Named("중복 회원 예외")
+    @DisplayName("중복 회원 예외")
     public void duplicateMember() {
         //given
         Member member = getMember();
@@ -93,7 +93,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    @Named("회원탈퇴")
+    @DisplayName("회원탈퇴")
     public void withdraw() {
         //given
         Member member = getMember();

@@ -3,9 +3,9 @@ package com.flab.funding.service;
 import com.flab.funding.application.ports.output.SupportPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,7 +25,7 @@ public class SupportServiceTest {
     private SupportPort supportPort;
     
     @Test
-    @Named("후원 등록")
+    @DisplayName("후원 등록")
     public void registerSupport() {
         //given
         Support support = getSupport();
@@ -114,7 +114,7 @@ public class SupportServiceTest {
     }
 
     @Test
-    @Named("배송 시작")
+    @DisplayName("배송 시작")
     public void shippedOut() {
         //given
         Support support = getSupport();
@@ -134,7 +134,7 @@ public class SupportServiceTest {
     }
 
     @Test
-    @Named("배송 중")
+    @DisplayName("배송 중")
     public void outForDelivery() {
         //given
         Support support = getSupport();
@@ -154,7 +154,7 @@ public class SupportServiceTest {
     }
     
     @Test
-    @Named("배송 완료")
+    @DisplayName("배송 완료")
     public void deliveryComplete() {
         //given
         Support support = getSupport();

@@ -7,7 +7,7 @@ import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.model.PaymentMethod;
 import com.flab.funding.domain.service.MemberPaymentMethodService;
-import jdk.jfr.Name;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ public class MemberPaymentMethodServiceTest {
     private MemberPort memberPort;
 
     @Test
-    @Name("결제수단 등록")
+    @DisplayName("결제수단 등록")
     public void registerPaymentMethod() {
         //given
         PaymentMethod paymentMethod = getPaymentMethod();
