@@ -5,6 +5,7 @@ import com.flab.funding.domain.model.Support;
 import com.flab.funding.domain.model.SupportDelivery;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportDeliveryEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportEntity;
+import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportDeliveryRepository;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class SupportPersistenceAdapter implements SupportPort {
 
     private final SupportRepository supportRepository;
+    private final SupportDeliveryRepository supportDeliveryRepository;
 
     @Override
     public Support saveSupport(Support support) {
@@ -34,14 +36,14 @@ public class SupportPersistenceAdapter implements SupportPort {
     @Override
     public SupportDelivery saveSupportDelivery(SupportDelivery supportDelivery) {
         SupportDeliveryEntity supportDeliveryEntity = SupportDeliveryEntity.from(supportDelivery);
-        SupportDeliveryEntity savedSupportDelivery = supportRepository.save(supportDeliveryEntity);
+        SupportDeliveryEntity savedSupportDelivery = supportDeliveryRepository.save(supportDeliveryEntity);
         return savedSupportDelivery.toSupportDelivery();
     }
 
     @Override
     public SupportDelivery getSupportDeliveryRequest(String supportKey) {
         SupportDeliveryEntity findSupportDeliveryEntity
-                = supportRepository.getSupportDeliveryBySupportKey(supportKey)
+                = supportDeliveryRepository.getSupportDeliveryBySupport_SupportKey(supportKey)
                     .orElse(SupportDeliveryEntity.builder().build());
 
         return findSupportDeliveryEntity.toSupportDelivery();

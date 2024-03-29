@@ -21,7 +21,7 @@ public class FundingCreatorEntity {
     @Column(name = "funding_creator_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funding_id")
     private FundingEntity funding;
 
