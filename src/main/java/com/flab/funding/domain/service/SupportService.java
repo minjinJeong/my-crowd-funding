@@ -10,7 +10,6 @@ import com.flab.funding.domain.model.SupportPayment;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
 
-// TODO : JPA 연동 후 로직 수정
 @UseCase
 @RequiredArgsConstructor
 public class SupportService implements RegisterSupportUseCase, SupportDeliveryUseCase, SupportPaymentUseCase {
