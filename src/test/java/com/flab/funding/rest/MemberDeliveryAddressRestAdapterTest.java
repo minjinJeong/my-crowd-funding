@@ -6,6 +6,7 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.rest.MemberDeliveryAddressRestAdapter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class MemberDeliveryAddressRestAdapterTest {
     private MemberDeliveryAddressService memberDeliveryAddressService;
 
     @Test
+    @DisplayName("배송지 등록")
     void registerDeliveryAddress() throws Exception {
 
         // given

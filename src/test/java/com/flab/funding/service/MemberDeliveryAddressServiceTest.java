@@ -7,9 +7,9 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -34,7 +34,7 @@ public class MemberDeliveryAddressServiceTest {
     private MemberPort memberPort;
 
     @Test
-    @Named("배송지 등록")
+    @DisplayName("배송지 등록")
     public void registerDeliveryAddress() {
         //given
         DeliveryAddress deliveryAddress = getDeliveryAddress();
