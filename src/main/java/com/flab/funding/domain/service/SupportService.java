@@ -23,24 +23,24 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
 
     @Override
     public Support getSupportBySupportKey(String supportKey) {
-        return supportPort.getSupportRequest(supportKey);
+        return supportPort.getSupportBySupportKey(supportKey);
     }
 
     @Override
     public SupportDelivery shippedOut(String supportKey) {
-        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryRequest(supportKey);
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
         return supportPort.saveSupportDelivery(findSupportDelivery.shippedOut());
     }
 
     @Override
     public SupportDelivery outForDelivery(String supportKey) {
-        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryRequest(supportKey);
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
         return supportPort.saveSupportDelivery(findSupportDelivery.inDelivery());
     }
 
     @Override
     public SupportDelivery deliveryComplete(String supportKey) {
-        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryRequest(supportKey);
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
         return supportPort.saveSupportDelivery(findSupportDelivery.complete());
     }
 

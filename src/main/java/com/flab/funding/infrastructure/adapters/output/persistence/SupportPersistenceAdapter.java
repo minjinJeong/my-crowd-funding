@@ -9,14 +9,17 @@ import com.flab.funding.infrastructure.adapters.output.persistence.repository.Su
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class SupportPersistenceAdapter implements SupportPort {
 
     private final SupportRepository supportRepository;
     private final SupportDeliveryRepository supportDeliveryRepository;
 
+    @Transactional
     @Override
     public Support saveSupport(Support support) {
         SupportEntity supportEntity = SupportEntity.from(support);
@@ -25,14 +28,15 @@ public class SupportPersistenceAdapter implements SupportPort {
     }
 
     @Override
-    public Support getSupportRequest(String SupportKey) {
+    public Support getSupportBySupportKey(String SupportKey) {
         SupportEntity findSupportEntity
                 = supportRepository.getSupportBySupportKey(SupportKey)
-                    .orElse(SupportEntity.builder().build());
+                .orElse(SupportEntity.builder().build());
 
         return findSupportEntity.toSupport();
     }
 
+    @Transactional
     @Override
     public SupportDelivery saveSupportDelivery(SupportDelivery supportDelivery) {
         SupportDeliveryEntity supportDeliveryEntity = SupportDeliveryEntity.from(supportDelivery);
@@ -41,10 +45,10 @@ public class SupportPersistenceAdapter implements SupportPort {
     }
 
     @Override
-    public SupportDelivery getSupportDeliveryRequest(String supportKey) {
+    public SupportDelivery getSupportDeliveryBySupportKey(String supportKey) {
         SupportDeliveryEntity findSupportDeliveryEntity
                 = supportDeliveryRepository.getSupportDeliveryBySupport_SupportKey(supportKey)
-                    .orElse(SupportDeliveryEntity.builder().build());
+                .orElse(SupportDeliveryEntity.builder().build());
 
         return findSupportDeliveryEntity.toSupportDelivery();
     }

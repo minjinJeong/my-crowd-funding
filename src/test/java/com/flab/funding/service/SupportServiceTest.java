@@ -33,7 +33,7 @@ public class SupportServiceTest {
         given(supportPort.saveSupport(any(Support.class)))
                 .willReturn(support);
 
-        given(supportPort.getSupportRequest(any()))
+        given(supportPort.getSupportBySupportKey(any()))
                 .willReturn(support);
 
         //when
@@ -120,7 +120,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -140,7 +140,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -160,7 +160,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
