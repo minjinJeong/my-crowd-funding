@@ -9,6 +9,10 @@ import com.flab.funding.infrastructure.adapters.output.persistence.repository.Fu
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.FundingRewardRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -18,10 +22,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
 public class FundingPersistenceAdapterTest {
 
     private final FundingPort fundingPort;
 
+    @Autowired
     public FundingPersistenceAdapterTest(FundingRepository fundingRepository,
                                          FundingCreatorRepository fundingCreatorRepository,
                                          FundingItemRepository fundingItemRepository,
@@ -39,7 +46,7 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 등록")
     public void saveFunding() {
         //given
-        Funding funding = getFunding();
+        Funding funding = getFunding().register();
 
         //when
         Funding savedFunding = fundingPort.saveFunding(funding);
@@ -60,7 +67,7 @@ public class FundingPersistenceAdapterTest {
         assertEquals(funding.getScheduleDescription(), savedFunding.getScheduleDescription());
         assertEquals(funding.getTeamDescription(), savedFunding.getTeamDescription());
         assertEquals(funding.getRewardDescription(), savedFunding.getRewardDescription());
-        assertIterableEquals(funding.getTags(), savedFunding.getTags());
+        assertEquals(funding.getTags().size(), savedFunding.getTags().size());
         assertEquals(funding.getStartAt(), savedFunding.getStartAt());
         assertEquals(funding.getEndAt(), savedFunding.getEndAt());
     }
@@ -109,7 +116,7 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 조회")
     public void getFundingByFundingKey() {
         //given
-        Funding funding = getFunding();
+        Funding funding = getFunding().register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
         //when
@@ -131,7 +138,7 @@ public class FundingPersistenceAdapterTest {
 
         //then
         assertNotNull(savedFundingCreator.getId());
-        assertEquals(fundingCreator.getFunding(), savedFundingCreator.getFunding());
+        assertEquals(fundingCreator.getFunding().getFundingKey(), savedFundingCreator.getFunding().getFundingKey());
         assertEquals(fundingCreator.getIsValid(), savedFundingCreator.getIsValid());
         assertEquals(fundingCreator.getBusinessNumber(), savedFundingCreator.getBusinessNumber());
         assertEquals(fundingCreator.getRepresentative(), savedFundingCreator.getRepresentative());

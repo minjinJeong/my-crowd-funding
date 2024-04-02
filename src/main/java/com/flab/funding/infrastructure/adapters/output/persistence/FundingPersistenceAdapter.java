@@ -15,9 +15,11 @@ import com.flab.funding.infrastructure.adapters.output.persistence.repository.Fu
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.FundingRewardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FundingPersistenceAdapter implements FundingPort {
 
     private final FundingRepository fundingRepository;
@@ -25,6 +27,7 @@ public class FundingPersistenceAdapter implements FundingPort {
     private final FundingItemRepository fundingItemRepository;
     private final FundingRewardRepository fundingRewardRepository;
 
+    @Transactional
     @Override
     public Funding saveFunding(Funding funding) {
 
@@ -42,6 +45,7 @@ public class FundingPersistenceAdapter implements FundingPort {
         return fundingEntity.toFunding();
     }
 
+    @Transactional
     @Override
     public FundingCreator saveFundingCreator(FundingCreator fundingCreator) {
 
@@ -50,6 +54,7 @@ public class FundingPersistenceAdapter implements FundingPort {
         return savedFundingCreator.toFundingCreator();
     }
 
+    @Transactional
     @Override
     public FundingItem saveFundingItem(FundingItem fundingItem) {
 
@@ -58,6 +63,7 @@ public class FundingPersistenceAdapter implements FundingPort {
         return savedFundingItem.toFundingItem();
     }
 
+    @Transactional
     @Override
     public FundingReward saveFundingReward(FundingReward fundingReward) {
 

@@ -76,6 +76,7 @@ public class MemberPersistenceAdapterTest {
         Member findMember = memberPort.getMemberByUserKey(savedMember.getUserKey());
 
         //then
+        assertNotNull(savedMember.getUserKey());
         assertEquals(savedMember.getUserKey(), findMember.getUserKey());
         assertEquals(savedMember.getEmail(), findMember.getEmail());
     }
@@ -91,6 +92,7 @@ public class MemberPersistenceAdapterTest {
         List<Member> findMember = memberPort.getMemberByEmail(savedMember.getEmail());
 
         //then
+        assertNotNull(savedMember.getUserKey());
         assertEquals(1, findMember.size());
     }
 }

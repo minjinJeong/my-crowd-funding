@@ -6,13 +6,16 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Member
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberDeliveryAddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberDeliveryAddressPersistenceAdapter implements MemberDeliveryAddressPort {
 
     private final MemberDeliveryAddressRepository memberDeliveryAddressRepository;
 
+    @Transactional
     @Override
     public DeliveryAddress saveDeliveryAddress(DeliveryAddress deliveryAddress) {
         MemberDeliveryAddressEntity deliveryAddressEntity = MemberDeliveryAddressEntity.from(deliveryAddress);
