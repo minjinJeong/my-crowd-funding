@@ -5,39 +5,70 @@ import com.flab.funding.application.ports.input.FindFundingUseCase;
 import com.flab.funding.application.ports.input.RegisterFundingUseCase;
 import com.flab.funding.application.ports.input.ReviewFundingUseCase;
 import com.flab.funding.application.ports.output.FundingPort;
-import com.flab.funding.domain.model.Funding;
-import com.flab.funding.domain.model.FundingCreator;
-import com.flab.funding.domain.model.FundingItem;
-import com.flab.funding.domain.model.FundingReward;
+import com.flab.funding.application.ports.output.MemberPort;
+import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
 public class FundingService implements RegisterFundingUseCase, ReviewFundingUseCase, CancelFundingUseCase, FindFundingUseCase {
 
     private final FundingPort fundingPort;
+    private final MemberPort memberPort;
 
     @Override
     public Funding registerFunding(Funding funding) {
-        return fundingPort.saveFunding(funding.register());
+
+        Member member =
+                memberPort.getMemberByUserKey(funding.getMember().getUserKey());
+
+        return fundingPort.saveFunding(funding.member(member).register());
     }
 
     @Override
     public FundingCreator registerFundingCreator(FundingCreator fundingCreator) {
-        return fundingPort.saveFundingCreator(fundingCreator);
+
+        Funding funding =
+                fundingPort.getFundingByFundingKey(fundingCreator.getFunding().getFundingKey());
+
+        return fundingPort.saveFundingCreator(fundingCreator.funding(funding));
     }
 
-    // TODO : JPA List 저장 방식 공부 후, 아이템 옵션 저장 로직 수정
     @Override
     public FundingItem makeFundingItem(FundingItem fundingItem) {
-        return fundingPort.saveFundingItem(fundingItem);
+
+        Funding funding =
+                fundingPort.getFundingByFundingKey(fundingItem.getFunding().getFundingKey());
+
+        return fundingPort.saveFundingItem(fundingItem.funding(funding));
     }
 
-    // TODO : JPA List 저장 방식 공부 후, 리워드 아이템 저장 로직 수정
     @Override
     public FundingReward makeFundingReward(FundingReward fundingReward) {
-        return fundingPort.saveFundingReward(fundingReward);
+
+        Funding funding =
+                fundingPort.getFundingByFundingKey(fundingReward.getFunding().getFundingKey());
+
+        FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward.funding(funding));
+
+        mappingFundingRewardItem(funding, savedFundingReward);
+
+        return savedFundingReward;
+    }
+
+    private void mappingFundingRewardItem(Funding funding, FundingReward fundingReward) {
+        List<FundingRewardItem> fundingRewardItems = fundingReward.getFundingRewardItems();
+        for (FundingRewardItem rewardItem : fundingRewardItems) {
+            FundingRewardItem.builder()
+                    .funding(funding)
+                    .fundingReward(fundingReward)
+                    .fundingItem(rewardItem.getFundingItem());
+        }
+
+        fundingPort.saveFundingRewardItems(fundingRewardItems);
     }
 
     @Override

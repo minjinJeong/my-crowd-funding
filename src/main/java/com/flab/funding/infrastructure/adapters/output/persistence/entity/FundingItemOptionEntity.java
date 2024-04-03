@@ -22,7 +22,7 @@ public class FundingItemOptionEntity {
     @JoinColumn(name = "funding_item_id")
     private FundingItemEntity fundingItem;
 
-    private String optionName;
+    private String option;
 
     private LocalDateTime createdAt;
 

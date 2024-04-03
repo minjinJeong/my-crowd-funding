@@ -1,6 +1,7 @@
 package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.FundingPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.FundingService;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith({MockitoExtension.class})
@@ -29,11 +31,17 @@ public class FundingServiceTest {
     @Mock
     private FundingPort fundingPort;
 
+    @Mock
+    private MemberPort memberPort;
+
     @Test
     @DisplayName("펀딩 등록")
     public void registerFunding() {
         //given
         Funding funding = getFunding();
+
+        given(memberPort.getMemberByUserKey(eq(funding.getMember().getUserKey())))
+                .willReturn(getMember());
 
         given(fundingPort.saveFunding(any(Funding.class)))
                 .willReturn(funding);
@@ -116,6 +124,9 @@ public class FundingServiceTest {
         //given
         FundingCreator fundingCreator = getFundingCreator();
 
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFunding());
+
         given(fundingPort.saveFundingCreator(any(FundingCreator.class)))
                 .willReturn(fundingCreator);
 
@@ -154,6 +165,9 @@ public class FundingServiceTest {
     public void makeFundingItem() {
         //given
         FundingItem fundingItem = getFundingItem();
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFunding());
 
         given(fundingPort.saveFundingItem(any(FundingItem.class)))
                 .willReturn(fundingItem);
@@ -201,8 +215,14 @@ public class FundingServiceTest {
         //given
         FundingReward fundingReward = getFundingReward();
 
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFunding());
+
         given(fundingPort.saveFundingReward(any(FundingReward.class)))
                 .willReturn(fundingReward);
+
+        given(fundingPort.saveFundingRewardItems(any()))
+                .willReturn(getFundingRewardItems());
 
         given(fundingPort.getFundingRewardByFundingKey(any()))
                 .willReturn(fundingReward);

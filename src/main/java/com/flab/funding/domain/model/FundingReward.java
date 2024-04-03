@@ -23,4 +23,9 @@ public class FundingReward {
     private LocalDate expectDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public FundingReward funding(Funding funding) {
+        this.funding = funding;
+        return this;
+    }
 }

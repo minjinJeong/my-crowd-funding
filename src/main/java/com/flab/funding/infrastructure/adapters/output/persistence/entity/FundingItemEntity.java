@@ -39,7 +39,7 @@ public class FundingItemEntity {
 
     private LocalDateTime updatedAt;
 
-    public static FundingItemEntity toFundingItemEntity(FundingItem fundingItem) {
+    public static FundingItemEntity from(FundingItem fundingItem) {
         return FundingPersistenceMapper.INSTANCE.toFundingItemEntity(fundingItem);
     }
 

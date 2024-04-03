@@ -17,4 +17,9 @@ public class FundingCreator {
     private String introduce;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public FundingCreator funding(Funding funding) {
+        this.funding = funding;
+        return this;
+    }
 }
