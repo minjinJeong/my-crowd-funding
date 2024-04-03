@@ -22,8 +22,12 @@ public class DeliveryAddress {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public DeliveryAddress register(Member member) {
+    public DeliveryAddress member(Member member) {
         this.member = member;
+        return this;
+    }
+
+    public DeliveryAddress register() {
         this.deliveryAddressKey = makeKey();
         return this;
     }

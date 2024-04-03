@@ -18,8 +18,12 @@ public class PaymentMethod {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public PaymentMethod register(Member member) {
+    public PaymentMethod member(Member member) {
         this.member = member;
+        return this;
+    }
+
+    public PaymentMethod register() {
         this.paymentMethodKey = makeKey();
         return this;
     }
