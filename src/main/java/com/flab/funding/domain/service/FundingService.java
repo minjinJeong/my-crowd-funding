@@ -16,8 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FundingService implements RegisterFundingUseCase, ReviewFundingUseCase, CancelFundingUseCase, FindFundingUseCase {
 
-    private final FundingPort fundingPort;
     private final MemberPort memberPort;
+
+    private final FundingPort fundingPort;
 
     @Override
     public Funding registerFunding(Funding funding) {

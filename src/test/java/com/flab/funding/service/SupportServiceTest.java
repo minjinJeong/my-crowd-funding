@@ -1,5 +1,7 @@
 package com.flab.funding.service;
 
+import com.flab.funding.application.ports.output.FundingPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.application.ports.output.SupportPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
@@ -23,12 +25,24 @@ public class SupportServiceTest {
 
     @Mock
     private SupportPort supportPort;
+
+    @Mock
+    private MemberPort memberPort;
+
+    @Mock
+    private FundingPort fundingPort;
     
     @Test
     @DisplayName("후원 등록")
     public void registerSupport() {
         //given
         Support support = getSupport();
+
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(getMemberRequest());
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFundingRequest());
 
         given(supportPort.saveSupport(any(Support.class)))
                 .willReturn(support);

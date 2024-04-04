@@ -52,4 +52,6 @@ public class SupportPersistenceAdapter implements SupportPort {
 
         return findSupportDeliveryEntity.toSupportDelivery();
     }
+
+    // TODO 결제수단 등록 추가
 }

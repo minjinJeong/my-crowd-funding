@@ -3,14 +3,23 @@ package com.flab.funding.repository;
 import com.flab.funding.application.ports.output.SupportPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.adapters.output.persistence.SupportPersistenceAdapter;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.*;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportDeliveryRepository;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,11 +30,136 @@ public class SupportPersistenceAdapterTest {
 
     private final SupportPort supportPort;
 
+    private Member member;
+
+    private Funding funding;
+
+    private FundingReward reward;
+
+    private DeliveryAddress deliveryAddress;
+
+    private PaymentMethod paymentMethod;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
     @Autowired
     public SupportPersistenceAdapterTest(SupportRepository supportRepository,
                                          SupportDeliveryRepository supportDeliveryRepository) {
 
         this.supportPort = new SupportPersistenceAdapter(supportRepository, supportDeliveryRepository);
+    }
+
+    @BeforeEach
+    public void setUp() {
+
+        member = saveMember().toMember();
+
+        funding = saveFunding().toFunding();
+
+        reward = saveReward().toFundingReward();
+
+        deliveryAddress = saveDeliveryAddress().toDeliveryAddress();
+
+        paymentMethod = savePaymentMethod().toPaymentMethod();
+
+    }
+
+    private MemberEntity saveMember() {
+        Member savedMember = Member.builder()
+                .linkType(MemberLinkType.NONE)
+                .email("Test@gmail.com")
+                .userName("홍길순")
+                .nickName("테스터")
+                .phoneNumber("010-1111-2222")
+                .gender(MemberGender.FEMALE)
+                .birthday(LocalDate.of(1998, 1, 30))
+                .password("")
+                .build();
+
+        return entityManager.persist(MemberEntity.from(
+                savedMember.activate())
+        );
+    }
+
+    private FundingEntity saveFunding() {
+        Funding savedFunding = Funding.builder()
+                .isAdult(false)
+                .pricePlan("00")
+                .category(FundingCategory.FOOD)
+                .expectAmount(BigInteger.valueOf(100000))
+                .title("제목")
+                .fundingDescription("펀딩 상세")
+                .fundingIntroduce("펀딩 소개글")
+                .budgetDescription("예산 계획")
+                .scheduleDescription("펀딩 계획")
+                .teamDescription("팀 소개")
+                .rewardDescription("리워드 소개")
+                .tags(getTags())
+                .startAt(LocalDateTime.of(2024, 2, 1, 12, 0))
+                .endAt(LocalDateTime.of(2024, 2, 28, 12, 0))
+                .build();
+
+        return entityManager.persist(
+                FundingEntity.from(savedFunding.member(member).register())
+        );
+    }
+
+    private List<FundingTag> getTags() {
+        List<FundingTag> fundingTags = new ArrayList<>();
+        fundingTags.add(createTag("검색 키워드1"));
+        fundingTags.add(createTag("검색 키워드2"));
+        fundingTags.add(createTag("검색 키워드3"));
+        return fundingTags;
+    }
+
+    private FundingTag createTag(String tag) {
+        return FundingTag.builder()
+                .tag(tag)
+                .build();
+    }
+
+    private FundingRewardEntity saveReward() {
+        FundingReward fundingReward = FundingReward.builder()
+                .funding(funding)
+                .isDelivery(true)
+                .rewardTitle("귀걸이 세트")
+                .amount(BigInteger.valueOf(15000))
+                .countLimit(10)
+                .personalLimit(5)
+                .expectDate(LocalDate.of(2024, 3, 31))
+                .build();
+
+        return entityManager.persist(
+                FundingRewardEntity.from(fundingReward)
+        );
+    }
+
+    private MemberDeliveryAddressEntity saveDeliveryAddress() {
+        DeliveryAddress savedDeliveryAddress = DeliveryAddress.builder()
+                .member(member)
+                .isDefault(true)
+                .zipCode("01234")
+                .address("서울특별시 강서구")
+                .addressDetail("OO 아파트 xxx동 xxxx호")
+                .recipientName("홍길동")
+                .recipientPhone("010-1111-2222")
+                .build();
+
+        return entityManager.persist(
+                MemberDeliveryAddressEntity.from(savedDeliveryAddress.register())
+        );
+    }
+
+    private MemberPaymentMethodEntity savePaymentMethod() {
+        PaymentMethod savedPaymentMethod = PaymentMethod.builder()
+                .isDefault(true)
+                .paymentNumber("3565 43")
+                .build();
+
+        return entityManager.persist(
+                MemberPaymentMethodEntity.from(savedPaymentMethod.member(member).register())
+        );
     }
 
     @Test
@@ -40,68 +174,36 @@ public class SupportPersistenceAdapterTest {
         //then
         assertNotNull(savedSupport.getId());
         assertNotNull(savedSupport.getSupportKey());
-        assertEquals(support.getFunding(), savedSupport.getFunding());
-        assertEquals(support.getReward(), savedSupport.getReward());
+        assertEquals(support.getMember().getId(), savedSupport.getMember().getId());
+        assertEquals(support.getFunding().getId(), savedSupport.getFunding().getId());
+        assertEquals(support.getReward().getId(), savedSupport.getReward().getId());
         assertEquals(SupportStatus.RESERVATION, savedSupport.getStatus());
-        assertEquals(support.getSupportDelivery(), savedSupport.getSupportDelivery());
-        assertEquals(support.getSupportPayment(), savedSupport.getSupportPayment());
+        assertEquals(support.getSupportDelivery().getDeliveryAddress().getId(), savedSupport.getSupportDelivery().getDeliveryAddress().getId());
+        assertEquals(SupportDeliveryStatus.READY, savedSupport.getSupportDelivery().getStatus());
+        assertEquals(support.getSupportPayment().getPaymentMethod().getId(), savedSupport.getSupportPayment().getPaymentMethod().getId());
+        assertEquals(SupportPaymentStatus.READY, savedSupport.getSupportPayment().getStatus());
     }
     private Support getSupport() {
         return Support.builder()
-                .member(getMemberRequest())
-                .funding(getFundingRequest())
-                .reward(getRewardRequest())
+                .member(member)
+                .funding(funding)
+                .reward(reward)
                 .supportDelivery(getSupportDelivery())
                 .supportPayment(getSupportPayment())
                 .build();
     }
 
-    private Member getMemberRequest() {
-        return Member.builder()
-                .userKey("MM-0001")
-                .build();
-    }
-
-    private Funding getFundingRequest() {
-        return Funding.builder()
-                .fundingKey("FF-0001")
-                .build();
-    }
-
-    private FundingReward getRewardRequest() {
-        return FundingReward.builder()
-                .id(1L)
+    private SupportDelivery getSupportDelivery() {
+        return SupportDelivery.builder()
+                .deliveryAddress(deliveryAddress)
+                .status(SupportDeliveryStatus.READY)
                 .build();
     }
 
     private SupportPayment getSupportPayment() {
         return SupportPayment.builder()
-                .paymentMethod(getPaymentMethodRequest())
-                .build();
-    }
-
-    private PaymentMethod getPaymentMethodRequest() {
-        return PaymentMethod.builder()
-                .paymentMethodKey("PM-0001")
-                .build();
-    }
-
-    private SupportDelivery getSupportDelivery() {
-        return SupportDelivery.builder()
-                .support(getSupportRequest())
-                .deliveryAddress(getDeliveryAddressRequest())
-                .build();
-    }
-
-    private Support getSupportRequest() {
-        return Support.builder()
-                .supportKey("SS-0001")
-                .build();
-    }
-
-    private DeliveryAddress getDeliveryAddressRequest() {
-        return DeliveryAddress.builder()
-                .deliveryAddressKey("DA-0001")
+                .paymentMethod(paymentMethod)
+                .status(SupportPaymentStatus.READY)
                 .build();
     }
 

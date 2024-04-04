@@ -41,7 +41,7 @@ public class FundingServiceTest {
         Funding funding = getFunding();
 
         given(memberPort.getMemberByUserKey(eq(funding.getMember().getUserKey())))
-                .willReturn(getMember());
+                .willReturn(getMemberRequest());
 
         given(fundingPort.saveFunding(any(Funding.class)))
                 .willReturn(funding);
@@ -80,7 +80,7 @@ public class FundingServiceTest {
 
     private Funding getFunding() {
         return Funding.builder()
-                .member(getMember())
+                .member(getMemberRequest())
                 .isAdult(false)
                 .pricePlan("00")
                 .category(FundingCategory.FOOD)
@@ -98,7 +98,7 @@ public class FundingServiceTest {
                 .build();
     }
 
-    private Member getMember() {
+    private Member getMemberRequest() {
         return Member.builder()
                 .userKey("MM-0001")
                 .build();
