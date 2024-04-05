@@ -36,9 +36,9 @@ public class SupportPersistenceAdapterTest {
 
     private FundingReward reward;
 
-    private DeliveryAddress deliveryAddress;
+    private MemberDeliveryAddress memberDeliveryAddress;
 
-    private PaymentMethod paymentMethod;
+    private MemberPaymentMethod memberPaymentMethod;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -59,9 +59,9 @@ public class SupportPersistenceAdapterTest {
 
         reward = saveReward().toFundingReward();
 
-        deliveryAddress = saveDeliveryAddress().toDeliveryAddress();
+        memberDeliveryAddress = saveDeliveryAddress().toDeliveryAddress();
 
-        paymentMethod = savePaymentMethod().toPaymentMethod();
+        memberPaymentMethod = savePaymentMethod().toPaymentMethod();
 
     }
 
@@ -136,7 +136,7 @@ public class SupportPersistenceAdapterTest {
     }
 
     private MemberDeliveryAddressEntity saveDeliveryAddress() {
-        DeliveryAddress savedDeliveryAddress = DeliveryAddress.builder()
+        MemberDeliveryAddress savedMemberDeliveryAddress = MemberDeliveryAddress.builder()
                 .member(member)
                 .isDefault(true)
                 .zipCode("01234")
@@ -147,18 +147,18 @@ public class SupportPersistenceAdapterTest {
                 .build();
 
         return entityManager.persist(
-                MemberDeliveryAddressEntity.from(savedDeliveryAddress.register())
+                MemberDeliveryAddressEntity.from(savedMemberDeliveryAddress.register())
         );
     }
 
     private MemberPaymentMethodEntity savePaymentMethod() {
-        PaymentMethod savedPaymentMethod = PaymentMethod.builder()
+        MemberPaymentMethod savedMemberPaymentMethod = MemberPaymentMethod.builder()
                 .isDefault(true)
                 .paymentNumber("3565 43")
                 .build();
 
         return entityManager.persist(
-                MemberPaymentMethodEntity.from(savedPaymentMethod.member(member).register())
+                MemberPaymentMethodEntity.from(savedMemberPaymentMethod.member(member).register())
         );
     }
 
@@ -178,9 +178,9 @@ public class SupportPersistenceAdapterTest {
         assertEquals(support.getFunding().getId(), savedSupport.getFunding().getId());
         assertEquals(support.getReward().getId(), savedSupport.getReward().getId());
         assertEquals(SupportStatus.RESERVATION, savedSupport.getStatus());
-        assertEquals(support.getSupportDelivery().getDeliveryAddress().getId(), savedSupport.getSupportDelivery().getDeliveryAddress().getId());
+        assertEquals(support.getSupportDelivery().getMemberDeliveryAddress().getId(), savedSupport.getSupportDelivery().getMemberDeliveryAddress().getId());
         assertEquals(SupportDeliveryStatus.READY, savedSupport.getSupportDelivery().getStatus());
-        assertEquals(support.getSupportPayment().getPaymentMethod().getId(), savedSupport.getSupportPayment().getPaymentMethod().getId());
+        assertEquals(support.getSupportPayment().getMemberPaymentMethod().getId(), savedSupport.getSupportPayment().getMemberPaymentMethod().getId());
         assertEquals(SupportPaymentStatus.READY, savedSupport.getSupportPayment().getStatus());
     }
     private Support getSupport() {
@@ -195,14 +195,14 @@ public class SupportPersistenceAdapterTest {
 
     private SupportDelivery getSupportDelivery() {
         return SupportDelivery.builder()
-                .deliveryAddress(deliveryAddress)
+                .memberDeliveryAddress(memberDeliveryAddress)
                 .status(SupportDeliveryStatus.READY)
                 .build();
     }
 
     private SupportPayment getSupportPayment() {
         return SupportPayment.builder()
-                .paymentMethod(paymentMethod)
+                .memberPaymentMethod(memberPaymentMethod)
                 .status(SupportPaymentStatus.READY)
                 .build();
     }

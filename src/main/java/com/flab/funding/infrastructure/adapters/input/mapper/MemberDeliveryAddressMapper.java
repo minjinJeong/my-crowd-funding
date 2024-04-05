@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.mapper;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberDeliveryAddressRegisterResponse;
 import org.mapstruct.Mapper;
@@ -13,8 +13,8 @@ public interface MemberDeliveryAddressMapper extends DefaultMethodToMapper{
 
     MemberDeliveryAddressMapper INSTANCE = Mappers.getMapper(MemberDeliveryAddressMapper.class);
 
-    DeliveryAddress toDeliveryAddress(MemberDeliveryAddressRegisterRequest deliveryAddressRegisterRequest);
+    MemberDeliveryAddress toDeliveryAddress(MemberDeliveryAddressRegisterRequest deliveryAddressRegisterRequest);
 
     @Mapping(source = "member.userKey", target = "userKey")
-    MemberDeliveryAddressRegisterResponse toMemberDeliveryAddressRegisterResponse(DeliveryAddress deliveryAddress);
+    MemberDeliveryAddressRegisterResponse toMemberDeliveryAddressRegisterResponse(MemberDeliveryAddress memberDeliveryAddress);
 }

@@ -98,12 +98,12 @@ public class SupportServiceTest {
 
     private SupportPayment getSupportPayment() {
         return SupportPayment.builder()
-                .paymentMethod(getPaymentMethodRequest())
+                .memberPaymentMethod(getPaymentMethodRequest())
                 .build();
     }
 
-    private PaymentMethod getPaymentMethodRequest() {
-        return PaymentMethod.builder()
+    private MemberPaymentMethod getPaymentMethodRequest() {
+        return MemberPaymentMethod.builder()
                 .paymentMethodKey("PM-0001")
                 .build();
     }
@@ -111,7 +111,7 @@ public class SupportServiceTest {
     private SupportDelivery getSupportDelivery() {
         return SupportDelivery.builder()
                 .support(getSupportRequest())
-                .deliveryAddress(getDeliveryAddressRequest())
+                .memberDeliveryAddress(getDeliveryAddressRequest())
                 .build();
     }
 
@@ -121,8 +121,8 @@ public class SupportServiceTest {
                 .build();
     }
 
-    private DeliveryAddress getDeliveryAddressRequest() {
-        return DeliveryAddress.builder()
+    private MemberDeliveryAddress getDeliveryAddressRequest() {
+        return MemberDeliveryAddress.builder()
                 .deliveryAddressKey("DA-0001")
                 .build();
     }

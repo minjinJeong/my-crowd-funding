@@ -3,7 +3,7 @@ package com.flab.funding.domain.service;
 import com.flab.funding.application.ports.input.RegisterDeliveryAddressUseCase;
 import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
 import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
 import jakarta.transaction.Transactional;
@@ -18,16 +18,16 @@ public class MemberDeliveryAddressService implements RegisterDeliveryAddressUseC
 
     @Override
     @Transactional
-    public DeliveryAddress registerDeliveryAddress(DeliveryAddress deliveryAddress) {
+    public MemberDeliveryAddress registerDeliveryAddress(MemberDeliveryAddress memberDeliveryAddress) {
 
         Member member =
-                memberPort.getMemberByUserKey(deliveryAddress.getMember().getUserKey());
+                memberPort.getMemberByUserKey(memberDeliveryAddress.getMember().getUserKey());
 
-        return deliveryAddressPort.saveDeliveryAddress(deliveryAddress.member(member).register());
+        return deliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress.member(member).register());
     }
 
     @Override
-    public DeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey) {
+    public MemberDeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey) {
         return deliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(deliveryAddressKey);
     }
 }

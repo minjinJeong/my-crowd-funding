@@ -1,8 +1,8 @@
 package com.flab.funding.repository;
 
 import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
-import com.flab.funding.domain.model.DeliveryAddress;
 import com.flab.funding.domain.model.Member;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.output.persistence.MemberDeliveryAddressPersistenceAdapter;
@@ -59,25 +59,25 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
     @DisplayName("배송지 주소 등록")
     public void saveDeliveryAddress() {
         //given
-        DeliveryAddress deliveryAddress = getDeliveryAddress().member(member).register();
+        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().member(member).register();
 
         //when
-        DeliveryAddress savedDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(deliveryAddress);
+        MemberDeliveryAddress savedMemberDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
 
         //then
-        assertNotNull(savedDeliveryAddress.getId());
-        assertNotNull(savedDeliveryAddress.getDeliveryAddressKey());
-        assertTrue(savedDeliveryAddress.getIsDefault());
-        assertEquals("01234", savedDeliveryAddress.getZipCode());
-        assertEquals("서울특별시 강서구", savedDeliveryAddress.getAddress());
-        assertEquals("OO 아파트 xxx동 xxxx호", savedDeliveryAddress.getAddressDetail());
-        assertEquals("홍길동", savedDeliveryAddress.getRecipientName());
-        assertEquals("010-1111-2222", savedDeliveryAddress.getRecipientPhone());
+        assertNotNull(savedMemberDeliveryAddress.getId());
+        assertNotNull(savedMemberDeliveryAddress.getDeliveryAddressKey());
+        assertTrue(savedMemberDeliveryAddress.getIsDefault());
+        assertEquals("01234", savedMemberDeliveryAddress.getZipCode());
+        assertEquals("서울특별시 강서구", savedMemberDeliveryAddress.getAddress());
+        assertEquals("OO 아파트 xxx동 xxxx호", savedMemberDeliveryAddress.getAddressDetail());
+        assertEquals("홍길동", savedMemberDeliveryAddress.getRecipientName());
+        assertEquals("010-1111-2222", savedMemberDeliveryAddress.getRecipientPhone());
     }
 
-    private DeliveryAddress getDeliveryAddress() {
+    private MemberDeliveryAddress getDeliveryAddress() {
 
-        return DeliveryAddress.builder()
+        return MemberDeliveryAddress.builder()
                 .isDefault(true)
                 .zipCode("01234")
                 .address("서울특별시 강서구")
@@ -91,16 +91,16 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
     @DisplayName("배송지 주소 조회")
     public void getDeliveryAddressByDeliveryAddressKey() {
         //given
-        DeliveryAddress deliveryAddress = getDeliveryAddress().member(member).register();
-        DeliveryAddress savedDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(deliveryAddress);
+        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().member(member).register();
+        MemberDeliveryAddress savedMemberDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
 
         //when
-        DeliveryAddress findDeliveryAddress = memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(
-                savedDeliveryAddress.getDeliveryAddressKey()
+        MemberDeliveryAddress findMemberDeliveryAddress = memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(
+                savedMemberDeliveryAddress.getDeliveryAddressKey()
         );
 
         //then
-        assertEquals(savedDeliveryAddress.getDeliveryAddressKey(), findDeliveryAddress.getDeliveryAddressKey());
-        assertEquals(savedDeliveryAddress.getZipCode(), findDeliveryAddress.getZipCode());
+        assertEquals(savedMemberDeliveryAddress.getDeliveryAddressKey(), findMemberDeliveryAddress.getDeliveryAddressKey());
+        assertEquals(savedMemberDeliveryAddress.getZipCode(), findMemberDeliveryAddress.getZipCode());
     }
 }

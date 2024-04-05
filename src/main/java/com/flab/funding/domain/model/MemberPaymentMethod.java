@@ -8,27 +8,23 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class DeliveryAddress {
+public class MemberPaymentMethod {
 
     private Long id;
-    private String deliveryAddressKey;
+    private String paymentMethodKey;
     private Member member;
     private boolean isDefault;
-    private String zipCode;
-    private String address;
-    private String addressDetail;
-    private String recipientName;
-    private String recipientPhone;
+    private String paymentNumber;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public DeliveryAddress member(Member member) {
+    public MemberPaymentMethod member(Member member) {
         this.member = member;
         return this;
     }
 
-    public DeliveryAddress register() {
-        this.deliveryAddressKey = makeKey();
+    public MemberPaymentMethod register() {
+        this.paymentMethodKey = makeKey();
         return this;
     }
 

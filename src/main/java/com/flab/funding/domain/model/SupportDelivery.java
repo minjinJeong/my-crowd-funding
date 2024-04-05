@@ -11,7 +11,7 @@ public class SupportDelivery {
 
     private Long id;
     private Support support;
-    private DeliveryAddress deliveryAddress;
+    private MemberDeliveryAddress memberDeliveryAddress;
     private SupportDeliveryStatus status;
     private String shipmentName;
     private LocalDateTime shipmentAt;

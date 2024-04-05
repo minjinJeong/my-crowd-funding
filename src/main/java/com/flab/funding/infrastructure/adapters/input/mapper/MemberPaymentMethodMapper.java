@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.mapper;
 
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberPaymentMethodRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberPaymentMethodRegisterResponse;
 import org.mapstruct.Mapper;
@@ -13,8 +13,8 @@ public interface MemberPaymentMethodMapper extends DefaultMethodToMapper{
 
     MemberPaymentMethodMapper INSTANCE = Mappers.getMapper(MemberPaymentMethodMapper.class);
 
-    PaymentMethod toPaymentMethod(MemberPaymentMethodRegisterRequest paymentMethodRegisterRequest);
+    MemberPaymentMethod toPaymentMethod(MemberPaymentMethodRegisterRequest paymentMethodRegisterRequest);
 
     @Mapping(source = "member.userKey", target = "userKey")
-    MemberPaymentMethodRegisterResponse toMemberPaymentMethodRegisterResponse(PaymentMethod paymentMethod);
+    MemberPaymentMethodRegisterResponse toMemberPaymentMethodRegisterResponse(MemberPaymentMethod memberPaymentMethod);
 }

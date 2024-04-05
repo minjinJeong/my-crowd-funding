@@ -1,10 +1,10 @@
 package com.flab.funding.application.ports.input;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 
 public interface RegisterDeliveryAddressUseCase {
 
-    DeliveryAddress registerDeliveryAddress(DeliveryAddress deliveryAddress);
+    MemberDeliveryAddress registerDeliveryAddress(MemberDeliveryAddress memberDeliveryAddress);
 
-    DeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey);
+    MemberDeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey);
 }

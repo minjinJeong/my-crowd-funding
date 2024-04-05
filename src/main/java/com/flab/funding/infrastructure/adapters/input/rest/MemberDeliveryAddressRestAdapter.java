@@ -1,7 +1,7 @@
 package com.flab.funding.infrastructure.adapters.input.rest;
 
 import com.flab.funding.application.ports.input.RegisterDeliveryAddressUseCase;
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberDeliveryAddressRegisterResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,8 @@ public class MemberDeliveryAddressRestAdapter {
     @PostMapping("/deliveryAddresses")
     @ResponseBody
     public MemberDeliveryAddressRegisterResponse registerMemberDeliveryAddress(@RequestBody MemberDeliveryAddressRegisterRequest request) {
-        DeliveryAddress deliveryAddress = registerDeliveryAddressUseCase.registerDeliveryAddress(request.toDeliveryAddress());
-        return MemberDeliveryAddressRegisterResponse.from(deliveryAddress);
+        MemberDeliveryAddress memberDeliveryAddress = registerDeliveryAddressUseCase.registerDeliveryAddress(request.toDeliveryAddress());
+        return MemberDeliveryAddressRegisterResponse.from(memberDeliveryAddress);
     }
 
 }

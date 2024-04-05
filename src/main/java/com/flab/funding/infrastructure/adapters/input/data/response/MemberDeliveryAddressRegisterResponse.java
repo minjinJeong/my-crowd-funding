@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.data.response;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.infrastructure.adapters.input.mapper.MemberDeliveryAddressMapper;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class MemberDeliveryAddressRegisterResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static MemberDeliveryAddressRegisterResponse from(DeliveryAddress deliveryAddress) {
-        return MemberDeliveryAddressMapper.INSTANCE.toMemberDeliveryAddressRegisterResponse(deliveryAddress);
+    public static MemberDeliveryAddressRegisterResponse from(MemberDeliveryAddress memberDeliveryAddress) {
+        return MemberDeliveryAddressMapper.INSTANCE.toMemberDeliveryAddressRegisterResponse(memberDeliveryAddress);
     }
 }

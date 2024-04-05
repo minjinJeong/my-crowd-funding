@@ -4,7 +4,7 @@ import com.flab.funding.application.ports.output.MemberPaymentMethodPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.infrastructure.adapters.output.persistence.MemberPaymentMethodPersistenceAdapter;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberPaymentMethodRepository;
@@ -59,21 +59,21 @@ public class MemberPaymentMethodPersistenceAdapterTest {
     @DisplayName("결제수단 등록")
     public void savePaymentMethod() {
         //given
-        PaymentMethod paymentMethod = getPaymentMethod().member(member).register();
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().member(member).register();
 
         //when
-        PaymentMethod savedPaymentMethod = memberPaymentMethodPort.savePaymentMethod(paymentMethod);
+        MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
 
         //then
-        assertNotNull(savedPaymentMethod.getId());
-        assertNotNull(savedPaymentMethod.getPaymentMethodKey());
-        assertTrue(savedPaymentMethod.getIsDefault());
-        assertEquals("3565 43", savedPaymentMethod.getPaymentNumber());
+        assertNotNull(savedMemberPaymentMethod.getId());
+        assertNotNull(savedMemberPaymentMethod.getPaymentMethodKey());
+        assertTrue(savedMemberPaymentMethod.getIsDefault());
+        assertEquals("3565 43", savedMemberPaymentMethod.getPaymentNumber());
 
     }
 
-    private PaymentMethod getPaymentMethod() {
-        return PaymentMethod.builder()
+    private MemberPaymentMethod getPaymentMethod() {
+        return MemberPaymentMethod.builder()
                 .isDefault(true)
                 .paymentNumber("3565 43")
                 .build();
@@ -83,17 +83,17 @@ public class MemberPaymentMethodPersistenceAdapterTest {
     @DisplayName("결제수단 조회")
     public void getPaymentMethodByPaymentMethodKey() {
         //given
-        PaymentMethod paymentMethod = getPaymentMethod().member(member).register();
-        PaymentMethod savedPaymentMethod = memberPaymentMethodPort.savePaymentMethod(paymentMethod);
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().member(member).register();
+        MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
 
         //when
-        PaymentMethod findPaymentMethod = memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(
-                savedPaymentMethod.getPaymentMethodKey()
+        MemberPaymentMethod findMemberPaymentMethod = memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(
+                savedMemberPaymentMethod.getPaymentMethodKey()
         );
 
         //then
-        assertEquals(savedPaymentMethod.getPaymentMethodKey(), findPaymentMethod.getPaymentMethodKey());
-        assertEquals(savedPaymentMethod.getPaymentNumber(), findPaymentMethod.getPaymentNumber());
+        assertEquals(savedMemberPaymentMethod.getPaymentMethodKey(), findMemberPaymentMethod.getPaymentMethodKey());
+        assertEquals(savedMemberPaymentMethod.getPaymentNumber(), findMemberPaymentMethod.getPaymentNumber());
 
     }
 }

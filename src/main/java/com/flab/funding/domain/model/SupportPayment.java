@@ -12,7 +12,7 @@ public class SupportPayment {
 
     private Long id;
     private Support support;
-    private PaymentMethod paymentMethod;
+    private MemberPaymentMethod memberPaymentMethod;
     private SupportPaymentStatus status;
     private BigInteger amount;
     private LocalDateTime paymentAt;

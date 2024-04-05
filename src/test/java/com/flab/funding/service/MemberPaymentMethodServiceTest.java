@@ -5,7 +5,7 @@ import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.domain.service.MemberPaymentMethodService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,32 +37,32 @@ public class MemberPaymentMethodServiceTest {
     @DisplayName("결제수단 등록")
     public void registerPaymentMethod() {
         //given
-        PaymentMethod paymentMethod = getPaymentMethod();
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod();
 
-        given(memberPort.getMemberByUserKey(eq(paymentMethod.getMember().getUserKey())))
+        given(memberPort.getMemberByUserKey(eq(memberPaymentMethod.getMember().getUserKey())))
                 .willReturn(getMember());
 
-        given(memberPaymentMethodPort.savePaymentMethod(any(PaymentMethod.class)))
-                .willReturn(paymentMethod);
+        given(memberPaymentMethodPort.savePaymentMethod(any(MemberPaymentMethod.class)))
+                .willReturn(memberPaymentMethod);
 
         given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
-                .willReturn(paymentMethod);
+                .willReturn(memberPaymentMethod);
 
         //when
-        PaymentMethod savedPaymentMethod = memberPaymentMethodService.registerPaymentMethod(paymentMethod);
-        PaymentMethod findPaymentMethod =
-                memberPaymentMethodService.getPaymentMethodByPaymentMethodKey(savedPaymentMethod.getPaymentMethodKey());
+        MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodService.registerPaymentMethod(memberPaymentMethod);
+        MemberPaymentMethod findMemberPaymentMethod =
+                memberPaymentMethodService.getPaymentMethodByPaymentMethodKey(savedMemberPaymentMethod.getPaymentMethodKey());
 
         //then
-        assertEquals(savedPaymentMethod.getId(), findPaymentMethod.getId());
-        assertEquals(savedPaymentMethod.getPaymentMethodKey(), findPaymentMethod.getPaymentMethodKey());
-        assertEquals(savedPaymentMethod.getMember().getId(), findPaymentMethod.getMember().getId());
-        assertEquals(savedPaymentMethod.getIsDefault(), findPaymentMethod.getIsDefault());
-        assertEquals(savedPaymentMethod.getPaymentNumber(), findPaymentMethod.getPaymentNumber());
+        assertEquals(savedMemberPaymentMethod.getId(), findMemberPaymentMethod.getId());
+        assertEquals(savedMemberPaymentMethod.getPaymentMethodKey(), findMemberPaymentMethod.getPaymentMethodKey());
+        assertEquals(savedMemberPaymentMethod.getMember().getId(), findMemberPaymentMethod.getMember().getId());
+        assertEquals(savedMemberPaymentMethod.getIsDefault(), findMemberPaymentMethod.getIsDefault());
+        assertEquals(savedMemberPaymentMethod.getPaymentNumber(), findMemberPaymentMethod.getPaymentNumber());
     }
 
-    private PaymentMethod getPaymentMethod() {
-        return PaymentMethod.builder()
+    private MemberPaymentMethod getPaymentMethod() {
+        return MemberPaymentMethod.builder()
                 .member(getMember())
                 .isDefault(true)
                 .paymentNumber("3565 43")
