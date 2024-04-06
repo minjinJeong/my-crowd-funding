@@ -227,24 +227,43 @@ public class SupportPersistenceAdapterTest {
     @DisplayName("후원 배송정보 등록")
     public void saveSupportDelivery() {
         //given
-        SupportDelivery supportDelivery = getSupportDelivery();
+        Support support = Support.builder()
+                .member(member)
+                .funding(funding)
+                .reward(reward)
+                .build()
+                .register();
+
+        Support savedSupport = supportPort.saveSupport(support);
+
+        SupportDelivery supportDelivery = getSupportDelivery().support(savedSupport);
 
         //when
         SupportDelivery savedSupportDelivery = supportPort.saveSupportDelivery(supportDelivery);
 
         //then
         assertNotNull(savedSupportDelivery.getId());
+        assertEquals(savedSupport.getSupportKey(), savedSupportDelivery.getSupport().getSupportKey());
     }
 
     @Test
     @DisplayName("후원 배송정보 조회")
     public void getSupportDeliveryBySupportKey() {
         //given
-        SupportDelivery supportDelivery = getSupportDelivery();
+        Support support = Support.builder()
+                .member(member)
+                .funding(funding)
+                .reward(reward)
+                .build()
+                .register();
+
+        Support savedSupport = supportPort.saveSupport(support);
+
+        SupportDelivery supportDelivery = getSupportDelivery().support(savedSupport);
         SupportDelivery savedSupportDelivery = supportPort.saveSupportDelivery(supportDelivery);
 
         //when
-        String supportKey = savedSupportDelivery.getSupport().getSupportKey();
+        String supportKey = savedSupport.getSupportKey();
         SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
 
         //then

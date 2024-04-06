@@ -20,6 +20,11 @@ public class SupportDelivery {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public SupportDelivery support(Support support) {
+        this.support = support;
+        return this;
+    }
+
     public SupportDelivery shippedOut() {
         this.status = SupportDeliveryStatus.SHIPPED;
         return this;
