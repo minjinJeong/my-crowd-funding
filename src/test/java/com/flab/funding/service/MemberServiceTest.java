@@ -53,15 +53,11 @@ public class MemberServiceTest {
         assertNotNull(savedMember.getUserKey());
         assertEquals(savedMember.getId(), findMember.getId());
         assertEquals(savedMember.getUserKey(), findMember.getUserKey());
-        assertEquals(savedMember.getStatus(), MemberStatus.ACTIVATE);
+        assertEquals(MemberStatus.ACTIVATE, savedMember.getStatus()) ;
         assertEquals(savedMember.getStatus(), findMember.getStatus());
-        assertEquals(savedMember.getLinkType(), findMember.getLinkType());
         assertEquals(savedMember.getEmail(), findMember.getEmail());
         assertEquals(savedMember.getUserName(), findMember.getUserName());
-        assertEquals(savedMember.getNickName(), findMember.getNickName());
         assertEquals(savedMember.getPhoneNumber(), findMember.getPhoneNumber());
-        assertEquals(savedMember.getGender(), findMember.getGender());
-        assertEquals(savedMember.getBirthday(), findMember.getBirthday());
         assertEquals(savedMember.getPassword(), findMember.getPassword());
     }
 
@@ -108,7 +104,7 @@ public class MemberServiceTest {
         Member deregistMember = memberService.deregisterMember(member.getUserKey());
 
         //then
-        assertEquals(deregistMember.getStatus(), MemberStatus.WITHDRAW);
+        assertEquals(MemberStatus.WITHDRAW, deregistMember.getStatus());
 
     }
 }

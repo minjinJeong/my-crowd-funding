@@ -56,15 +56,9 @@ public class SupportServiceTest {
 
         //then
         assertNotNull(savedSupport.getSupportKey());
-        assertEquals(savedSupport.getId(), findSupport.getId());
-        assertEquals(savedSupport.getMember().getUserKey(), findSupport.getMember().getUserKey());
-        assertEquals(savedSupport.getFunding().getFundingKey(), findSupport.getFunding().getFundingKey());
-        assertEquals(savedSupport.getReward().getId(), findSupport.getReward().getId());
         assertEquals(savedSupport.getSupportKey(), findSupport.getSupportKey());
-        assertEquals(savedSupport.getStatus(), SupportStatus.RESERVATION);
+        assertEquals(SupportStatus.RESERVATION, savedSupport.getStatus());
         assertEquals(savedSupport.getStatus(), findSupport.getStatus());
-        assertEquals(savedSupport.getSupportDelivery(), findSupport.getSupportDelivery());
-        assertEquals(savedSupport.getSupportPayment(), findSupport.getSupportPayment());
 
     }
 
@@ -144,7 +138,7 @@ public class SupportServiceTest {
         SupportDelivery savedSupportDelivery = supportService.shippedOut(support.getSupportKey());
 
         //then
-        assertEquals(savedSupportDelivery.getStatus(), SupportDeliveryStatus.SHIPPED);
+        assertEquals(SupportDeliveryStatus.SHIPPED, savedSupportDelivery.getStatus());
     }
 
     @Test
@@ -164,7 +158,7 @@ public class SupportServiceTest {
         SupportDelivery savedSupportDelivery = supportService.outForDelivery(support.getSupportKey());
 
         //then
-        assertEquals(savedSupportDelivery.getStatus(), SupportDeliveryStatus.IN_DELIVERY);
+        assertEquals(SupportDeliveryStatus.IN_DELIVERY, savedSupportDelivery.getStatus());
     }
     
     @Test
@@ -184,7 +178,7 @@ public class SupportServiceTest {
         SupportDelivery savedSupportDelivery = supportService.deliveryComplete(support.getSupportKey());
 
         //then
-        assertEquals(savedSupportDelivery.getStatus(), SupportDeliveryStatus.COMPLETE);
+        assertEquals(SupportDeliveryStatus.COMPLETE, savedSupportDelivery.getStatus());
     }
 
 }

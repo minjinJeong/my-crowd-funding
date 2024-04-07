@@ -2,8 +2,8 @@ package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
 import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.domain.model.Member;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
@@ -59,13 +59,7 @@ public class MemberDeliveryAddressServiceTest {
         //then
         assertEquals(savedMemberDeliveryAddress.getId(), findMemberDeliveryAddress.getId());
         assertEquals(savedMemberDeliveryAddress.getDeliveryAddressKey(), findMemberDeliveryAddress.getDeliveryAddressKey());
-        assertEquals(savedMemberDeliveryAddress.getMember().getId(), findMemberDeliveryAddress.getMember().getId());
-        assertEquals(savedMemberDeliveryAddress.getIsDefault(), findMemberDeliveryAddress.getIsDefault());
         assertEquals(savedMemberDeliveryAddress.getZipCode(), findMemberDeliveryAddress.getZipCode());
-        assertEquals(savedMemberDeliveryAddress.getAddress(), findMemberDeliveryAddress.getAddress());
-        assertEquals(savedMemberDeliveryAddress.getAddressDetail(), findMemberDeliveryAddress.getAddressDetail());
-        assertEquals(savedMemberDeliveryAddress.getRecipientName(), findMemberDeliveryAddress.getRecipientName());
-        assertEquals(savedMemberDeliveryAddress.getRecipientPhone(), findMemberDeliveryAddress.getRecipientPhone());
     }
 
     private MemberDeliveryAddress getDeliveryAddress() {

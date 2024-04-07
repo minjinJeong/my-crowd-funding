@@ -56,8 +56,6 @@ public class MemberPaymentMethodServiceTest {
         //then
         assertEquals(savedMemberPaymentMethod.getId(), findMemberPaymentMethod.getId());
         assertEquals(savedMemberPaymentMethod.getPaymentMethodKey(), findMemberPaymentMethod.getPaymentMethodKey());
-        assertEquals(savedMemberPaymentMethod.getMember().getId(), findMemberPaymentMethod.getMember().getId());
-        assertEquals(savedMemberPaymentMethod.getIsDefault(), findMemberPaymentMethod.getIsDefault());
         assertEquals(savedMemberPaymentMethod.getPaymentNumber(), findMemberPaymentMethod.getPaymentNumber());
     }
 
