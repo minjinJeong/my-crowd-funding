@@ -23,6 +23,21 @@ public class Support {
     private LocalDateTime updatedAt;
     private String updatedBy;
 
+    public Support member(Member member) {
+        this.member = member;
+        return this;
+    }
+
+    public Support funding(Funding funding) {
+        this.funding = funding;
+        return this;
+    }
+
+    public Support reward(FundingReward fundingReward) {
+        this.reward = fundingReward;
+        return this;
+    }
+
     public Support register() {
         this.status = SupportStatus.RESERVATION;
         this.supportKey = makeKey();

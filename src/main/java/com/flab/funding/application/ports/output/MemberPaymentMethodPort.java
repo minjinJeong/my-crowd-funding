@@ -1,10 +1,10 @@
 package com.flab.funding.application.ports.output;
 
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 
 public interface MemberPaymentMethodPort {
 
-    PaymentMethod savePaymentMethod(PaymentMethod paymentMethod);
+    MemberPaymentMethod savePaymentMethod(MemberPaymentMethod memberPaymentMethod);
 
-    PaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey);
+    MemberPaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey);
 }

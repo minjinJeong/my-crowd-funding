@@ -1,10 +1,10 @@
 package com.flab.funding.application.ports.input;
 
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 
 public interface RegisterPaymentMethodUseCase {
 
-    PaymentMethod registerPaymentMethod(PaymentMethod deliveryAddress);
+    MemberPaymentMethod registerPaymentMethod(MemberPaymentMethod deliveryAddress);
 
-    PaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey);
+    MemberPaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey);
 }

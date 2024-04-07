@@ -11,7 +11,7 @@ public class SupportDelivery {
 
     private Long id;
     private Support support;
-    private DeliveryAddress deliveryAddress;
+    private MemberDeliveryAddress memberDeliveryAddress;
     private SupportDeliveryStatus status;
     private String shipmentName;
     private LocalDateTime shipmentAt;
@@ -19,6 +19,11 @@ public class SupportDelivery {
     private LocalDateTime trackingAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public SupportDelivery support(Support support) {
+        this.support = support;
+        return this;
+    }
 
     public SupportDelivery shippedOut() {
         this.status = SupportDeliveryStatus.SHIPPED;

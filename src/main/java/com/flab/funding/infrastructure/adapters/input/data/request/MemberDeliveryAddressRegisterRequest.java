@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.data.request;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.infrastructure.adapters.input.mapper.MemberDeliveryAddressMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class MemberDeliveryAddressRegisterRequest {
     private String recipientName;
     private String recipientPhone;
 
-    public DeliveryAddress toDeliveryAddress() {
+    public MemberDeliveryAddress toDeliveryAddress() {
         return MemberDeliveryAddressMapper.INSTANCE.toDeliveryAddress(this);
     }
 }

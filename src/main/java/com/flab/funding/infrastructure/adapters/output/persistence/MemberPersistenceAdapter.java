@@ -6,16 +6,19 @@ import com.flab.funding.infrastructure.adapters.output.persistence.entity.Member
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberPersistenceAdapter implements MemberPort {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     @Override
     public Member saveMember(Member member) {
         MemberEntity memberEntity = MemberEntity.from(member);

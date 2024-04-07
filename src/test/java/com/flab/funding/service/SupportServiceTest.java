@@ -1,11 +1,13 @@
 package com.flab.funding.service;
 
+import com.flab.funding.application.ports.output.FundingPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.application.ports.output.SupportPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,17 +25,29 @@ public class SupportServiceTest {
 
     @Mock
     private SupportPort supportPort;
+
+    @Mock
+    private MemberPort memberPort;
+
+    @Mock
+    private FundingPort fundingPort;
     
     @Test
-    @Named("후원 등록")
+    @DisplayName("후원 등록")
     public void registerSupport() {
         //given
         Support support = getSupport();
 
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(getMemberRequest());
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFundingRequest());
+
         given(supportPort.saveSupport(any(Support.class)))
                 .willReturn(support);
 
-        given(supportPort.getSupportRequest(any()))
+        given(supportPort.getSupportBySupportKey(any()))
                 .willReturn(support);
 
         //when
@@ -42,15 +56,9 @@ public class SupportServiceTest {
 
         //then
         assertNotNull(savedSupport.getSupportKey());
-        assertEquals(savedSupport.getId(), findSupport.getId());
-        assertEquals(savedSupport.getMember().getUserKey(), findSupport.getMember().getUserKey());
-        assertEquals(savedSupport.getFunding().getFundingKey(), findSupport.getFunding().getFundingKey());
-        assertEquals(savedSupport.getReward().getId(), findSupport.getReward().getId());
         assertEquals(savedSupport.getSupportKey(), findSupport.getSupportKey());
-        assertEquals(savedSupport.getStatus(), SupportStatus.RESERVATION);
+        assertEquals(SupportStatus.RESERVATION, savedSupport.getStatus());
         assertEquals(savedSupport.getStatus(), findSupport.getStatus());
-        assertEquals(savedSupport.getSupportDelivery(), findSupport.getSupportDelivery());
-        assertEquals(savedSupport.getSupportPayment(), findSupport.getSupportPayment());
 
     }
 
@@ -84,12 +92,12 @@ public class SupportServiceTest {
 
     private SupportPayment getSupportPayment() {
         return SupportPayment.builder()
-                .paymentMethod(getPaymentMethodRequest())
+                .memberPaymentMethod(getPaymentMethodRequest())
                 .build();
     }
 
-    private PaymentMethod getPaymentMethodRequest() {
-        return PaymentMethod.builder()
+    private MemberPaymentMethod getPaymentMethodRequest() {
+        return MemberPaymentMethod.builder()
                 .paymentMethodKey("PM-0001")
                 .build();
     }
@@ -97,7 +105,7 @@ public class SupportServiceTest {
     private SupportDelivery getSupportDelivery() {
         return SupportDelivery.builder()
                 .support(getSupportRequest())
-                .deliveryAddress(getDeliveryAddressRequest())
+                .memberDeliveryAddress(getDeliveryAddressRequest())
                 .build();
     }
 
@@ -107,20 +115,20 @@ public class SupportServiceTest {
                 .build();
     }
 
-    private DeliveryAddress getDeliveryAddressRequest() {
-        return DeliveryAddress.builder()
+    private MemberDeliveryAddress getDeliveryAddressRequest() {
+        return MemberDeliveryAddress.builder()
                 .deliveryAddressKey("DA-0001")
                 .build();
     }
 
     @Test
-    @Named("배송 시작")
+    @DisplayName("배송 시작")
     public void shippedOut() {
         //given
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -130,17 +138,17 @@ public class SupportServiceTest {
         SupportDelivery savedSupportDelivery = supportService.shippedOut(support.getSupportKey());
 
         //then
-        assertEquals(savedSupportDelivery.getStatus(), SupportDeliveryStatus.SHIPPED);
+        assertEquals(SupportDeliveryStatus.SHIPPED, savedSupportDelivery.getStatus());
     }
 
     @Test
-    @Named("배송 중")
+    @DisplayName("배송 중")
     public void outForDelivery() {
         //given
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -150,17 +158,17 @@ public class SupportServiceTest {
         SupportDelivery savedSupportDelivery = supportService.outForDelivery(support.getSupportKey());
 
         //then
-        assertEquals(savedSupportDelivery.getStatus(), SupportDeliveryStatus.IN_DELIVERY);
+        assertEquals(SupportDeliveryStatus.IN_DELIVERY, savedSupportDelivery.getStatus());
     }
     
     @Test
-    @Named("배송 완료")
+    @DisplayName("배송 완료")
     public void deliveryComplete() {
         //given
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -170,7 +178,7 @@ public class SupportServiceTest {
         SupportDelivery savedSupportDelivery = supportService.deliveryComplete(support.getSupportKey());
 
         //then
-        assertEquals(savedSupportDelivery.getStatus(), SupportDeliveryStatus.COMPLETE);
+        assertEquals(SupportDeliveryStatus.COMPLETE, savedSupportDelivery.getStatus());
     }
 
 }

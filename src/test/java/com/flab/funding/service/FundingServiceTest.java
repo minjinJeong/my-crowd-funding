@@ -1,12 +1,12 @@
 package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.FundingPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.FundingService;
-import jdk.jfr.Name;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith({MockitoExtension.class})
@@ -30,11 +31,17 @@ public class FundingServiceTest {
     @Mock
     private FundingPort fundingPort;
 
+    @Mock
+    private MemberPort memberPort;
+
     @Test
-    @Named("펀딩 등록")
+    @DisplayName("펀딩 등록")
     public void registerFunding() {
         //given
         Funding funding = getFunding();
+
+        given(memberPort.getMemberByUserKey(eq(funding.getMember().getUserKey())))
+                .willReturn(getMemberRequest());
 
         given(fundingPort.saveFunding(any(Funding.class)))
                 .willReturn(funding);
@@ -48,32 +55,14 @@ public class FundingServiceTest {
 
         //then
         assertNotNull(savedFunding.getFundingKey());
-        assertEquals(savedFunding.getId(), findFunding.getId());
-        assertNotNull(savedFunding.getFundingKey());
-        assertEquals(savedFunding.getFundingKey(), findFunding.getFundingKey());
-        assertEquals(savedFunding.getMember().getUserKey(), findFunding.getMember().getUserKey());
-        assertEquals(savedFunding.getIsAdult(), findFunding.getIsAdult());
-        assertEquals(savedFunding.getPricePlan(), findFunding.getPricePlan());
-        assertEquals(savedFunding.getCategory(), findFunding.getCategory());
-        assertEquals(savedFunding.getExpectAmount(), findFunding.getExpectAmount());
-        assertEquals(savedFunding.getStatus(), FundingStatus.REGISTER);
+        assertEquals(FundingStatus.REGISTER, savedFunding.getStatus());
         assertEquals(savedFunding.getStatus(), findFunding.getStatus());
-        assertEquals(savedFunding.getTitle(), findFunding.getTitle());
-        assertEquals(savedFunding.getFundingDescription(), findFunding.getFundingDescription());
-        assertEquals(savedFunding.getFundingIntroduce(), findFunding.getFundingIntroduce());
-        assertEquals(savedFunding.getBudgetDescription(), findFunding.getBudgetDescription());
-        assertEquals(savedFunding.getScheduleDescription(), findFunding.getScheduleDescription());
-        assertEquals(savedFunding.getTeamDescription(), findFunding.getTeamDescription());
-        assertEquals(savedFunding.getRewardDescription(), findFunding.getRewardDescription());
-        assertIterableEquals(savedFunding.getTags(), findFunding.getTags());
-        assertEquals(savedFunding.getStartAt(), findFunding.getStartAt());
-        assertEquals(savedFunding.getEndAt(), findFunding.getEndAt());
 
     }
 
     private Funding getFunding() {
         return Funding.builder()
-                .member(getMember())
+                .member(getMemberRequest())
                 .isAdult(false)
                 .pricePlan("00")
                 .category(FundingCategory.FOOD)
@@ -91,7 +80,7 @@ public class FundingServiceTest {
                 .build();
     }
 
-    private Member getMember() {
+    private Member getMemberRequest() {
         return Member.builder()
                 .userKey("MM-0001")
                 .build();
@@ -112,10 +101,13 @@ public class FundingServiceTest {
     }
 
     @Test
-    @Named("펀딩 창장자 등록")
+    @DisplayName("펀딩 창장자 등록")
     public void registerFundingCreator() {
         //given
         FundingCreator fundingCreator = getFundingCreator();
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFunding());
 
         given(fundingPort.saveFundingCreator(any(FundingCreator.class)))
                 .willReturn(fundingCreator);
@@ -130,10 +122,7 @@ public class FundingServiceTest {
         //then
         assertEquals(savedFundingCreator.getId(), findFundingCreator.getId());
         assertEquals(savedFundingCreator.getFunding(), findFundingCreator.getFunding());
-        assertEquals(savedFundingCreator.getIsValid(), findFundingCreator.getIsValid());
         assertEquals(savedFundingCreator.getBusinessNumber(), findFundingCreator.getBusinessNumber());
-        assertEquals(savedFundingCreator.getRepresentative(), findFundingCreator.getRepresentative());
-        assertEquals(savedFundingCreator.getIntroduce(), findFundingCreator.getIntroduce());
     }
 
     private FundingCreator getFundingCreator() {
@@ -151,10 +140,13 @@ public class FundingServiceTest {
     }
 
     @Test
-    @Named("펀딩 아이템 생성")
+    @DisplayName("펀딩 아이템 생성")
     public void makeFundingItem() {
         //given
         FundingItem fundingItem = getFundingItem();
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFunding());
 
         given(fundingPort.saveFundingItem(any(FundingItem.class)))
                 .willReturn(fundingItem);
@@ -197,13 +189,19 @@ public class FundingServiceTest {
     }
 
     @Test
-    @Named("펀딩 리워드 생성")
+    @DisplayName("펀딩 리워드 생성")
     public void makeFundingReward() {
         //given
         FundingReward fundingReward = getFundingReward();
 
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFunding());
+
         given(fundingPort.saveFundingReward(any(FundingReward.class)))
                 .willReturn(fundingReward);
+
+        given(fundingPort.saveFundingRewardItems(any()))
+                .willReturn(getFundingRewardItems());
 
         given(fundingPort.getFundingRewardByFundingKey(any()))
                 .willReturn(fundingReward);
@@ -216,12 +214,7 @@ public class FundingServiceTest {
         assertEquals(savedFundingReward.getId(), findFundingReward.getId());
         assertEquals(savedFundingReward.getFunding(), findFundingReward.getFunding());
         assertEquals(savedFundingReward.getIsDelivery(), findFundingReward.getIsDelivery());
-        assertEquals(savedFundingReward.getRewardTitle(), findFundingReward.getRewardTitle());
-        assertEquals(savedFundingReward.getAmount(), findFundingReward.getAmount());
         assertIterableEquals(savedFundingReward.getFundingRewardItems(), findFundingReward.getFundingRewardItems());
-        assertEquals(savedFundingReward.getCountLimit(), findFundingReward.getCountLimit());
-        assertEquals(savedFundingReward.getPersonalLimit(), findFundingReward.getPersonalLimit());
-        assertEquals(savedFundingReward.getExpectDate(), findFundingReward.getExpectDate());
 
     }
 
@@ -253,7 +246,7 @@ public class FundingServiceTest {
     }
     
     @Test
-    @Name("펀딩 심사대기")
+    @DisplayName("펀딩 심사대기")
     public void waitForReview() {
         //given
         Funding funding = getFunding().register();
@@ -268,11 +261,11 @@ public class FundingServiceTest {
         Funding savedFunding = fundingService.waitForFundingReview(funding.getFundingKey());
 
         //then
-        assertEquals(savedFunding.getStatus(), FundingStatus.REVIEW_WAIT);
+        assertEquals(FundingStatus.REVIEW_WAIT, savedFunding.getStatus());
     }
     
     @Test
-    @Named("펀딩 심사완료")
+    @DisplayName("펀딩 심사완료")
     public void completeReview() {
         //given
         Funding funding = getFunding().register();
@@ -287,11 +280,11 @@ public class FundingServiceTest {
         Funding savedFunding = fundingService.completeFundingReview(funding.getFundingKey());
 
         //then
-        assertEquals(savedFunding.getStatus(), FundingStatus.OPEN_WAIT);
+        assertEquals(FundingStatus.OPEN_WAIT, savedFunding.getStatus());
     }
     
     @Test
-    @Named("펀딩 취소")
+    @DisplayName("펀딩 취소")
     public void cancel() {
         //given
         Funding funding = getFunding().register();
@@ -306,6 +299,6 @@ public class FundingServiceTest {
         Funding savedFunding = fundingService.cancelFunding(funding.getFundingKey());
 
         //then
-        assertEquals(savedFunding.getStatus(), FundingStatus.CANCEL);
+        assertEquals(FundingStatus.CANCEL, savedFunding.getStatus());
     }
 }

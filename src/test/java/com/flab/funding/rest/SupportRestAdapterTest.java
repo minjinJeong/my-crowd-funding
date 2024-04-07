@@ -10,6 +10,7 @@ import com.flab.funding.infrastructure.adapters.input.data.request.SupportDelive
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportPaymentRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.rest.SupportRestAdapter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class SupportRestAdapterTest {
     private SupportService supportService;
 
     @Test
+    @DisplayName("후원 등록")
     void registerSupport() throws Exception {
 
         // given
@@ -102,6 +104,7 @@ public class SupportRestAdapterTest {
     }
 
     @Test
+    @DisplayName("배송 시작")
     public void shippedOut() throws Exception {
         //given
         String request = "SS-0001";
@@ -134,6 +137,7 @@ public class SupportRestAdapterTest {
     }
 
     @Test
+    @DisplayName("배송 중")
     public void inDelivery() throws Exception {
         //given
         String request = "SS-0001";
@@ -161,6 +165,7 @@ public class SupportRestAdapterTest {
     }
 
     @Test
+    @DisplayName("배송 완료")
     public void complete() throws Exception {
         //given
         String request = "SS-0001";

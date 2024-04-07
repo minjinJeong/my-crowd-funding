@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class DeliveryAddress {
+public class MemberDeliveryAddress {
 
     private Long id;
     private String deliveryAddressKey;
@@ -22,8 +22,12 @@ public class DeliveryAddress {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public DeliveryAddress register(Member member) {
+    public MemberDeliveryAddress member(Member member) {
         this.member = member;
+        return this;
+    }
+
+    public MemberDeliveryAddress register() {
         this.deliveryAddressKey = makeKey();
         return this;
     }

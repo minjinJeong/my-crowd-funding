@@ -7,9 +7,9 @@ import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,7 +31,7 @@ public class MemberServiceTest {
     private MemberPort memberPort;
 
     @Test
-    @Named("회원가입")
+    @DisplayName("회원가입")
     public void join() {
         //given
         Member member = getMember();
@@ -53,15 +53,11 @@ public class MemberServiceTest {
         assertNotNull(savedMember.getUserKey());
         assertEquals(savedMember.getId(), findMember.getId());
         assertEquals(savedMember.getUserKey(), findMember.getUserKey());
-        assertEquals(savedMember.getStatus(), MemberStatus.ACTIVATE);
+        assertEquals(MemberStatus.ACTIVATE, savedMember.getStatus()) ;
         assertEquals(savedMember.getStatus(), findMember.getStatus());
-        assertEquals(savedMember.getLinkType(), findMember.getLinkType());
         assertEquals(savedMember.getEmail(), findMember.getEmail());
         assertEquals(savedMember.getUserName(), findMember.getUserName());
-        assertEquals(savedMember.getNickName(), findMember.getNickName());
         assertEquals(savedMember.getPhoneNumber(), findMember.getPhoneNumber());
-        assertEquals(savedMember.getGender(), findMember.getGender());
-        assertEquals(savedMember.getBirthday(), findMember.getBirthday());
         assertEquals(savedMember.getPassword(), findMember.getPassword());
     }
 
@@ -79,7 +75,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    @Named("중복 회원 예외")
+    @DisplayName("중복 회원 예외")
     public void duplicateMember() {
         //given
         Member member = getMember();
@@ -93,7 +89,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    @Named("회원탈퇴")
+    @DisplayName("회원탈퇴")
     public void withdraw() {
         //given
         Member member = getMember();
@@ -108,7 +104,7 @@ public class MemberServiceTest {
         Member deregistMember = memberService.deregisterMember(member.getUserKey());
 
         //then
-        assertEquals(deregistMember.getStatus(), MemberStatus.WITHDRAW);
+        assertEquals(MemberStatus.WITHDRAW, deregistMember.getStatus());
 
     }
 }

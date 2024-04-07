@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FundingPersistenceMapper {
 
@@ -30,4 +32,7 @@ public interface FundingPersistenceMapper {
     FundingRewardItemEntity toFundingRewardItemEntity(FundingRewardItem fundingRewardItem);
 
     FundingRewardItem toFundingRewardItem(FundingRewardItemEntity fundingRewardItemEntity);
+
+//    @IterableMapping
+    List<FundingRewardItemEntity> toFundingRewardItemEntities(List<FundingRewardItem> fundingRewardItems);
 }

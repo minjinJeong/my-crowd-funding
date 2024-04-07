@@ -1,9 +1,12 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
+import com.flab.funding.domain.model.FundingRewardItem;
+import com.flab.funding.infrastructure.adapters.output.persistence.mapper.FundingPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -33,4 +36,12 @@ public class FundingRewardItemEntity {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public static List<FundingRewardItemEntity> from(List<FundingRewardItem> fundingRewardItems) {
+        return FundingPersistenceMapper.INSTANCE.toFundingRewardItemEntities(fundingRewardItems);
+    }
+
+    public FundingRewardItem toFundingRewardItem() {
+        return FundingPersistenceMapper.INSTANCE.toFundingRewardItem(this);
+    }
 }

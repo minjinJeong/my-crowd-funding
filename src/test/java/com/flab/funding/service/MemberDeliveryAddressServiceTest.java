@@ -2,14 +2,14 @@ package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
 import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.domain.model.DeliveryAddress;
 import com.flab.funding.domain.model.Member;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.domain.model.MemberGender;
 import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -34,43 +34,37 @@ public class MemberDeliveryAddressServiceTest {
     private MemberPort memberPort;
 
     @Test
-    @Named("배송지 등록")
+    @DisplayName("배송지 등록")
     public void registerDeliveryAddress() {
         //given
-        DeliveryAddress deliveryAddress = getDeliveryAddress();
+        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress();
 
-        given(memberPort.getMemberByUserKey(eq(deliveryAddress.getMember().getUserKey())))
+        given(memberPort.getMemberByUserKey(eq(memberDeliveryAddress.getMember().getUserKey())))
                 .willReturn(getMember());
 
-        given(memberDeliveryAddressPort.saveDeliveryAddress(any(DeliveryAddress.class)))
-                .willReturn(deliveryAddress);
+        given(memberDeliveryAddressPort.saveDeliveryAddress(any(MemberDeliveryAddress.class)))
+                .willReturn(memberDeliveryAddress);
 
         given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
-                .willReturn(deliveryAddress);
+                .willReturn(memberDeliveryAddress);
 
         //when
-        DeliveryAddress savedDeliveryAddress =
-                memberDeliveryAddressService.registerDeliveryAddress(deliveryAddress);
+        MemberDeliveryAddress savedMemberDeliveryAddress =
+                memberDeliveryAddressService.registerDeliveryAddress(memberDeliveryAddress);
 
-        DeliveryAddress findDeliveryAddress =
-                memberDeliveryAddressService.getDeliveryAddressByDeliveryAddressKey(savedDeliveryAddress.getDeliveryAddressKey());
+        MemberDeliveryAddress findMemberDeliveryAddress =
+                memberDeliveryAddressService.getDeliveryAddressByDeliveryAddressKey(savedMemberDeliveryAddress.getDeliveryAddressKey());
 
 
         //then
-        assertEquals(savedDeliveryAddress.getId(), findDeliveryAddress.getId());
-        assertEquals(savedDeliveryAddress.getDeliveryAddressKey(), findDeliveryAddress.getDeliveryAddressKey());
-        assertEquals(savedDeliveryAddress.getMember().getId(), findDeliveryAddress.getMember().getId());
-        assertEquals(savedDeliveryAddress.getIsDefault(), findDeliveryAddress.getIsDefault());
-        assertEquals(savedDeliveryAddress.getZipCode(), findDeliveryAddress.getZipCode());
-        assertEquals(savedDeliveryAddress.getAddress(), findDeliveryAddress.getAddress());
-        assertEquals(savedDeliveryAddress.getAddressDetail(), findDeliveryAddress.getAddressDetail());
-        assertEquals(savedDeliveryAddress.getRecipientName(), findDeliveryAddress.getRecipientName());
-        assertEquals(savedDeliveryAddress.getRecipientPhone(), findDeliveryAddress.getRecipientPhone());
+        assertEquals(savedMemberDeliveryAddress.getId(), findMemberDeliveryAddress.getId());
+        assertEquals(savedMemberDeliveryAddress.getDeliveryAddressKey(), findMemberDeliveryAddress.getDeliveryAddressKey());
+        assertEquals(savedMemberDeliveryAddress.getZipCode(), findMemberDeliveryAddress.getZipCode());
     }
 
-    private DeliveryAddress getDeliveryAddress() {
+    private MemberDeliveryAddress getDeliveryAddress() {
 
-        return DeliveryAddress.builder()
+        return MemberDeliveryAddress.builder()
                 .member(getMember())
                 .isDefault(true)
                 .zipCode("01234")

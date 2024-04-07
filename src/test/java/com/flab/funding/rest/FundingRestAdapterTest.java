@@ -5,6 +5,7 @@ import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.FundingService;
 import com.flab.funding.infrastructure.adapters.input.data.request.*;
 import com.flab.funding.infrastructure.adapters.input.rest.FundingRestAdapter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class FundingRestAdapterTest {
     private FundingService fundingService;
 
     @Test
+    @DisplayName("펀딩 등록")
     void registerFunding() throws Exception {
 
         // given
@@ -121,6 +123,7 @@ public class FundingRestAdapterTest {
     }
 
     @Test
+    @DisplayName("펀딩 심사대기")
     public void waitForFundingReview() throws Exception {
         //given
         String request = "FF-0001";
@@ -149,6 +152,7 @@ public class FundingRestAdapterTest {
     }
 
     @Test
+    @DisplayName("펀딩 심사완료")
     public void completeFundingReview() throws Exception {
         //given
         String request = "FF-0001";
@@ -177,6 +181,7 @@ public class FundingRestAdapterTest {
     }
 
     @Test
+    @DisplayName("펀딩 취소")
     public void cancelFunding() throws Exception {
         //given
         String request = "FF-0001";
@@ -205,6 +210,7 @@ public class FundingRestAdapterTest {
     }
 
     @Test
+    @DisplayName("펀딩 창장자 등록")
     void registerFundingCreator() throws Exception {
 
         // given
@@ -258,6 +264,7 @@ public class FundingRestAdapterTest {
     }
 
     @Test
+    @DisplayName("펀딩 아이템 생성")
     void makeFundingItem() throws Exception {
 
         // given
@@ -326,6 +333,7 @@ public class FundingRestAdapterTest {
     }
 
     @Test
+    @DisplayName("펀딩 리워드 생성")
     void makeFundingReward() throws Exception {
 
         // given

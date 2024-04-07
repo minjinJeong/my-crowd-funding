@@ -3,10 +3,10 @@ package com.flab.funding.domain.service;
 import com.flab.funding.application.ports.input.RegisterSupportUseCase;
 import com.flab.funding.application.ports.input.SupportDeliveryUseCase;
 import com.flab.funding.application.ports.input.SupportPaymentUseCase;
+import com.flab.funding.application.ports.output.FundingPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.application.ports.output.SupportPort;
-import com.flab.funding.domain.model.Support;
-import com.flab.funding.domain.model.SupportDelivery;
-import com.flab.funding.domain.model.SupportPayment;
+import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
 
@@ -14,33 +14,53 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SupportService implements RegisterSupportUseCase, SupportDeliveryUseCase, SupportPaymentUseCase {
 
+    private final MemberPort memberPort;
+
+    private final FundingPort fundingPort;
+
     private final SupportPort supportPort;
 
     @Override
     public Support registerSupport(Support support) {
-        return supportPort.saveSupport(support.register());
+
+        Member member =
+                memberPort.getMemberByUserKey(support.getMember().getUserKey());
+
+        Funding funding =
+                fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
+
+        // TODO : 후원 배송정보와 결제수단 조회 코드 추가
+
+        Support saveSupport = Support.builder()
+                .member(member)
+                .funding(funding)
+                .reward(support.getReward())
+                .status(support.getStatus())
+                .build();
+
+        return supportPort.saveSupport(support.member(member).register());
     }
 
     @Override
     public Support getSupportBySupportKey(String supportKey) {
-        return supportPort.getSupportRequest(supportKey);
+        return supportPort.getSupportBySupportKey(supportKey);
     }
 
     @Override
     public SupportDelivery shippedOut(String supportKey) {
-        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryRequest(supportKey);
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
         return supportPort.saveSupportDelivery(findSupportDelivery.shippedOut());
     }
 
     @Override
     public SupportDelivery outForDelivery(String supportKey) {
-        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryRequest(supportKey);
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
         return supportPort.saveSupportDelivery(findSupportDelivery.inDelivery());
     }
 
     @Override
     public SupportDelivery deliveryComplete(String supportKey) {
-        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryRequest(supportKey);
+        SupportDelivery findSupportDelivery = supportPort.getSupportDeliveryBySupportKey(supportKey);
         return supportPort.saveSupportDelivery(findSupportDelivery.complete());
     }
 

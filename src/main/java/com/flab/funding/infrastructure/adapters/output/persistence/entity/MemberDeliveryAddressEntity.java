@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.infrastructure.adapters.output.persistence.mapper.MemberDeliveryAddressPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -45,11 +45,11 @@ public class MemberDeliveryAddressEntity {
 
     private LocalDateTime updatedAt;
 
-    public static MemberDeliveryAddressEntity from(DeliveryAddress deliveryAddress) {
-        return MemberDeliveryAddressPersistenceMapper.INSTANCE.toMemberDeliveryAddressEntity(deliveryAddress);
+    public static MemberDeliveryAddressEntity from(MemberDeliveryAddress memberDeliveryAddress) {
+        return MemberDeliveryAddressPersistenceMapper.INSTANCE.toMemberDeliveryAddressEntity(memberDeliveryAddress);
     }
 
-    public DeliveryAddress toDeliveryAddress() {
+    public MemberDeliveryAddress toDeliveryAddress() {
         return MemberDeliveryAddressPersistenceMapper.INSTANCE.toDeliveryAddress(this);
     }
 }

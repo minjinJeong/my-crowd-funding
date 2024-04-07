@@ -18,4 +18,9 @@ public class FundingItem {
     private List<FundingRewardItem> fundingRewardItems;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public FundingItem funding(Funding funding) {
+        this.funding = funding;
+        return this;
+    }
 }
