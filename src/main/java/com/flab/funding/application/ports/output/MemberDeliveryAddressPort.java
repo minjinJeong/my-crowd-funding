@@ -1,10 +1,10 @@
 package com.flab.funding.application.ports.output;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 
 public interface MemberDeliveryAddressPort {
 
-    DeliveryAddress saveDeliveryAddress(DeliveryAddress deliveryAddress);
+    MemberDeliveryAddress saveDeliveryAddress(MemberDeliveryAddress memberDeliveryAddress);
 
-    DeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey);
+    MemberDeliveryAddress getDeliveryAddressByDeliveryAddressKey(String deliveryAddressKey);
 }

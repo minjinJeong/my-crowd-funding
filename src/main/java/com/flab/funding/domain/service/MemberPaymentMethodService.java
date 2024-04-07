@@ -4,7 +4,7 @@ import com.flab.funding.application.ports.input.RegisterPaymentMethodUseCase;
 import com.flab.funding.application.ports.output.MemberPaymentMethodPort;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.infrastructure.config.UseCase;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +18,16 @@ public class MemberPaymentMethodService implements RegisterPaymentMethodUseCase 
 
     @Override
     @Transactional
-    public PaymentMethod registerPaymentMethod(PaymentMethod paymentMethod) {
-        Member member =
-                memberPort.getMemberByUserKey(paymentMethod.getMember().getUserKey());
+    public MemberPaymentMethod registerPaymentMethod(MemberPaymentMethod memberPaymentMethod) {
 
-        return paymentMethodPort.savePaymentMethod(paymentMethod.register(member));
+        Member member =
+                memberPort.getMemberByUserKey(memberPaymentMethod.getMember().getUserKey());
+
+        return paymentMethodPort.savePaymentMethod(memberPaymentMethod.member(member).register());
     }
 
     @Override
-    public PaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey) {
+    public MemberPaymentMethod getPaymentMethodByPaymentMethodKey(String paymentMethodKey) {
         return paymentMethodPort.getPaymentMethodByPaymentMethodKey(paymentMethodKey);
     }
 }

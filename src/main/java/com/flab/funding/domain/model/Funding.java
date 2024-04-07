@@ -35,6 +35,11 @@ public class Funding {
     private LocalDateTime updatedAt;
     private String updatedBy;
 
+    public Funding member(Member member) {
+        this.member = member;
+        return this;
+    }
+
     public Funding register() {
         this.status = FundingStatus.REGISTER;
         this.fundingKey = makeKey();

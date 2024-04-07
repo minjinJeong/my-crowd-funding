@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.mapper;
 
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberDeliveryAddressEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -11,7 +11,7 @@ public interface MemberDeliveryAddressPersistenceMapper {
 
     MemberDeliveryAddressPersistenceMapper INSTANCE = Mappers.getMapper(MemberDeliveryAddressPersistenceMapper.class);
 
-    MemberDeliveryAddressEntity toMemberDeliveryAddressEntity(DeliveryAddress deliveryAddress);
+    MemberDeliveryAddressEntity toMemberDeliveryAddressEntity(MemberDeliveryAddress memberDeliveryAddress);
 
-    DeliveryAddress toDeliveryAddress(MemberDeliveryAddressEntity deliveryAddressEntity);
+    MemberDeliveryAddress toDeliveryAddress(MemberDeliveryAddressEntity deliveryAddressEntity);
 }

@@ -41,7 +41,14 @@ public class MemberPersistenceAdapterTest {
 
         //then
         assertNotNull(savedMember.getId());
+        assertNotNull(savedMember.getUserKey());
+        assertEquals(MemberLinkType.NONE, savedMember.getLinkType());
         assertEquals("Test@gmail.com", savedMember.getEmail());
+        assertEquals("홍길순", savedMember.getUserName());
+        assertEquals("테스터", savedMember.getNickName());
+        assertEquals("010-1111-2222", savedMember.getPhoneNumber());
+        assertEquals(MemberGender.FEMALE, savedMember.getGender());
+        assertEquals(LocalDate.of(1998, 1, 30), savedMember.getBirthday());
         assertEquals("", savedMember.getPassword());
     }
 
@@ -69,6 +76,7 @@ public class MemberPersistenceAdapterTest {
         Member findMember = memberPort.getMemberByUserKey(savedMember.getUserKey());
 
         //then
+        assertNotNull(savedMember.getUserKey());
         assertEquals(savedMember.getUserKey(), findMember.getUserKey());
         assertEquals(savedMember.getEmail(), findMember.getEmail());
     }
@@ -84,6 +92,7 @@ public class MemberPersistenceAdapterTest {
         List<Member> findMember = memberPort.getMemberByEmail(savedMember.getEmail());
 
         //then
+        assertNotNull(savedMember.getUserKey());
         assertEquals(1, findMember.size());
     }
 }

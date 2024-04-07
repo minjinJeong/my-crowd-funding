@@ -30,7 +30,7 @@ public class SupportEntity {
     @JoinColumn(name = "funding_id")
     private FundingEntity funding;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "funding_reward_id")
     private FundingRewardEntity reward;
 

@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.data.request;
 
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.infrastructure.adapters.input.mapper.MemberPaymentMethodMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,7 @@ public class MemberPaymentMethodRegisterRequest {
     private boolean isDefault;
     private String paymentNumber;
 
-    public PaymentMethod toPaymentMethod() {
+    public MemberPaymentMethod toPaymentMethod() {
         return MemberPaymentMethodMapper.INSTANCE.toPaymentMethod(this);
     }
 }

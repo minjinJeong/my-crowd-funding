@@ -1,6 +1,6 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.entity;
 
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.infrastructure.adapters.output.persistence.mapper.MemberPaymentMethodPersistenceMapper;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,11 +37,11 @@ public class MemberPaymentMethodEntity {
 
     private LocalDateTime updatedAt;
 
-    public static MemberPaymentMethodEntity from(PaymentMethod paymentMethod) {
-        return MemberPaymentMethodPersistenceMapper.INSTANCE.toMemberPaymentMethodEntity(paymentMethod);
+    public static MemberPaymentMethodEntity from(MemberPaymentMethod memberPaymentMethod) {
+        return MemberPaymentMethodPersistenceMapper.INSTANCE.toMemberPaymentMethodEntity(memberPaymentMethod);
     }
 
-    public PaymentMethod toPaymentMethod() {
+    public MemberPaymentMethod toPaymentMethod() {
         return MemberPaymentMethodPersistenceMapper.INSTANCE.toPaymentMethod(this);
     }
 

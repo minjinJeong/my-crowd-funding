@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class PaymentMethod {
+public class MemberPaymentMethod {
 
     private Long id;
     private String paymentMethodKey;
@@ -18,8 +18,12 @@ public class PaymentMethod {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public PaymentMethod register(Member member) {
+    public MemberPaymentMethod member(Member member) {
         this.member = member;
+        return this;
+    }
+
+    public MemberPaymentMethod register() {
         this.paymentMethodKey = makeKey();
         return this;
     }

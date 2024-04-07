@@ -1,5 +1,7 @@
 package com.flab.funding.service;
 
+import com.flab.funding.application.ports.output.FundingPort;
+import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.application.ports.output.SupportPort;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
@@ -23,6 +25,12 @@ public class SupportServiceTest {
 
     @Mock
     private SupportPort supportPort;
+
+    @Mock
+    private MemberPort memberPort;
+
+    @Mock
+    private FundingPort fundingPort;
     
     @Test
     @DisplayName("후원 등록")
@@ -30,10 +38,16 @@ public class SupportServiceTest {
         //given
         Support support = getSupport();
 
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(getMemberRequest());
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(getFundingRequest());
+
         given(supportPort.saveSupport(any(Support.class)))
                 .willReturn(support);
 
-        given(supportPort.getSupportRequest(any()))
+        given(supportPort.getSupportBySupportKey(any()))
                 .willReturn(support);
 
         //when
@@ -84,12 +98,12 @@ public class SupportServiceTest {
 
     private SupportPayment getSupportPayment() {
         return SupportPayment.builder()
-                .paymentMethod(getPaymentMethodRequest())
+                .memberPaymentMethod(getPaymentMethodRequest())
                 .build();
     }
 
-    private PaymentMethod getPaymentMethodRequest() {
-        return PaymentMethod.builder()
+    private MemberPaymentMethod getPaymentMethodRequest() {
+        return MemberPaymentMethod.builder()
                 .paymentMethodKey("PM-0001")
                 .build();
     }
@@ -97,7 +111,7 @@ public class SupportServiceTest {
     private SupportDelivery getSupportDelivery() {
         return SupportDelivery.builder()
                 .support(getSupportRequest())
-                .deliveryAddress(getDeliveryAddressRequest())
+                .memberDeliveryAddress(getDeliveryAddressRequest())
                 .build();
     }
 
@@ -107,8 +121,8 @@ public class SupportServiceTest {
                 .build();
     }
 
-    private DeliveryAddress getDeliveryAddressRequest() {
-        return DeliveryAddress.builder()
+    private MemberDeliveryAddress getDeliveryAddressRequest() {
+        return MemberDeliveryAddress.builder()
                 .deliveryAddressKey("DA-0001")
                 .build();
     }
@@ -120,7 +134,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -140,7 +154,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
@@ -160,7 +174,7 @@ public class SupportServiceTest {
         Support support = getSupport();
         SupportDelivery supportDelivery = getSupportDelivery();
 
-        given(supportPort.getSupportDeliveryRequest(any()))
+        given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))

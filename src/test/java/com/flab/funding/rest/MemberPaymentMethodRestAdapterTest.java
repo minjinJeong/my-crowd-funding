@@ -2,7 +2,7 @@ package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.domain.model.PaymentMethod;
+import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.domain.service.MemberPaymentMethodService;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberPaymentMethodRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.rest.MemberPaymentMethodRestAdapter;
@@ -51,7 +51,7 @@ public class MemberPaymentMethodRestAdapterTest {
                 .paymentNumber("3565-43")
                 .build();
 
-        PaymentMethod response = PaymentMethod.builder()
+        MemberPaymentMethod response = MemberPaymentMethod.builder()
                 .paymentMethodKey("PM-0001")
                 .member(Member.builder().userKey("MM-0001").build())
                 .isDefault(true)

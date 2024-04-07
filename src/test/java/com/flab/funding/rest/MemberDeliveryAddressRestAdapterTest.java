@@ -1,7 +1,7 @@
 package com.flab.funding.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flab.funding.domain.model.DeliveryAddress;
+import com.flab.funding.domain.model.MemberDeliveryAddress;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberDeliveryAddressRegisterRequest;
@@ -56,7 +56,7 @@ public class MemberDeliveryAddressRestAdapterTest {
                 .recipientPhone("010-1111-2222")
                 .build();
 
-        DeliveryAddress response = DeliveryAddress.builder()
+        MemberDeliveryAddress response = MemberDeliveryAddress.builder()
                 .deliveryAddressKey("DA-0001")
                 .member(Member.builder().userKey("MM-0001").build())
                 .isDefault(true)

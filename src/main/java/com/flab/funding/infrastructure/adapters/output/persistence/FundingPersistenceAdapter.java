@@ -1,30 +1,28 @@
 package com.flab.funding.infrastructure.adapters.output.persistence;
 
 import com.flab.funding.application.ports.output.FundingPort;
-import com.flab.funding.domain.model.Funding;
-import com.flab.funding.domain.model.FundingCreator;
-import com.flab.funding.domain.model.FundingItem;
-import com.flab.funding.domain.model.FundingReward;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingCreatorEntity;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingEntity;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingItemEntity;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.FundingRewardEntity;
-import com.flab.funding.infrastructure.adapters.output.persistence.repository.FundingCreatorRepository;
-import com.flab.funding.infrastructure.adapters.output.persistence.repository.FundingItemRepository;
-import com.flab.funding.infrastructure.adapters.output.persistence.repository.FundingRepository;
-import com.flab.funding.infrastructure.adapters.output.persistence.repository.FundingRewardRepository;
+import com.flab.funding.domain.model.*;
+import com.flab.funding.infrastructure.adapters.output.persistence.entity.*;
+import com.flab.funding.infrastructure.adapters.output.persistence.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FundingPersistenceAdapter implements FundingPort {
 
     private final FundingRepository fundingRepository;
     private final FundingCreatorRepository fundingCreatorRepository;
     private final FundingItemRepository fundingItemRepository;
     private final FundingRewardRepository fundingRewardRepository;
+    private final FundingRewardItemRepository fundingRewardItemRepository;
 
+    @Transactional
     @Override
     public Funding saveFunding(Funding funding) {
 
@@ -42,6 +40,7 @@ public class FundingPersistenceAdapter implements FundingPort {
         return fundingEntity.toFunding();
     }
 
+    @Transactional
     @Override
     public FundingCreator saveFundingCreator(FundingCreator fundingCreator) {
 
@@ -50,20 +49,35 @@ public class FundingPersistenceAdapter implements FundingPort {
         return savedFundingCreator.toFundingCreator();
     }
 
+    @Transactional
     @Override
     public FundingItem saveFundingItem(FundingItem fundingItem) {
 
-        FundingItemEntity fundingItemEntity = FundingItemEntity.toFundingItemEntity(fundingItem);
+        FundingItemEntity fundingItemEntity = FundingItemEntity.from(fundingItem);
         FundingItemEntity savedFundingItem = fundingItemRepository.save(fundingItemEntity);
         return savedFundingItem.toFundingItem();
     }
 
+    @Transactional
     @Override
     public FundingReward saveFundingReward(FundingReward fundingReward) {
 
-        FundingRewardEntity fundingRewardEntity = FundingRewardEntity.toFundingRewardEntity(fundingReward);
+        FundingRewardEntity fundingRewardEntity = FundingRewardEntity.from(fundingReward);
         FundingRewardEntity savedFundingReward = fundingRewardRepository.save(fundingRewardEntity);
         return savedFundingReward.toFundingReward();
+    }
+
+    @Transactional
+    @Override
+    public List<FundingRewardItem> saveFundingRewardItems(List<FundingRewardItem> fundingRewardItems) {
+
+        List<FundingRewardItemEntity> fundingRewardItemEntities =
+                FundingRewardItemEntity.from(fundingRewardItems);
+
+        List<FundingRewardItemEntity> savedFundingRewardItem =
+                fundingRewardItemRepository.saveAll(fundingRewardItemEntities);
+
+        return savedFundingRewardItem.stream().map(FundingRewardItemEntity::toFundingRewardItem).collect(Collectors.toList());
     }
 
     // TODO : get 테스트 및 수정 필요

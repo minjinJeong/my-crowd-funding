@@ -1,8 +1,6 @@
 package com.flab.funding.infrastructure.adapters.output.persistence.mapper;
 
 import com.flab.funding.domain.model.Support;
-import com.flab.funding.domain.model.SupportDelivery;
-import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportDeliveryEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.SupportEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -16,6 +14,4 @@ public interface SupportPersistenceMapper {
     SupportEntity toSupportEntity(Support support);
 
     Support toSupport(SupportEntity supportEntity);
-
-    SupportDelivery toSupportDelivery(SupportDeliveryEntity supportDelivery);
 }

@@ -1,9 +1,8 @@
 package com.flab.funding.application.ports.output;
 
-import com.flab.funding.domain.model.Funding;
-import com.flab.funding.domain.model.FundingCreator;
-import com.flab.funding.domain.model.FundingItem;
-import com.flab.funding.domain.model.FundingReward;
+import com.flab.funding.domain.model.*;
+
+import java.util.List;
 
 public interface FundingPort {
 
@@ -22,5 +21,7 @@ public interface FundingPort {
     FundingItem saveFundingItem(FundingItem fundingItem);
 
     FundingReward saveFundingReward(FundingReward fundingReward);
+
+    List<FundingRewardItem> saveFundingRewardItems(List<FundingRewardItem> fundingRewardItems);
 }
 
