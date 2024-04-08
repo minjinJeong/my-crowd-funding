@@ -214,7 +214,7 @@ public class FundingPersistenceAdapterTest {
     }
 
     private FundingItemOption createItemOption(String option) {
-        return FundingItemOption.builder().option(option).build();
+        return FundingItemOption.builder().optionName(option).build();
     }
 
     @Test

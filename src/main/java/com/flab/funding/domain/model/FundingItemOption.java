@@ -11,7 +11,7 @@ public class FundingItemOption {
 
     private Long id;
     private FundingItem fundingItem;
-    private String option;
+    private String optionName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
