@@ -38,3 +38,6 @@ out/
 
 ### Project ###
 /src/main/generated/
+
+### Spring REST docs ###
+/src/main/resources/static/docs/
