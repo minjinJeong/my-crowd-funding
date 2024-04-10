@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class FundingItemOptionRequest {
 
-    private String option;
+    private String optionName;
 }

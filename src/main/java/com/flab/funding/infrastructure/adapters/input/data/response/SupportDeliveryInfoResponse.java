@@ -14,6 +14,7 @@ public class SupportDeliveryInfoResponse {
     private SupportDeliveryStatus status;
 
     public static SupportDeliveryInfoResponse from(SupportDelivery supportDelivery) {
+
         return SupportMapper.INSTANCE.toSupportDeliveryInfoResponse(supportDelivery);
     }
 

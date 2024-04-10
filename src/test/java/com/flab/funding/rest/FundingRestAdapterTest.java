@@ -311,25 +311,27 @@ public class FundingRestAdapterTest {
                                 fieldWithPath("itemName").description("아이템 이름"),
                                 fieldWithPath("optionType").description("옵션 조건"),
                                 fieldWithPath("fundingItemOptions").description("아이템 옵션 리스트"),
-                                fieldWithPath("fundingItemOptions[].option").description("아이템 옵션")
+                                fieldWithPath("fundingItemOptions[].optionName").description("아이템 옵션")
                         ),
                         responseFields(
                                 fieldWithPath("fundingKey").description("펀딩번호(외부용)"),
                                 fieldWithPath("itemName").description("아이템 이름"),
                                 fieldWithPath("optionType").description("옵션 조건"),
                                 fieldWithPath("fundingItemOptions").description("아이템 옵션 리스트"),
-                                fieldWithPath("fundingItemOptions[].option").description("아이템 옵션")
+                                fieldWithPath("fundingItemOptions[].optionName").description("아이템 옵션")
                         )));
     }
 
     private FundingItemOptionRequest createRequestItemOption(String option) {
         return FundingItemOptionRequest.builder()
-                .option(option)
+                .optionName(option)
                 .build();
     }
 
     private FundingItemOption createResponseItemOption(String option) {
-        return FundingItemOption.builder().optionName(option).build();
+        return FundingItemOption.builder()
+                .optionName(option)
+                .build();
     }
 
     @Test

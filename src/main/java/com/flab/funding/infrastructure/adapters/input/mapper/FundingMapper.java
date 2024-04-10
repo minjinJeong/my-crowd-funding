@@ -1,13 +1,7 @@
 package com.flab.funding.infrastructure.adapters.input.mapper;
 
-import com.flab.funding.domain.model.Funding;
-import com.flab.funding.domain.model.FundingCreator;
-import com.flab.funding.domain.model.FundingItem;
-import com.flab.funding.domain.model.FundingReward;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingCreatorRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingItemRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingRegisterRequest;
-import com.flab.funding.infrastructure.adapters.input.data.request.FundingRewardRegisterRequest;
+import com.flab.funding.domain.model.*;
+import com.flab.funding.infrastructure.adapters.input.data.request.*;
 import com.flab.funding.infrastructure.adapters.input.data.response.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -29,6 +23,9 @@ public interface FundingMapper extends DefaultMethodToMapper {
 
     FundingReward toFundingReward(FundingRewardRegisterRequest fundingRewardRegisterRequest);
 
+    @Mapping(source = "fundingItemId", target = "fundingItem.id")
+    FundingRewardItem toFundingRewardItem(FundingRewardItemRequest fundingRewardItemRequest);
+
     FundingItem toFundingItem(FundingItemRegisterRequest fundingItemRegisterRequest);
 
     @Mapping(source = "funding.fundingKey", target = "fundingKey")
@@ -39,4 +36,9 @@ public interface FundingMapper extends DefaultMethodToMapper {
 
     @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingRewardInfoResponse toFundingRewardInfoResponse(FundingReward fundingReward);
+
+    @Mapping(source = "fundingItem.id", target = "fundingItemId")
+    FundingRewardItemResponse toFundingRewardItemResponse (FundingRewardItem fundingRewardItem);
+
+    FundingItemRegisterResponse toFundingItemRegisterResponse(FundingItem fundingItem);
 }

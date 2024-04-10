@@ -6,6 +6,7 @@ import com.flab.funding.infrastructure.adapters.input.data.request.SupportRegist
 import com.flab.funding.infrastructure.adapters.input.data.response.SupportDeliveryInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.SupportRegisterResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -18,5 +19,6 @@ public interface SupportMapper extends DefaultMethodToMapper {
 
     SupportRegisterResponse toSupportRegisterResponse(Support support);
 
+    @Mapping(source = "support.supportKey", target = "supportKey")
     SupportDeliveryInfoResponse toSupportDeliveryInfoResponse(SupportDelivery supportDelivery);
 }
