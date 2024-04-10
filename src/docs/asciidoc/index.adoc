@@ -8,8 +8,8 @@
 :sectnums:
 :docinfo: shared-head
 
-include::{docdir}/src/docs/asciidoc/member.adoc[]
+include::{docdir}/member.adoc[]
 
-include::{docdir}/src/docs/asciidoc/funding.adoc[]
+include::{docdir}/funding.adoc[]
 
-include::{docdir}/src/docs/asciidoc/support.adoc[]
+include::{docdir}/support.adoc[]

@@ -1,11 +1,11 @@
 package com.flab.funding.domain.model;
 
+import com.flab.funding.domain.utils.MakeDomainKeyUtils;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder
 @Getter
@@ -28,13 +28,8 @@ public class Member {
 
     public Member activate() {
         this.status = MemberStatus.ACTIVATE;
-        this.userKey = makeKey();
+        this.userKey = MakeDomainKeyUtils.newKey("MM");
         return this;
-    }
-
-    // TODO key 생성 로직 수정
-    private String makeKey() {
-        return UUID.randomUUID().toString();
     }
 
     public Member deactivate() {

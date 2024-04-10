@@ -1,10 +1,10 @@
 package com.flab.funding.domain.model;
 
+import com.flab.funding.domain.utils.MakeDomainKeyUtils;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder
 @Getter
@@ -40,12 +40,7 @@ public class Support {
 
     public Support register() {
         this.status = SupportStatus.RESERVATION;
-        this.supportKey = makeKey();
+        this.supportKey = MakeDomainKeyUtils.newKey("SS");
         return this;
-    }
-
-    // TODO key 생성 로직 수정
-    private String makeKey() {
-        return UUID.randomUUID().toString();
     }
 }

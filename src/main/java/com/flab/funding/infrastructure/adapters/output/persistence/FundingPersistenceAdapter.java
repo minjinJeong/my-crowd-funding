@@ -80,7 +80,6 @@ public class FundingPersistenceAdapter implements FundingPort {
         return savedFundingRewardItem.stream().map(FundingRewardItemEntity::toFundingRewardItem).collect(Collectors.toList());
     }
 
-    // TODO : get 테스트 및 수정 필요
     @Override
     public FundingCreator getFundingCreatorByFundingKey(String fundingKey) {
 
