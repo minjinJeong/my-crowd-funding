@@ -1,8 +1,6 @@
 package com.flab.funding.service;
 
-import com.flab.funding.application.ports.output.FundingPort;
-import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.application.ports.output.SupportPort;
+import com.flab.funding.application.ports.output.*;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +29,12 @@ public class SupportServiceTest {
 
     @Mock
     private FundingPort fundingPort;
+
+    @Mock
+    private MemberDeliveryAddressPort memberDeliveryAddressPort;
+
+    @Mock
+    private MemberPaymentMethodPort memberPaymentMethodPort;
     
     @Test
     @DisplayName("후원 등록")
@@ -49,6 +53,18 @@ public class SupportServiceTest {
 
         given(supportPort.getSupportBySupportKey(any()))
                 .willReturn(support);
+
+        given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
+                .willReturn(getDeliveryAddressRequest());
+
+        given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
+                .willReturn(getSupportDelivery());
+
+        given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
+                .willReturn(getPaymentMethodRequest());
+
+        given(supportPort.saveSupportPayment(any(SupportPayment.class)))
+                .willReturn(getSupportPayment());
 
         //when
         Support savedSupport = supportService.registerSupport(support);

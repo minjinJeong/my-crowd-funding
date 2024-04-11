@@ -18,4 +18,15 @@ public class SupportPayment {
     private LocalDateTime paymentAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public SupportPayment support(Support support) {
+        this.support = support;
+        return this;
+    }
+
+    public SupportPayment memberPaymentMethod(MemberPaymentMethod memberPaymentMethod) {
+        this.memberPaymentMethod = memberPaymentMethod;
+        return this;
+    }
+
 }

@@ -25,6 +25,11 @@ public class SupportDelivery {
         return this;
     }
 
+    public SupportDelivery memberDeliveryAddress(MemberDeliveryAddress memberDeliveryAddress) {
+        this.memberDeliveryAddress = memberDeliveryAddress;
+        return this;
+    }
+
     public SupportDelivery shippedOut() {
         this.status = SupportDeliveryStatus.SHIPPED;
         return this;

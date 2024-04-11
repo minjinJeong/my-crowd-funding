@@ -5,6 +5,7 @@ import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.adapters.output.persistence.SupportPersistenceAdapter;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.*;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportDeliveryRepository;
+import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportPaymentRepository;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.SupportRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -45,9 +46,10 @@ public class SupportPersistenceAdapterTest {
 
     @Autowired
     public SupportPersistenceAdapterTest(SupportRepository supportRepository,
-                                         SupportDeliveryRepository supportDeliveryRepository) {
+                                         SupportDeliveryRepository supportDeliveryRepository,
+                                         SupportPaymentRepository supportPaymentRepository) {
 
-        this.supportPort = new SupportPersistenceAdapter(supportRepository, supportDeliveryRepository);
+        this.supportPort = new SupportPersistenceAdapter(supportRepository, supportDeliveryRepository, supportPaymentRepository);
     }
 
     @BeforeEach
@@ -270,4 +272,28 @@ public class SupportPersistenceAdapterTest {
         assertNotNull(savedSupportDelivery.getId());
         assertEquals(savedSupportDelivery.getId(), findSupportDelivery.getId());
     }
+
+    @Test
+    @DisplayName("후원 결제수단 등록")
+    public void saveSupportPayment() {
+        //given
+        Support support = Support.builder()
+                .member(member)
+                .funding(funding)
+                .reward(reward)
+                .build()
+                .register();
+
+        Support savedSupport = supportPort.saveSupport(support);
+
+        SupportPayment supportPayment = getSupportPayment().support(savedSupport);
+
+        //when
+        SupportPayment savedSupportPayment = supportPort.saveSupportPayment(supportPayment);
+
+        //then
+        assertNotNull(savedSupportPayment.getId());
+        assertEquals(savedSupport.getSupportKey(), savedSupportPayment.getSupport().getSupportKey());
+    }
+
 }

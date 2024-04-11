@@ -3,9 +3,7 @@ package com.flab.funding.domain.service;
 import com.flab.funding.application.ports.input.RegisterSupportUseCase;
 import com.flab.funding.application.ports.input.SupportDeliveryUseCase;
 import com.flab.funding.application.ports.input.SupportPaymentUseCase;
-import com.flab.funding.application.ports.output.FundingPort;
-import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.application.ports.output.SupportPort;
+import com.flab.funding.application.ports.output.*;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +13,12 @@ import lombok.RequiredArgsConstructor;
 public class SupportService implements RegisterSupportUseCase, SupportDeliveryUseCase, SupportPaymentUseCase {
 
     private final MemberPort memberPort;
-
+    private final MemberDeliveryAddressPort memberDeliveryAddressPort;
+    private final MemberPaymentMethodPort memberPaymentMethodPort;
     private final FundingPort fundingPort;
-
     private final SupportPort supportPort;
 
+    // TODO : 포트를 너무 많이 사용한다. 리팩토링이 가능할 지 고민
     @Override
     public Support registerSupport(Support support) {
 
@@ -29,16 +28,49 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         Funding funding =
                 fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
 
-        // TODO : 후원 배송정보와 결제수단 조회 코드 추가
+        Support savedSupport = supportPort.saveSupport(
+                support.member(member).funding(funding).register()
+        );
 
-        Support saveSupport = Support.builder()
-                .member(member)
-                .funding(funding)
-                .reward(support.getReward())
-                .status(support.getStatus())
-                .build();
+        registerSupportDelivery(support.getSupportDelivery().support(savedSupport));
 
-        return supportPort.saveSupport(support.member(member).register());
+        registerSupportPayment(support.getSupportPayment().support(savedSupport));
+
+        return savedSupport;
+    }
+
+    private void registerSupportDelivery(SupportDelivery supportDelivery) {
+
+        if (supportDelivery == null || supportDelivery.getMemberDeliveryAddress() == null) {
+
+            return;
+        }
+
+        MemberDeliveryAddress memberDeliveryAddress = supportDelivery.getMemberDeliveryAddress();
+
+        MemberDeliveryAddress deliveryAddress =
+                memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(memberDeliveryAddress.getDeliveryAddressKey());
+
+        supportPort.saveSupportDelivery(
+                supportDelivery.memberDeliveryAddress(deliveryAddress)
+        );
+    }
+
+    private void registerSupportPayment(SupportPayment supportPayment) {
+
+        if (supportPayment == null || supportPayment.getMemberPaymentMethod() == null) {
+
+            return;
+        }
+
+        MemberPaymentMethod memberPaymentMethod = supportPayment.getMemberPaymentMethod();
+
+        MemberPaymentMethod paymentMethod =
+                memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(memberPaymentMethod.getPaymentMethodKey());
+
+        supportPort.saveSupportPayment(
+                supportPayment.memberPaymentMethod(paymentMethod)
+        );
     }
 
     @Override
