@@ -9,23 +9,27 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FundingMapper extends DefaultMethodToMapper {
+public interface FundingMapper {
 
     FundingMapper INSTANCE = Mappers.getMapper(FundingMapper.class);
 
+    @Mapping(source = "userKey", target = "member.userKey")
     Funding toFunding(FundingRegisterRequest fundingRegisterRequest);
 
     FundingRegisterResponse toFundingRegisterResponse(Funding funding);
 
     FundingInfoResponse toFundingInfoResponse(Funding funding);
 
+    @Mapping(source = "fundingKey", target = "funding.fundingKey")
     FundingCreator toFundingCreator(FundingCreatorRegisterRequest fundingCreatorRegisterRequest);
 
+    @Mapping(source = "fundingKey", target = "funding.fundingKey")
     FundingReward toFundingReward(FundingRewardRegisterRequest fundingRewardRegisterRequest);
 
     @Mapping(source = "fundingItemId", target = "fundingItem.id")
     FundingRewardItem toFundingRewardItem(FundingRewardItemRequest fundingRewardItemRequest);
 
+    @Mapping(source = "fundingKey", target = "funding.fundingKey")
     FundingItem toFundingItem(FundingItemRegisterRequest fundingItemRegisterRequest);
 
     @Mapping(source = "funding.fundingKey", target = "fundingKey")
@@ -40,5 +44,6 @@ public interface FundingMapper extends DefaultMethodToMapper {
     @Mapping(source = "fundingItem.id", target = "fundingItemId")
     FundingRewardItemResponse toFundingRewardItemResponse (FundingRewardItem fundingRewardItem);
 
+    @Mapping(source = "funding.fundingKey", target = "fundingKey")
     FundingItemRegisterResponse toFundingItemRegisterResponse(FundingItem fundingItem);
 }

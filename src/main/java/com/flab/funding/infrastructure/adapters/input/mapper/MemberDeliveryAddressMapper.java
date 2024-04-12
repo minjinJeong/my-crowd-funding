@@ -9,10 +9,11 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface MemberDeliveryAddressMapper extends DefaultMethodToMapper{
+public interface MemberDeliveryAddressMapper {
 
     MemberDeliveryAddressMapper INSTANCE = Mappers.getMapper(MemberDeliveryAddressMapper.class);
 
+    @Mapping(source = "userKey", target = "member.userKey")
     MemberDeliveryAddress toDeliveryAddress(MemberDeliveryAddressRegisterRequest deliveryAddressRegisterRequest);
 
     @Mapping(source = "member.userKey", target = "userKey")

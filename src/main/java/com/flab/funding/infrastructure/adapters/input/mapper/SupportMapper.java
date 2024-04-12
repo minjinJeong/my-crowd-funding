@@ -11,10 +11,13 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SupportMapper extends DefaultMethodToMapper {
+public interface SupportMapper {
 
     SupportMapper INSTANCE = Mappers.getMapper(SupportMapper.class);
 
+    @Mapping(source = "userKey", target = "member.userKey")
+    @Mapping(source = "fundingKey", target = "funding.fundingKey")
+    @Mapping(source = "rewardId", target = "reward.id")
     Support toSupport(SupportRegisterRequest supportRegisterRequest);
 
     SupportRegisterResponse toSupportRegisterResponse(Support support);
