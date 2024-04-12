@@ -9,11 +9,11 @@ public class FundingCategoryAttributeConverter implements AttributeConverter<Fun
 
     @Override
     public String convertToDatabaseColumn(FundingCategory attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public FundingCategory convertToEntityAttribute(String dbData) {
-        return FundingCategory.valueOfCode(dbData);
+        return dbData != null ? FundingCategory.valueOfCode(dbData) : null;
     }
 }

@@ -9,11 +9,11 @@ public class MemberStatusAttributeConverter implements AttributeConverter<Member
 
     @Override
     public String convertToDatabaseColumn(MemberStatus attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public MemberStatus convertToEntityAttribute(String dbData) {
-        return MemberStatus.valueOfCode(dbData);
+        return dbData != null ? MemberStatus.valueOfCode(dbData) : null;
     }
 }

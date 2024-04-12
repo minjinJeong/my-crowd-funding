@@ -9,11 +9,11 @@ public class FundingStatusAttributeConverter implements AttributeConverter<Fundi
 
     @Override
     public String convertToDatabaseColumn(FundingStatus attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public FundingStatus convertToEntityAttribute(String dbData) {
-        return FundingStatus.valueOfCode(dbData);
+        return dbData != null ? FundingStatus.valueOfCode(dbData) : null;
     }
 }

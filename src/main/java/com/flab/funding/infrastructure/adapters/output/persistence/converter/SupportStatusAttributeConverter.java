@@ -9,11 +9,11 @@ public class SupportStatusAttributeConverter implements AttributeConverter<Suppo
 
     @Override
     public String convertToDatabaseColumn(SupportStatus attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public SupportStatus convertToEntityAttribute(String dbData) {
-        return SupportStatus.valueOfCode(dbData);
+        return dbData != null ? SupportStatus.valueOfCode(dbData) : null;
     }
 }

@@ -9,11 +9,11 @@ public class FundingItemOptionAttributeConverter implements AttributeConverter<F
 
     @Override
     public String convertToDatabaseColumn(FundingItemOptionType attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public FundingItemOptionType convertToEntityAttribute(String dbData) {
-        return FundingItemOptionType.valueOfCode(dbData);
+        return dbData != null ? FundingItemOptionType.valueOfCode(dbData) : null;
     }
 }
