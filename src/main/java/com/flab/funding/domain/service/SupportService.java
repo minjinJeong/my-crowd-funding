@@ -28,22 +28,20 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         Funding funding =
                 fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
 
-        Support savedSupport = supportPort.saveSupport(
-                support.member(member).funding(funding).register()
+        return supportPort.saveSupport(
+                support.member(member)
+                        .funding(funding)
+                        .supportDelivery(getSupportDelivery(support.getSupportDelivery()))
+                        .supportPayment(getSupportPayment(support.getSupportPayment()))
+                        .register()
         );
-
-        registerSupportDelivery(support.getSupportDelivery().support(savedSupport));
-
-        registerSupportPayment(support.getSupportPayment().support(savedSupport));
-
-        return savedSupport;
     }
 
-    private void registerSupportDelivery(SupportDelivery supportDelivery) {
+    private SupportDelivery getSupportDelivery(SupportDelivery supportDelivery) {
 
         if (supportDelivery == null || supportDelivery.getMemberDeliveryAddress() == null) {
 
-            return;
+            return supportDelivery;
         }
 
         MemberDeliveryAddress memberDeliveryAddress = supportDelivery.getMemberDeliveryAddress();
@@ -51,16 +49,14 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         MemberDeliveryAddress deliveryAddress =
                 memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(memberDeliveryAddress.getDeliveryAddressKey());
 
-        supportPort.saveSupportDelivery(
-                supportDelivery.memberDeliveryAddress(deliveryAddress)
-        );
+        return supportDelivery.memberDeliveryAddress(deliveryAddress);
     }
 
-    private void registerSupportPayment(SupportPayment supportPayment) {
+    private SupportPayment getSupportPayment(SupportPayment supportPayment) {
 
         if (supportPayment == null || supportPayment.getMemberPaymentMethod() == null) {
 
-            return;
+            return supportPayment;
         }
 
         MemberPaymentMethod memberPaymentMethod = supportPayment.getMemberPaymentMethod();
@@ -68,9 +64,7 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         MemberPaymentMethod paymentMethod =
                 memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(memberPaymentMethod.getPaymentMethodKey());
 
-        supportPort.saveSupportPayment(
-                supportPayment.memberPaymentMethod(paymentMethod)
-        );
+        return supportPayment.memberPaymentMethod(paymentMethod);
     }
 
     @Override

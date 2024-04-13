@@ -33,8 +33,13 @@ public class Support {
         return this;
     }
 
-    public Support reward(FundingReward fundingReward) {
-        this.reward = fundingReward;
+    public Support supportDelivery(SupportDelivery supportDelivery) {
+        this.supportDelivery = supportDelivery;
+        return this;
+    }
+
+    public Support supportPayment(SupportPayment supportPayment) {
+        this.supportPayment = supportPayment;
         return this;
     }
 

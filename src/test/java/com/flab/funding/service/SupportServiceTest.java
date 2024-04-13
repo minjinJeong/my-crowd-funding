@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,6 +39,7 @@ public class SupportServiceTest {
     
     @Test
     @DisplayName("후원 등록")
+    @Rollback(value = false)
     public void registerSupport() {
         //given
         Support support = getSupport();
@@ -57,14 +59,8 @@ public class SupportServiceTest {
         given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
                 .willReturn(getDeliveryAddressRequest());
 
-        given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(getSupportDelivery());
-
         given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
                 .willReturn(getPaymentMethodRequest());
-
-        given(supportPort.saveSupportPayment(any(SupportPayment.class)))
-                .willReturn(getSupportPayment());
 
         //when
         Support savedSupport = supportService.registerSupport(support);

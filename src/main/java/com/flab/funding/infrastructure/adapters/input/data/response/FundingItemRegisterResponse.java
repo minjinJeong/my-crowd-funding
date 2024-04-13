@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 public class FundingItemRegisterResponse {
 
+    // TODO 펀딩 아이템 생성 후 ID 반환 필요
     private String fundingKey;
     private String itemName;
     private FundingItemOptionType optionType;
