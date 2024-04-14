@@ -22,19 +22,21 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
     @Override
     public Support registerSupport(Support support) {
 
-        Member member =
-                memberPort.getMemberByUserKey(support.getMember().getUserKey());
-
-        Funding funding =
-                fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
-
         return supportPort.saveSupport(
-                support.member(member)
-                        .funding(funding)
+                support.member(getMemberByUserKey(support))
+                        .funding(getFundingByFundingKey(support))
                         .supportDelivery(getSupportDelivery(support.getSupportDelivery()))
                         .supportPayment(getSupportPayment(support.getSupportPayment()))
                         .register()
         );
+    }
+
+    private Funding getFundingByFundingKey(Support support) {
+        return fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
+    }
+
+    private Member getMemberByUserKey(Support support) {
+        return memberPort.getMemberByUserKey(support.getMember().getUserKey());
     }
 
     private SupportDelivery getSupportDelivery(SupportDelivery supportDelivery) {
