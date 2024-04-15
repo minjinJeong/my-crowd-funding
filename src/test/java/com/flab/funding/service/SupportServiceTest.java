@@ -1,6 +1,8 @@
 package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.*;
+import com.flab.funding.domain.exception.EmptyFundingException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
 import org.junit.jupiter.api.DisplayName;
@@ -9,10 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.annotation.Rollback;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -39,7 +39,6 @@ public class SupportServiceTest {
     
     @Test
     @DisplayName("후원 등록")
-    @Rollback(value = false)
     public void registerSupport() {
         //given
         Support support = getSupport();
@@ -86,12 +85,14 @@ public class SupportServiceTest {
 
     private Member getMemberRequest() {
         return Member.builder()
+                .id(1L)
                 .userKey("MM-0001")
                 .build();
     }
 
     private Funding getFundingRequest() {
         return Funding.builder()
+                .id(1L)
                 .fundingKey("FF-0001")
                 .build();
     }
@@ -131,6 +132,39 @@ public class SupportServiceTest {
         return MemberDeliveryAddress.builder()
                 .deliveryAddressKey("DA-0001")
                 .build();
+    }
+
+    @Test
+    @DisplayName("후원 등록 시 잘못된 회원 예외")
+    public void registerSupportMemberError() {
+        //given
+        Support support = getSupport();
+
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(Member.builder().build());
+
+        //when
+        //then
+        assertThrows(EmptyMemberException.class, () -> supportService.registerSupport(support));
+
+    }
+
+    @Test
+    @DisplayName("후원 등록 시 잘못된 펀딩 예외")
+    public void registerSupportFundingError() {
+        //given
+        Support support = getSupport();
+
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(getMemberRequest());
+
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(Funding.builder().build());
+
+        //when
+        //then
+        assertThrows(EmptyFundingException.class, () -> supportService.registerSupport(support));
+
     }
 
     @Test

@@ -4,6 +4,8 @@ import com.flab.funding.application.ports.input.RegisterSupportUseCase;
 import com.flab.funding.application.ports.input.SupportDeliveryUseCase;
 import com.flab.funding.application.ports.input.SupportPaymentUseCase;
 import com.flab.funding.application.ports.output.*;
+import com.flab.funding.domain.exception.EmptyFundingException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -32,11 +34,25 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
     }
 
     private Funding getFundingByFundingKey(Support support) {
-        return fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
+        Funding funding =
+                fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
+
+        if (funding.getId() == null) {
+            throw new EmptyFundingException();
+        }
+
+        return funding;
     }
 
     private Member getMemberByUserKey(Support support) {
-        return memberPort.getMemberByUserKey(support.getMember().getUserKey());
+        Member member =
+                memberPort.getMemberByUserKey(support.getMember().getUserKey());
+
+        if (member.getId() == null) {
+            throw new EmptyMemberException();
+        }
+
+        return member;
     }
 
     private SupportDelivery getSupportDelivery(SupportDelivery supportDelivery) {
