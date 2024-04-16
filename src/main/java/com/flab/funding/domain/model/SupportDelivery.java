@@ -29,12 +29,25 @@ public class SupportDelivery {
 
     private LocalDateTime updatedAt;
 
-    public SupportDelivery with(Support support,
-                                MemberDeliveryAddress memberDeliveryAddress) {
+    public SupportDelivery with(Support support) {
 
         return SupportDelivery.builder()
                 .id(this.id)
                 .support(support)
+                .memberDeliveryAddress(this.memberDeliveryAddress)
+                .status(this.status)
+                .shipmentName(this.shipmentName)
+                .shipmentAt(this.shipmentAt)
+                .trackingName(this.trackingName)
+                .trackingAt(this.trackingAt)
+                .build();
+    }
+
+    public SupportDelivery with(MemberDeliveryAddress memberDeliveryAddress) {
+
+        return SupportDelivery.builder()
+                .id(this.id)
+                .support(this.support)
                 .memberDeliveryAddress(memberDeliveryAddress)
                 .status(this.status)
                 .shipmentName(this.shipmentName)

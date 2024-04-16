@@ -26,12 +26,23 @@ public class SupportPayment {
 
     private LocalDateTime updatedAt;
 
-    public SupportPayment support(Support support,
-                                  MemberPaymentMethod memberPaymentMethod) {
+    public SupportPayment with(Support support) {
 
         return SupportPayment.builder()
                 .id(this.id)
                 .support(support)
+                .memberPaymentMethod(this.memberPaymentMethod)
+                .status(this.status)
+                .amount(this.amount)
+                .paymentAt(this.paymentAt)
+                .build();
+    }
+
+    public SupportPayment with(MemberPaymentMethod memberPaymentMethod) {
+
+        return SupportPayment.builder()
+                .id(this.id)
+                .support(this.support)
                 .memberPaymentMethod(memberPaymentMethod)
                 .status(this.status)
                 .amount(this.amount)
