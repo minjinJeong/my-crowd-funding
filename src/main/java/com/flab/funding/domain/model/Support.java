@@ -11,36 +11,44 @@ import java.time.LocalDateTime;
 public class Support {
 
     private Long id;
+
     private Member member;
+
     private Funding funding;
+
     private FundingReward reward;
+
     private String supportKey;
+
     private SupportStatus status;
+
     private SupportDelivery supportDelivery;
+
     private SupportPayment supportPayment;
+
     private LocalDateTime createdAt;
+
     private String createdBy;
+
     private LocalDateTime updatedAt;
+
     private String updatedBy;
 
-    public Support member(Member member) {
-        this.member = member;
-        return this;
-    }
+    public Support with(Member member,
+                        Funding funding,
+                        SupportDelivery supportDelivery,
+                        SupportPayment supportPayment) {
 
-    public Support funding(Funding funding) {
-        this.funding = funding;
-        return this;
-    }
-
-    public Support supportDelivery(SupportDelivery supportDelivery) {
-        this.supportDelivery = supportDelivery;
-        return this;
-    }
-
-    public Support supportPayment(SupportPayment supportPayment) {
-        this.supportPayment = supportPayment;
-        return this;
+        return Support.builder()
+                .id(this.id)
+                .member(member)
+                .funding(funding)
+                .reward(this.reward)
+                .supportKey(this.supportKey)
+                .status(this.status)
+                .supportDelivery(supportDelivery)
+                .supportPayment(supportPayment)
+                .build();
     }
 
     public Support register() {

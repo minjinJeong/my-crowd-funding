@@ -10,16 +10,30 @@ import java.time.LocalDateTime;
 public class FundingCreator {
 
     private Long id;
+
     private Funding funding;
+
     private boolean isValid;
+
     private String businessNumber;
+
     private String representative;
+
     private String introduce;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
-    public FundingCreator funding(Funding funding) {
-        this.funding = funding;
-        return this;
+    public FundingCreator with(Funding funding) {
+
+        return FundingCreator.builder()
+                .id(this.id)
+                .funding(funding)
+                .isValid(this.isValid)
+                .businessNumber(this.businessNumber)
+                .representative(this.representative)
+                .introduce(this.introduce)
+                .build();
     }
 }

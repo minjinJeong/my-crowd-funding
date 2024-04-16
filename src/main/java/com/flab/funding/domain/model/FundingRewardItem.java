@@ -10,9 +10,15 @@ import java.time.LocalDateTime;
 public class FundingRewardItem {
 
     private Long id;
+
     private Funding funding;
+
     private FundingReward fundingReward;
+
     private FundingItem fundingItem;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
+
 }

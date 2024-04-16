@@ -12,18 +12,31 @@ import java.time.LocalDateTime;
 public class Member {
 
     private Long id;
+
     private String userKey;
+
     private MemberStatus status;
+
     private MemberLinkType linkType;
+
     private String email;
+
     private String userName;
+
     private String nickName;
+
     private String phoneNumber;
+
     private MemberGender gender;
+
     private LocalDate birthday;
+
     private String password;
+
     private LocalDateTime lastLoginAt;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
     public Member activate() {
