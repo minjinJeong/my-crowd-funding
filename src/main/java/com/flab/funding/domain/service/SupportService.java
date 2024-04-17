@@ -25,11 +25,12 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
     public Support registerSupport(Support support) {
 
         return supportPort.saveSupport(
-                support.member(getMemberByUserKey(support))
-                        .funding(getFundingByFundingKey(support))
-                        .supportDelivery(getSupportDelivery(support.getSupportDelivery()))
-                        .supportPayment(getSupportPayment(support.getSupportPayment()))
-                        .register()
+                support.with(
+                        getMemberByUserKey(support),
+                        getFundingByFundingKey(support),
+                        getSupportDelivery(support.getSupportDelivery()),
+                        getSupportPayment(support.getSupportPayment())
+                ).register()
         );
     }
 
@@ -67,7 +68,7 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         MemberDeliveryAddress deliveryAddress =
                 memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(memberDeliveryAddress.getDeliveryAddressKey());
 
-        return supportDelivery.memberDeliveryAddress(deliveryAddress);
+        return supportDelivery.with(deliveryAddress);
     }
 
     private SupportPayment getSupportPayment(SupportPayment supportPayment) {
@@ -82,7 +83,7 @@ public class SupportService implements RegisterSupportUseCase, SupportDeliveryUs
         MemberPaymentMethod paymentMethod =
                 memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(memberPaymentMethod.getPaymentMethodKey());
 
-        return supportPayment.memberPaymentMethod(paymentMethod);
+        return supportPayment.with(paymentMethod);
     }
 
     @Override

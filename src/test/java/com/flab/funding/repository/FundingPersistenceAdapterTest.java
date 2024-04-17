@@ -72,7 +72,7 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 등록")
     public void saveFunding() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
 
         //when
         Funding savedFunding = fundingPort.saveFunding(funding);
@@ -135,7 +135,7 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 조회")
     public void getFundingByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
         //when
@@ -150,10 +150,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 창작자 등록")
     public void saveFundingCreator() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingCreator fundingCreator = getFundingCreator().funding(savedFunding);
+        FundingCreator fundingCreator = getFundingCreator().with(savedFunding);
 
         //when
         FundingCreator savedFundingCreator = fundingPort.saveFundingCreator(fundingCreator);
@@ -180,10 +180,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 아이템 등록")
     public void saveFundingItem() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingItem fundingItem = getFundingItem().funding(savedFunding);
+        FundingItem fundingItem = getFundingItem().with(savedFunding);
 
         //when
         FundingItem savedFundingItem = fundingPort.saveFundingItem(fundingItem);
@@ -221,10 +221,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 리워드 등록")
     public void saveFundingReward() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingReward fundingReward = getFundingReward().funding(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding);
         
         //when
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
@@ -255,15 +255,15 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 리워드-아이템 매핑")
     public void saveFundingRewardItems() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingItem fundingItem = getFundingItem().funding(savedFunding);
+        FundingItem fundingItem = getFundingItem().with(savedFunding);
         FundingItem savedFundingItem1 = fundingPort.saveFundingItem(fundingItem);
         FundingItem savedFundingItem2 = fundingPort.saveFundingItem(fundingItem);
         FundingItem savedFundingItem3 = fundingPort.saveFundingItem(fundingItem);
 
-        FundingReward fundingReward = getFundingReward().funding(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding);
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
 
         List<FundingRewardItem> fundingRewardItems = new ArrayList<>();
@@ -291,10 +291,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 창작자 조회")
     public void getFundingCreatorByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingCreator fundingCreator = getFundingCreator().funding(savedFunding);
+        FundingCreator fundingCreator = getFundingCreator().with(savedFunding);
         FundingCreator savedFundingCreator = fundingPort.saveFundingCreator(fundingCreator);
 
         //when
@@ -311,10 +311,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 아이템 조회")
     public void getFundingItemByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingItem fundingItem = getFundingItem().funding(savedFunding);
+        FundingItem fundingItem = getFundingItem().with(savedFunding);
         FundingItem savedFundingItem = fundingPort.saveFundingItem(fundingItem);
 
         //when
@@ -331,10 +331,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 리워드 조회")
     public void getFundingRewardByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingReward fundingReward = getFundingReward().funding(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding);
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
 
         //when

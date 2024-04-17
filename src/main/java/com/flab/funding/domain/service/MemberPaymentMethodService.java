@@ -23,7 +23,7 @@ public class MemberPaymentMethodService implements RegisterPaymentMethodUseCase 
         Member member =
                 memberPort.getMemberByUserKey(memberPaymentMethod.getMember().getUserKey());
 
-        return paymentMethodPort.savePaymentMethod(memberPaymentMethod.member(member).register());
+        return paymentMethodPort.savePaymentMethod(memberPaymentMethod.with(member).register());
     }
 
     @Override

@@ -59,7 +59,7 @@ public class MemberPaymentMethodPersistenceAdapterTest {
     @DisplayName("결제수단 등록")
     public void savePaymentMethod() {
         //given
-        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().member(member).register();
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().with(member).register();
 
         //when
         MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
@@ -83,7 +83,7 @@ public class MemberPaymentMethodPersistenceAdapterTest {
     @DisplayName("결제수단 조회")
     public void getPaymentMethodByPaymentMethodKey() {
         //given
-        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().member(member).register();
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().with(member).register();
         MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
 
         //when

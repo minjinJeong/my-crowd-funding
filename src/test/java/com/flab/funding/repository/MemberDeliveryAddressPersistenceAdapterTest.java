@@ -59,7 +59,7 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
     @DisplayName("배송지 주소 등록")
     public void saveDeliveryAddress() {
         //given
-        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().member(member).register();
+        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().with(member).register();
 
         //when
         MemberDeliveryAddress savedMemberDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
@@ -91,7 +91,7 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
     @DisplayName("배송지 주소 조회")
     public void getDeliveryAddressByDeliveryAddressKey() {
         //given
-        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().member(member).register();
+        MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().with(member).register();
         MemberDeliveryAddress savedMemberDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
 
         //when

@@ -12,6 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.flab.funding.data.FundingTestData.getRealFunding;
+import static com.flab.funding.data.MemberTestData.*;
+import static com.flab.funding.data.SupportTestData.getSupport;
+import static com.flab.funding.data.SupportTestData.getSupportDelivery;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -44,94 +48,30 @@ public class SupportServiceTest {
         Support support = getSupport();
 
         given(memberPort.getMemberByUserKey(any()))
-                .willReturn(getMemberRequest());
+                .willReturn(getRealMember());
 
         given(fundingPort.getFundingByFundingKey(any()))
-                .willReturn(getFundingRequest());
+                .willReturn(getRealFunding());
 
         given(supportPort.saveSupport(any(Support.class)))
-                .willReturn(support);
-
-        given(supportPort.getSupportBySupportKey(any()))
-                .willReturn(support);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
-                .willReturn(getDeliveryAddressRequest());
+                .willReturn(getRealDeliveryAddress());
 
         given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
-                .willReturn(getPaymentMethodRequest());
+                .willReturn(getRealPaymentMethod());
 
         //when
         Support savedSupport = supportService.registerSupport(support);
-        Support findSupport = supportService.getSupportBySupportKey(savedSupport.getSupportKey());
 
         //then
         assertNotNull(savedSupport.getSupportKey());
-        assertEquals(savedSupport.getSupportKey(), findSupport.getSupportKey());
         assertEquals(SupportStatus.RESERVATION, savedSupport.getStatus());
-        assertEquals(savedSupport.getStatus(), findSupport.getStatus());
-
-    }
-
-    private Support getSupport() {
-        return Support.builder()
-                .member(getMemberRequest())
-                .funding(getFundingRequest())
-                .reward(getRewardRequest())
-                .supportDelivery(getSupportDelivery())
-                .supportPayment(getSupportPayment())
-                .build();
-    }
-
-    private Member getMemberRequest() {
-        return Member.builder()
-                .id(1L)
-                .userKey("MM-0001")
-                .build();
-    }
-
-    private Funding getFundingRequest() {
-        return Funding.builder()
-                .id(1L)
-                .fundingKey("FF-0001")
-                .build();
-    }
-
-    private FundingReward getRewardRequest() {
-        return FundingReward.builder()
-                .id(1L)
-                .build();
-    }
-
-    private SupportPayment getSupportPayment() {
-        return SupportPayment.builder()
-                .memberPaymentMethod(getPaymentMethodRequest())
-                .build();
-    }
-
-    private MemberPaymentMethod getPaymentMethodRequest() {
-        return MemberPaymentMethod.builder()
-                .paymentMethodKey("PM-0001")
-                .build();
-    }
-
-    private SupportDelivery getSupportDelivery() {
-        return SupportDelivery.builder()
-                .support(getSupportRequest())
-                .memberDeliveryAddress(getDeliveryAddressRequest())
-                .build();
-    }
-
-    private Support getSupportRequest() {
-        return Support.builder()
-                .supportKey("SS-0001")
-                .build();
-    }
-
-    private MemberDeliveryAddress getDeliveryAddressRequest() {
-        return MemberDeliveryAddress.builder()
-                .deliveryAddressKey("DA-0001")
-                .build();
+        assertNotNull(savedSupport.getMember().getId());
+        assertNotNull(savedSupport.getFunding().getId());
+        assertNotNull(savedSupport.getSupportDelivery().getMemberDeliveryAddress().getId());
+        assertNotNull(savedSupport.getSupportPayment().getMemberPaymentMethod().getId());
     }
 
     @Test
@@ -156,7 +96,7 @@ public class SupportServiceTest {
         Support support = getSupport();
 
         given(memberPort.getMemberByUserKey(any()))
-                .willReturn(getMemberRequest());
+                .willReturn(getRealMember());
 
         given(fundingPort.getFundingByFundingKey(any()))
                 .willReturn(Funding.builder().build());
@@ -178,7 +118,7 @@ public class SupportServiceTest {
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(supportDelivery);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
         
         //when
         SupportDelivery savedSupportDelivery = supportService.shippedOut(support.getSupportKey());
@@ -198,7 +138,7 @@ public class SupportServiceTest {
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(supportDelivery);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         SupportDelivery savedSupportDelivery = supportService.outForDelivery(support.getSupportKey());
@@ -218,7 +158,7 @@ public class SupportServiceTest {
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(supportDelivery);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         SupportDelivery savedSupportDelivery = supportService.deliveryComplete(support.getSupportKey());

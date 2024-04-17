@@ -3,8 +3,6 @@ package com.flab.funding.service;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.domain.model.MemberGender;
-import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
@@ -14,9 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.List;
 
+import static com.flab.funding.data.MemberTestData.getMember;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -37,41 +35,18 @@ public class MemberServiceTest {
         Member member = getMember();
 
         given(memberPort.saveMember(any(Member.class)))
-                .willReturn(member);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         given(memberPort.getMemberByEmail(member.getEmail()))
                 .willReturn(List.of());
 
-        given(memberPort.getMemberByUserKey(any()))
-                .willReturn(member);
-
         //when
         Member savedMember = memberService.registerMember(member);
-        Member findMember = memberService.getMemberByUserKey(savedMember.getUserKey());
 
         //then
         assertNotNull(savedMember.getUserKey());
-        assertEquals(savedMember.getId(), findMember.getId());
-        assertEquals(savedMember.getUserKey(), findMember.getUserKey());
-        assertEquals(MemberStatus.ACTIVATE, savedMember.getStatus()) ;
-        assertEquals(savedMember.getStatus(), findMember.getStatus());
-        assertEquals(savedMember.getEmail(), findMember.getEmail());
-        assertEquals(savedMember.getUserName(), findMember.getUserName());
-        assertEquals(savedMember.getPhoneNumber(), findMember.getPhoneNumber());
-        assertEquals(savedMember.getPassword(), findMember.getPassword());
-    }
-
-    private Member getMember() {
-        return Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
+        assertEquals(getMember().getEmail(), savedMember.getEmail());
+        assertEquals(MemberStatus.ACTIVATE, savedMember.getStatus());
     }
 
     @Test
@@ -98,7 +73,7 @@ public class MemberServiceTest {
                 .willReturn(member);
 
         given(memberPort.saveMember(any(Member.class)))
-                .willReturn(member);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         Member deregistMember = memberService.deregisterMember(member.getUserKey());

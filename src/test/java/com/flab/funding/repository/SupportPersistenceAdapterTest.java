@@ -103,7 +103,7 @@ public class SupportPersistenceAdapterTest {
                 .build();
 
         return entityManager.persist(
-                FundingEntity.from(savedFunding.member(member).register())
+                FundingEntity.from(savedFunding.with(member).register())
         );
     }
 
@@ -160,7 +160,7 @@ public class SupportPersistenceAdapterTest {
                 .build();
 
         return entityManager.persist(
-                MemberPaymentMethodEntity.from(savedMemberPaymentMethod.member(member).register())
+                MemberPaymentMethodEntity.from(savedMemberPaymentMethod.with(member).register())
         );
     }
 
@@ -238,7 +238,7 @@ public class SupportPersistenceAdapterTest {
 
         Support savedSupport = supportPort.saveSupport(support);
 
-        SupportDelivery supportDelivery = getSupportDelivery().support(savedSupport);
+        SupportDelivery supportDelivery = getSupportDelivery().with(savedSupport);
 
         //when
         SupportDelivery savedSupportDelivery = supportPort.saveSupportDelivery(supportDelivery);
@@ -261,7 +261,7 @@ public class SupportPersistenceAdapterTest {
 
         Support savedSupport = supportPort.saveSupport(support);
 
-        SupportDelivery supportDelivery = getSupportDelivery().support(savedSupport);
+        SupportDelivery supportDelivery = getSupportDelivery().with(savedSupport);
         SupportDelivery savedSupportDelivery = supportPort.saveSupportDelivery(supportDelivery);
 
         //when
@@ -286,7 +286,7 @@ public class SupportPersistenceAdapterTest {
 
         Support savedSupport = supportPort.saveSupport(support);
 
-        SupportPayment supportPayment = getSupportPayment().support(savedSupport);
+        SupportPayment supportPayment = getSupportPayment().with(savedSupport);
 
         //when
         SupportPayment savedSupportPayment = supportPort.saveSupportPayment(supportPayment);
