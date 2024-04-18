@@ -16,12 +16,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import static com.flab.funding.data.FundingTestData.getFunding;
+import static com.flab.funding.data.FundingTestData.getFundingReward;
+import static com.flab.funding.data.MemberTestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -68,16 +65,7 @@ public class SupportPersistenceAdapterTest {
     }
 
     private MemberEntity saveMember() {
-        Member savedMember = Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
+        Member savedMember = getMember();
 
         return entityManager.persist(MemberEntity.from(
                 savedMember.activate())
@@ -85,52 +73,15 @@ public class SupportPersistenceAdapterTest {
     }
 
     private FundingEntity saveFunding() {
-        Funding savedFunding = Funding.builder()
-                .isAdult(false)
-                .pricePlan("00")
-                .category(FundingCategory.FOOD)
-                .expectAmount(BigInteger.valueOf(100000))
-                .title("제목")
-                .fundingDescription("펀딩 상세")
-                .fundingIntroduce("펀딩 소개글")
-                .budgetDescription("예산 계획")
-                .scheduleDescription("펀딩 계획")
-                .teamDescription("팀 소개")
-                .rewardDescription("리워드 소개")
-                .tags(getTags())
-                .startAt(LocalDateTime.of(2024, 2, 1, 12, 0))
-                .endAt(LocalDateTime.of(2024, 2, 28, 12, 0))
-                .build();
+        Funding savedFunding = getFunding();
 
         return entityManager.persist(
                 FundingEntity.from(savedFunding.with(member).register())
         );
     }
 
-    private List<FundingTag> getTags() {
-        List<FundingTag> fundingTags = new ArrayList<>();
-        fundingTags.add(createTag("검색 키워드1"));
-        fundingTags.add(createTag("검색 키워드2"));
-        fundingTags.add(createTag("검색 키워드3"));
-        return fundingTags;
-    }
-
-    private FundingTag createTag(String tag) {
-        return FundingTag.builder()
-                .tag(tag)
-                .build();
-    }
-
     private FundingRewardEntity saveReward() {
-        FundingReward fundingReward = FundingReward.builder()
-                .funding(funding)
-                .isDelivery(true)
-                .rewardTitle("귀걸이 세트")
-                .amount(BigInteger.valueOf(15000))
-                .countLimit(10)
-                .personalLimit(5)
-                .expectDate(LocalDate.of(2024, 3, 31))
-                .build();
+        FundingReward fundingReward = getFundingReward();
 
         return entityManager.persist(
                 FundingRewardEntity.from(fundingReward)
@@ -138,15 +89,7 @@ public class SupportPersistenceAdapterTest {
     }
 
     private MemberDeliveryAddressEntity saveDeliveryAddress() {
-        MemberDeliveryAddress savedMemberDeliveryAddress = MemberDeliveryAddress.builder()
-                .member(member)
-                .isDefault(true)
-                .zipCode("01234")
-                .address("서울특별시 강서구")
-                .addressDetail("OO 아파트 xxx동 xxxx호")
-                .recipientName("홍길동")
-                .recipientPhone("010-1111-2222")
-                .build();
+        MemberDeliveryAddress savedMemberDeliveryAddress = getDeliveryAddress();
 
         return entityManager.persist(
                 MemberDeliveryAddressEntity.from(savedMemberDeliveryAddress.register())
@@ -154,10 +97,7 @@ public class SupportPersistenceAdapterTest {
     }
 
     private MemberPaymentMethodEntity savePaymentMethod() {
-        MemberPaymentMethod savedMemberPaymentMethod = MemberPaymentMethod.builder()
-                .isDefault(true)
-                .paymentNumber("3565 43")
-                .build();
+        MemberPaymentMethod savedMemberPaymentMethod = getPaymentMethod();
 
         return entityManager.persist(
                 MemberPaymentMethodEntity.from(savedMemberPaymentMethod.with(member).register())

@@ -3,8 +3,6 @@ package com.flab.funding.repository;
 import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberDeliveryAddress;
-import com.flab.funding.domain.model.MemberGender;
-import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.infrastructure.adapters.output.persistence.MemberDeliveryAddressPersistenceAdapter;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
 import com.flab.funding.infrastructure.adapters.output.persistence.repository.MemberDeliveryAddressRepository;
@@ -17,8 +15,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
-
+import static com.flab.funding.data.MemberTestData.getDeliveryAddress;
+import static com.flab.funding.data.MemberTestData.getMember;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -34,22 +32,15 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
 
     @Autowired
     public MemberDeliveryAddressPersistenceAdapterTest(MemberDeliveryAddressRepository memberDeliveryAddressRepository) {
-        this.memberDeliveryAddressPort = new MemberDeliveryAddressPersistenceAdapter(memberDeliveryAddressRepository);
+
+        this.memberDeliveryAddressPort =
+                new MemberDeliveryAddressPersistenceAdapter(memberDeliveryAddressRepository);
     }
 
     @BeforeEach
     public void setUp() {
 
-        Member savedMember = Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
+        Member savedMember = getMember();
 
         MemberEntity memberEntity = entityManager.persist(MemberEntity.from(savedMember.activate()));
         member = memberEntity.toMember();
@@ -62,7 +53,8 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
         MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().with(member).register();
 
         //when
-        MemberDeliveryAddress savedMemberDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
+        MemberDeliveryAddress savedMemberDeliveryAddress =
+                memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
 
         //then
         assertNotNull(savedMemberDeliveryAddress.getId());
@@ -75,29 +67,20 @@ public class MemberDeliveryAddressPersistenceAdapterTest {
         assertEquals("010-1111-2222", savedMemberDeliveryAddress.getRecipientPhone());
     }
 
-    private MemberDeliveryAddress getDeliveryAddress() {
-
-        return MemberDeliveryAddress.builder()
-                .isDefault(true)
-                .zipCode("01234")
-                .address("서울특별시 강서구")
-                .addressDetail("OO 아파트 xxx동 xxxx호")
-                .recipientName("홍길동")
-                .recipientPhone("010-1111-2222")
-                .build();
-    }
-
     @Test
     @DisplayName("배송지 주소 조회")
     public void getDeliveryAddressByDeliveryAddressKey() {
         //given
         MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress().with(member).register();
-        MemberDeliveryAddress savedMemberDeliveryAddress = memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
+
+        MemberDeliveryAddress savedMemberDeliveryAddress =
+                memberDeliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress);
 
         //when
-        MemberDeliveryAddress findMemberDeliveryAddress = memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(
-                savedMemberDeliveryAddress.getDeliveryAddressKey()
-        );
+        MemberDeliveryAddress findMemberDeliveryAddress =
+                memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(
+                        savedMemberDeliveryAddress.getDeliveryAddressKey()
+                );
 
         //then
         assertEquals(savedMemberDeliveryAddress.getDeliveryAddressKey(), findMemberDeliveryAddress.getDeliveryAddressKey());

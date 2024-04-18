@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.flab.funding.data.MemberTestData.getMember;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -50,19 +51,6 @@ public class MemberPersistenceAdapterTest {
         assertEquals(MemberGender.FEMALE, savedMember.getGender());
         assertEquals(LocalDate.of(1998, 1, 30), savedMember.getBirthday());
         assertEquals("", savedMember.getPassword());
-    }
-
-    private Member getMember() {
-        return Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
     }
 
     @Test

@@ -164,4 +164,15 @@ public class FundingTestData {
                 .expectDate(LocalDate.of(2024, 3, 31))
                 .build();
     }
+
+    public static FundingRewardItem getFundingRewardItem(Funding savedFunding,
+                                                         FundingReward savedFundingReward,
+                                                         FundingItem savedFundingItem) {
+
+        return FundingRewardItem.builder()
+                .funding(savedFunding)
+                .fundingReward(savedFundingReward)
+                .fundingItem(savedFundingItem)
+                .build();
+    }
 }
