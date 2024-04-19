@@ -59,7 +59,7 @@ public class LoginRestAdapterTest {
 
         //when
         //then
-        this.mockMvc.perform(post("/members/authorization")
+        this.mockMvc.perform(post("/members/authentication")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

@@ -2,6 +2,7 @@ package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
@@ -81,5 +82,59 @@ public class MemberServiceTest {
         //then
         assertEquals(MemberStatus.WITHDRAW, deregistMember.getStatus());
 
+    }
+
+    @Test
+    @DisplayName("로그인")
+    public void login() {
+        //given
+        Member member = getMember();
+
+        given(memberPort.getMemberByEmail(member.getEmail()))
+                .willReturn(List.of(member));
+
+        //when
+        Member loginMember = memberService.login(member);
+
+        //then
+        assertNotNull(loginMember.getUserKey());
+        assertEquals(MemberStatus.ACTIVATE, loginMember.getStatus());
+    }
+
+    @Test
+    @DisplayName("잘못된 이메일로 로그인")
+    public void loginByInvalidUser() throws Exception {
+        //given
+        Member request = Member.builder()
+                .email("invalid@gmail.com")
+                .password("1234")
+                .build();
+
+        Member member = getMember();
+
+        given(memberPort.getMemberByEmail(member.getEmail()))
+                .willReturn(List.of(member));
+
+        //when
+        //then
+        assertThrows(EmptyMemberException.class, () -> memberService.login(request));
+    }
+
+    @Test
+    @DisplayName("잘못된 패스워드로 로그인")
+    public void loginByInvalidPassword() throws Exception {
+        //given
+        Member request = Member.builder()
+                .email("Test@gmail.com")
+                .password("1234")
+                .build();
+
+        Member member = getMember();
+
+        given(memberPort.getMemberByEmail(member.getEmail()))
+                .willReturn(List.of(member));
+
+        //when
+        assertThrows(EmptyMemberException.class, () -> memberService.login(request));
     }
 }

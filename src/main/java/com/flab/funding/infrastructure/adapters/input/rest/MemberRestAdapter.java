@@ -1,7 +1,6 @@
 package com.flab.funding.infrastructure.adapters.input.rest;
 
 import com.flab.funding.application.ports.input.DeregisterMemberUseCase;
-import com.flab.funding.application.ports.input.LoginUseCase;
 import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
@@ -17,7 +16,6 @@ public class MemberRestAdapter {
 
     private final RegisterMemberUseCase registerMemberUseCase;
     private final DeregisterMemberUseCase deregisterMemberUseCase;
-    private final LoginUseCase loginUseCase;
 
     @PostMapping("/members")
     @ResponseBody
@@ -36,7 +34,7 @@ public class MemberRestAdapter {
     @GetMapping("/members/{userKey}")
     @ResponseBody
     public MemberInfoResponse getMember(@PathVariable("userKey") String userKey) {
-        Member member = loginUseCase.getMemberByUserKey(userKey);
+        Member member = registerMemberUseCase.getMemberByUserKey(userKey);
         return MemberInfoResponse.from(member);
     }
 }
