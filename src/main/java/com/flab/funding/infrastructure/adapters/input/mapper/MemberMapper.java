@@ -1,6 +1,7 @@
 package com.flab.funding.infrastructure.adapters.input.mapper;
 
 import com.flab.funding.domain.model.Member;
+import com.flab.funding.infrastructure.adapters.input.data.request.LoginRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberInfoResponse;
@@ -21,4 +22,6 @@ public interface MemberMapper {
     Member toMember(MemberInfoRequest memberInfoRequest);
 
     MemberInfoResponse toMemberInfoResponse(Member member);
+
+    Member toMember(LoginRequest loginRequest);
 }
