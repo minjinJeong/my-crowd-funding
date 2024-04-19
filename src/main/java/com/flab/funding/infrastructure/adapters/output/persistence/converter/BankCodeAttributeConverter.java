@@ -9,11 +9,11 @@ public class BankCodeAttributeConverter implements AttributeConverter<BankCode, 
 
     @Override
     public String convertToDatabaseColumn(BankCode attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public BankCode convertToEntityAttribute(String dbData) {
-        return BankCode.valueOfCode(dbData);
+        return dbData != null ? BankCode.valueOfCode(dbData) : null;
     }
 }

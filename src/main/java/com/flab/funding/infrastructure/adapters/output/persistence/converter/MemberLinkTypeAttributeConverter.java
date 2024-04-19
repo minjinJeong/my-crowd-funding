@@ -9,11 +9,11 @@ public class MemberLinkTypeAttributeConverter implements AttributeConverter<Memb
 
     @Override
     public String convertToDatabaseColumn(MemberLinkType attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public MemberLinkType convertToEntityAttribute(String dbData) {
-        return MemberLinkType.valueOfCode(dbData);
+        return dbData != null ? MemberLinkType.valueOfCode(dbData) : null;
     }
 }

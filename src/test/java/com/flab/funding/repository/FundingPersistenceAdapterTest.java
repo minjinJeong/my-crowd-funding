@@ -14,12 +14,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.flab.funding.data.FundingTestData.*;
+import static com.flab.funding.data.MemberTestData.getMember;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -53,16 +52,7 @@ public class FundingPersistenceAdapterTest {
     @BeforeEach
     public void setUp() {
 
-        Member savedMember = Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
+        Member savedMember = getMember();
 
         MemberEntity memberEntity = entityManager.persist(MemberEntity.from(savedMember.activate()));
         member = memberEntity.toMember();
@@ -72,7 +62,7 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 등록")
     public void saveFunding() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
 
         //when
         Funding savedFunding = fundingPort.saveFunding(funding);
@@ -98,44 +88,11 @@ public class FundingPersistenceAdapterTest {
         assertEquals(funding.getEndAt(), savedFunding.getEndAt());
     }
 
-    private Funding getFunding() {
-        return Funding.builder()
-                .isAdult(false)
-                .pricePlan("00")
-                .category(FundingCategory.FOOD)
-                .expectAmount(BigInteger.valueOf(100000))
-                .title("제목")
-                .fundingDescription("펀딩 상세")
-                .fundingIntroduce("펀딩 소개글")
-                .budgetDescription("예산 계획")
-                .scheduleDescription("펀딩 계획")
-                .teamDescription("팀 소개")
-                .rewardDescription("리워드 소개")
-                .tags(getTags())
-                .startAt(LocalDateTime.of(2024, 2, 1, 12, 0))
-                .endAt(LocalDateTime.of(2024, 2, 28, 12, 0))
-                .build();
-    }
-
-    private List<FundingTag> getTags() {
-        List<FundingTag> fundingTags = new ArrayList<>();
-        fundingTags.add(createTag("검색 키워드1"));
-        fundingTags.add(createTag("검색 키워드2"));
-        fundingTags.add(createTag("검색 키워드3"));
-        return fundingTags;
-    }
-
-    private FundingTag createTag(String tag) {
-        return FundingTag.builder()
-                .tag(tag)
-                .build();
-    }
-
     @Test
     @DisplayName("펀딩 조회")
     public void getFundingByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
         //when
@@ -150,10 +107,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 창작자 등록")
     public void saveFundingCreator() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingCreator fundingCreator = getFundingCreator().funding(savedFunding);
+        FundingCreator fundingCreator = getFundingCreator().with(savedFunding);
 
         //when
         FundingCreator savedFundingCreator = fundingPort.saveFundingCreator(fundingCreator);
@@ -167,23 +124,14 @@ public class FundingPersistenceAdapterTest {
         assertEquals(fundingCreator.getIntroduce(), savedFundingCreator.getIntroduce());
     }
 
-    private FundingCreator getFundingCreator() {
-        return FundingCreator.builder()
-                .isValid(true)
-                .businessNumber("12345678")
-                .representative("홍길동")
-                .introduce("안녕하세요, 개인 사업자 홍길동입니다.")
-                .build();
-    }
-
     @Test
     @DisplayName("펀딩 아이템 등록")
     public void saveFundingItem() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingItem fundingItem = getFundingItem().funding(savedFunding);
+        FundingItem fundingItem = getFundingItem().with(savedFunding);
 
         //when
         FundingItem savedFundingItem = fundingPort.saveFundingItem(fundingItem);
@@ -196,35 +144,14 @@ public class FundingPersistenceAdapterTest {
         assertEquals(fundingItem.getFundingItemOptions().size(), savedFundingItem.getFundingItemOptions().size());
     }
 
-    private FundingItem getFundingItem() {
-        return FundingItem.builder()
-                .itemName("은 귀걸이")
-                .optionType(FundingItemOptionType.NONE)
-                .fundingItemOptions(getFundingItemOptions())
-                .build();
-    }
-
-    private List<FundingItemOption> getFundingItemOptions() {
-        List<FundingItemOption> itemOptions = new  ArrayList<>();
-        itemOptions.add(createItemOption("3mm"));
-        itemOptions.add(createItemOption("5mm"));
-        itemOptions.add(createItemOption("7mm"));
-        itemOptions.add(createItemOption("9mm"));
-        return itemOptions;
-    }
-
-    private FundingItemOption createItemOption(String option) {
-        return FundingItemOption.builder().optionName(option).build();
-    }
-
     @Test
     @DisplayName("펀딩 리워드 등록")
     public void saveFundingReward() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingReward fundingReward = getFundingReward().funding(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding);
         
         //when
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
@@ -240,30 +167,19 @@ public class FundingPersistenceAdapterTest {
         assertEquals(fundingReward.getExpectDate(), savedFundingReward.getExpectDate());
     }
 
-    private FundingReward getFundingReward() {
-        return FundingReward.builder()
-                .isDelivery(true)
-                .rewardTitle("귀걸이 세트")
-                .amount(BigInteger.valueOf(15000))
-                .countLimit(10)
-                .personalLimit(5)
-                .expectDate(LocalDate.of(2024, 3, 31))
-                .build();
-    }
-
     @Test
     @DisplayName("펀딩 리워드-아이템 매핑")
     public void saveFundingRewardItems() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingItem fundingItem = getFundingItem().funding(savedFunding);
+        FundingItem fundingItem = getFundingItem().with(savedFunding);
         FundingItem savedFundingItem1 = fundingPort.saveFundingItem(fundingItem);
         FundingItem savedFundingItem2 = fundingPort.saveFundingItem(fundingItem);
         FundingItem savedFundingItem3 = fundingPort.saveFundingItem(fundingItem);
 
-        FundingReward fundingReward = getFundingReward().funding(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding);
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
 
         List<FundingRewardItem> fundingRewardItems = new ArrayList<>();
@@ -279,22 +195,14 @@ public class FundingPersistenceAdapterTest {
         assertEquals(fundingRewardItems.size(), savedFundingRewardItems.size());
     }
 
-    private FundingRewardItem getFundingRewardItem(Funding savedFunding, FundingReward savedFundingReward, FundingItem savedFundingItem1) {
-        return FundingRewardItem.builder()
-                .funding(savedFunding)
-                .fundingReward(savedFundingReward)
-                .fundingItem(savedFundingItem1)
-                .build();
-    }
-
     @Test
     @DisplayName("펀딩 창작자 조회")
     public void getFundingCreatorByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingCreator fundingCreator = getFundingCreator().funding(savedFunding);
+        FundingCreator fundingCreator = getFundingCreator().with(savedFunding);
         FundingCreator savedFundingCreator = fundingPort.saveFundingCreator(fundingCreator);
 
         //when
@@ -311,10 +219,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 아이템 조회")
     public void getFundingItemByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingItem fundingItem = getFundingItem().funding(savedFunding);
+        FundingItem fundingItem = getFundingItem().with(savedFunding);
         FundingItem savedFundingItem = fundingPort.saveFundingItem(fundingItem);
 
         //when
@@ -331,10 +239,10 @@ public class FundingPersistenceAdapterTest {
     @DisplayName("펀딩 리워드 조회")
     public void getFundingRewardByFundingKey() {
         //given
-        Funding funding = getFunding().member(member).register();
+        Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingReward fundingReward = getFundingReward().funding(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding);
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
 
         //when

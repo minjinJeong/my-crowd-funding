@@ -10,19 +10,51 @@ import java.time.LocalDateTime;
 public class SupportDelivery {
 
     private Long id;
+
     private Support support;
+
     private MemberDeliveryAddress memberDeliveryAddress;
+
     private SupportDeliveryStatus status;
+
     private String shipmentName;
+
     private LocalDateTime shipmentAt;
+
     private String trackingName;
+
     private LocalDateTime trackingAt;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
-    public SupportDelivery support(Support support) {
-        this.support = support;
-        return this;
+    public SupportDelivery with(Support support) {
+
+        return SupportDelivery.builder()
+                .id(this.id)
+                .support(support)
+                .memberDeliveryAddress(this.memberDeliveryAddress)
+                .status(this.status)
+                .shipmentName(this.shipmentName)
+                .shipmentAt(this.shipmentAt)
+                .trackingName(this.trackingName)
+                .trackingAt(this.trackingAt)
+                .build();
+    }
+
+    public SupportDelivery with(MemberDeliveryAddress memberDeliveryAddress) {
+
+        return SupportDelivery.builder()
+                .id(this.id)
+                .support(this.support)
+                .memberDeliveryAddress(memberDeliveryAddress)
+                .status(this.status)
+                .shipmentName(this.shipmentName)
+                .shipmentAt(this.shipmentAt)
+                .trackingName(this.trackingName)
+                .trackingAt(this.trackingAt)
+                .build();
     }
 
     public SupportDelivery shippedOut() {

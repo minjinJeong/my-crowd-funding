@@ -2,8 +2,6 @@ package com.flab.funding.repository;
 
 import com.flab.funding.application.ports.output.MemberPaymentMethodPort;
 import com.flab.funding.domain.model.Member;
-import com.flab.funding.domain.model.MemberGender;
-import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.model.MemberPaymentMethod;
 import com.flab.funding.infrastructure.adapters.output.persistence.MemberPaymentMethodPersistenceAdapter;
 import com.flab.funding.infrastructure.adapters.output.persistence.entity.MemberEntity;
@@ -17,8 +15,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
-
+import static com.flab.funding.data.MemberTestData.getMember;
+import static com.flab.funding.data.MemberTestData.getPaymentMethod;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -40,16 +38,7 @@ public class MemberPaymentMethodPersistenceAdapterTest {
     @BeforeEach
     public void setUp() {
 
-        Member savedMember = Member.builder()
-                .linkType(MemberLinkType.NONE)
-                .email("Test@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
+        Member savedMember = getMember();
 
         MemberEntity memberEntity = entityManager.persist(MemberEntity.from(savedMember.activate()));
         member = memberEntity.toMember();
@@ -59,10 +48,11 @@ public class MemberPaymentMethodPersistenceAdapterTest {
     @DisplayName("결제수단 등록")
     public void savePaymentMethod() {
         //given
-        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().member(member).register();
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().with(member).register();
 
         //when
-        MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
+        MemberPaymentMethod savedMemberPaymentMethod =
+                memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
 
         //then
         assertNotNull(savedMemberPaymentMethod.getId());
@@ -72,24 +62,20 @@ public class MemberPaymentMethodPersistenceAdapterTest {
 
     }
 
-    private MemberPaymentMethod getPaymentMethod() {
-        return MemberPaymentMethod.builder()
-                .isDefault(true)
-                .paymentNumber("3565 43")
-                .build();
-    }
-
     @Test
     @DisplayName("결제수단 조회")
     public void getPaymentMethodByPaymentMethodKey() {
         //given
-        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().member(member).register();
-        MemberPaymentMethod savedMemberPaymentMethod = memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
+        MemberPaymentMethod memberPaymentMethod = getPaymentMethod().with(member).register();
+
+        MemberPaymentMethod savedMemberPaymentMethod =
+                memberPaymentMethodPort.savePaymentMethod(memberPaymentMethod);
 
         //when
-        MemberPaymentMethod findMemberPaymentMethod = memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(
-                savedMemberPaymentMethod.getPaymentMethodKey()
-        );
+        MemberPaymentMethod findMemberPaymentMethod =
+                memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(
+                        savedMemberPaymentMethod.getPaymentMethodKey()
+                );
 
         //then
         assertEquals(savedMemberPaymentMethod.getPaymentMethodKey(), findMemberPaymentMethod.getPaymentMethodKey());

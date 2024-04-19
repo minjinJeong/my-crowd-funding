@@ -9,10 +9,11 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface MemberPaymentMethodMapper extends DefaultMethodToMapper{
+public interface MemberPaymentMethodMapper {
 
     MemberPaymentMethodMapper INSTANCE = Mappers.getMapper(MemberPaymentMethodMapper.class);
 
+    @Mapping(source = "userKey", target = "member.userKey")
     MemberPaymentMethod toPaymentMethod(MemberPaymentMethodRegisterRequest paymentMethodRegisterRequest);
 
     @Mapping(source = "member.userKey", target = "userKey")

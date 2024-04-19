@@ -3,9 +3,9 @@ package com.flab.funding.domain.service;
 import com.flab.funding.application.ports.input.RegisterSupportUseCase;
 import com.flab.funding.application.ports.input.SupportDeliveryUseCase;
 import com.flab.funding.application.ports.input.SupportPaymentUseCase;
-import com.flab.funding.application.ports.output.FundingPort;
-import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.application.ports.output.SupportPort;
+import com.flab.funding.application.ports.output.*;
+import com.flab.funding.domain.exception.EmptyFundingException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -15,30 +15,75 @@ import lombok.RequiredArgsConstructor;
 public class SupportService implements RegisterSupportUseCase, SupportDeliveryUseCase, SupportPaymentUseCase {
 
     private final MemberPort memberPort;
-
+    private final MemberDeliveryAddressPort memberDeliveryAddressPort;
+    private final MemberPaymentMethodPort memberPaymentMethodPort;
     private final FundingPort fundingPort;
-
     private final SupportPort supportPort;
 
+    // TODO : 포트를 너무 많이 사용한다. 리팩토링이 가능할 지 고민
     @Override
     public Support registerSupport(Support support) {
 
-        Member member =
-                memberPort.getMemberByUserKey(support.getMember().getUserKey());
+        return supportPort.saveSupport(
+                support.with(
+                        getMemberByUserKey(support),
+                        getFundingByFundingKey(support),
+                        getSupportDelivery(support.getSupportDelivery()),
+                        getSupportPayment(support.getSupportPayment())
+                ).register()
+        );
+    }
 
+    private Funding getFundingByFundingKey(Support support) {
         Funding funding =
                 fundingPort.getFundingByFundingKey(support.getFunding().getFundingKey());
 
-        // TODO : 후원 배송정보와 결제수단 조회 코드 추가
+        if (funding.getId() == null) {
+            throw new EmptyFundingException();
+        }
 
-        Support saveSupport = Support.builder()
-                .member(member)
-                .funding(funding)
-                .reward(support.getReward())
-                .status(support.getStatus())
-                .build();
+        return funding;
+    }
 
-        return supportPort.saveSupport(support.member(member).register());
+    private Member getMemberByUserKey(Support support) {
+        Member member =
+                memberPort.getMemberByUserKey(support.getMember().getUserKey());
+
+        if (member.getId() == null) {
+            throw new EmptyMemberException();
+        }
+
+        return member;
+    }
+
+    private SupportDelivery getSupportDelivery(SupportDelivery supportDelivery) {
+
+        if (supportDelivery == null || supportDelivery.getMemberDeliveryAddress() == null) {
+
+            return supportDelivery;
+        }
+
+        MemberDeliveryAddress memberDeliveryAddress = supportDelivery.getMemberDeliveryAddress();
+
+        MemberDeliveryAddress deliveryAddress =
+                memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(memberDeliveryAddress.getDeliveryAddressKey());
+
+        return supportDelivery.with(deliveryAddress);
+    }
+
+    private SupportPayment getSupportPayment(SupportPayment supportPayment) {
+
+        if (supportPayment == null || supportPayment.getMemberPaymentMethod() == null) {
+
+            return supportPayment;
+        }
+
+        MemberPaymentMethod memberPaymentMethod = supportPayment.getMemberPaymentMethod();
+
+        MemberPaymentMethod paymentMethod =
+                memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(memberPaymentMethod.getPaymentMethodKey());
+
+        return supportPayment.with(paymentMethod);
     }
 
     @Override

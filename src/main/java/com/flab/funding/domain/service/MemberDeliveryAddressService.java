@@ -23,7 +23,7 @@ public class MemberDeliveryAddressService implements RegisterDeliveryAddressUseC
         Member member =
                 memberPort.getMemberByUserKey(memberDeliveryAddress.getMember().getUserKey());
 
-        return deliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress.member(member).register());
+        return deliveryAddressPort.saveDeliveryAddress(memberDeliveryAddress.with(member).register());
     }
 
     @Override

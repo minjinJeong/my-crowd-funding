@@ -2,10 +2,7 @@ package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.MemberDeliveryAddressPort;
 import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberDeliveryAddress;
-import com.flab.funding.domain.model.MemberGender;
-import com.flab.funding.domain.model.MemberLinkType;
 import com.flab.funding.domain.service.MemberDeliveryAddressService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.flab.funding.data.MemberTestData.getDeliveryAddress;
+import static com.flab.funding.data.MemberTestData.getRealMember;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -40,52 +37,24 @@ public class MemberDeliveryAddressServiceTest {
         MemberDeliveryAddress memberDeliveryAddress = getDeliveryAddress();
 
         given(memberPort.getMemberByUserKey(eq(memberDeliveryAddress.getMember().getUserKey())))
-                .willReturn(getMember());
+                .willReturn(getRealMember());
 
         given(memberDeliveryAddressPort.saveDeliveryAddress(any(MemberDeliveryAddress.class)))
-                .willReturn(memberDeliveryAddress);
-
-        given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
-                .willReturn(memberDeliveryAddress);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         MemberDeliveryAddress savedMemberDeliveryAddress =
                 memberDeliveryAddressService.registerDeliveryAddress(memberDeliveryAddress);
 
-        MemberDeliveryAddress findMemberDeliveryAddress =
-                memberDeliveryAddressService.getDeliveryAddressByDeliveryAddressKey(savedMemberDeliveryAddress.getDeliveryAddressKey());
-
 
         //then
-        assertEquals(savedMemberDeliveryAddress.getId(), findMemberDeliveryAddress.getId());
-        assertEquals(savedMemberDeliveryAddress.getDeliveryAddressKey(), findMemberDeliveryAddress.getDeliveryAddressKey());
-        assertEquals(savedMemberDeliveryAddress.getZipCode(), findMemberDeliveryAddress.getZipCode());
-    }
-
-    private MemberDeliveryAddress getDeliveryAddress() {
-
-        return MemberDeliveryAddress.builder()
-                .member(getMember())
-                .isDefault(true)
-                .zipCode("01234")
-                .address("서울특별시 강서구")
-                .addressDetail("OO 아파트 xxx동 xxxx호")
-                .recipientName("홍길동")
-                .recipientPhone("010-1111-2222")
-                .build();
-    }
-
-    private Member getMember() {
-        return Member.builder()
-                .userKey("MM-0001")
-                .linkType(MemberLinkType.NONE)
-                .email("DeliveryAddress@gmail.com")
-                .userName("홍길순")
-                .nickName("테스터")
-                .phoneNumber("010-1111-2222")
-                .gender(MemberGender.FEMALE)
-                .birthday(LocalDate.of(1998, 1, 30))
-                .password("")
-                .build();
+        assertNotNull(savedMemberDeliveryAddress.getDeliveryAddressKey());
+        assertNotNull(savedMemberDeliveryAddress.getMember().getId());
+        assertTrue(savedMemberDeliveryAddress.getIsDefault());
+        assertEquals(getDeliveryAddress().getZipCode(), savedMemberDeliveryAddress.getZipCode());
+        assertEquals(getDeliveryAddress().getAddress(), savedMemberDeliveryAddress.getAddress());
+        assertEquals(getDeliveryAddress().getAddressDetail(), savedMemberDeliveryAddress.getAddressDetail());
+        assertEquals(getDeliveryAddress().getRecipientName(), savedMemberDeliveryAddress.getRecipientName());
+        assertEquals(getDeliveryAddress().getRecipientPhone(), savedMemberDeliveryAddress.getRecipientPhone());
     }
 }

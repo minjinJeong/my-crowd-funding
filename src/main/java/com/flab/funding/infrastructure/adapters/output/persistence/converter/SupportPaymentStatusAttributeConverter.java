@@ -9,11 +9,11 @@ public class SupportPaymentStatusAttributeConverter implements AttributeConverte
 
     @Override
     public String convertToDatabaseColumn(SupportPaymentStatus attribute) {
-        return attribute.getCode();
+        return attribute != null ? attribute.getCode() : null;
     }
 
     @Override
     public SupportPaymentStatus convertToEntityAttribute(String dbData) {
-        return SupportPaymentStatus.valueOfCode(dbData);
+        return dbData != null ? SupportPaymentStatus.valueOfCode(dbData) : null;
     }
 }

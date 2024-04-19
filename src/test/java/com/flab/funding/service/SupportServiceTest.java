@@ -1,8 +1,8 @@
 package com.flab.funding.service;
 
-import com.flab.funding.application.ports.output.FundingPort;
-import com.flab.funding.application.ports.output.MemberPort;
-import com.flab.funding.application.ports.output.SupportPort;
+import com.flab.funding.application.ports.output.*;
+import com.flab.funding.domain.exception.EmptyFundingException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.*;
 import com.flab.funding.domain.service.SupportService;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +12,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static com.flab.funding.data.FundingTestData.getRealFunding;
+import static com.flab.funding.data.MemberTestData.*;
+import static com.flab.funding.data.SupportTestData.getSupport;
+import static com.flab.funding.data.SupportTestData.getSupportDelivery;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -31,6 +34,12 @@ public class SupportServiceTest {
 
     @Mock
     private FundingPort fundingPort;
+
+    @Mock
+    private MemberDeliveryAddressPort memberDeliveryAddressPort;
+
+    @Mock
+    private MemberPaymentMethodPort memberPaymentMethodPort;
     
     @Test
     @DisplayName("후원 등록")
@@ -39,86 +48,63 @@ public class SupportServiceTest {
         Support support = getSupport();
 
         given(memberPort.getMemberByUserKey(any()))
-                .willReturn(getMemberRequest());
+                .willReturn(getRealMember());
 
         given(fundingPort.getFundingByFundingKey(any()))
-                .willReturn(getFundingRequest());
+                .willReturn(getRealFunding());
 
         given(supportPort.saveSupport(any(Support.class)))
-                .willReturn(support);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
-        given(supportPort.getSupportBySupportKey(any()))
-                .willReturn(support);
+        given(memberDeliveryAddressPort.getDeliveryAddressByDeliveryAddressKey(any()))
+                .willReturn(getRealDeliveryAddress());
+
+        given(memberPaymentMethodPort.getPaymentMethodByPaymentMethodKey(any()))
+                .willReturn(getRealPaymentMethod());
 
         //when
         Support savedSupport = supportService.registerSupport(support);
-        Support findSupport = supportService.getSupportBySupportKey(savedSupport.getSupportKey());
 
         //then
         assertNotNull(savedSupport.getSupportKey());
-        assertEquals(savedSupport.getSupportKey(), findSupport.getSupportKey());
         assertEquals(SupportStatus.RESERVATION, savedSupport.getStatus());
-        assertEquals(savedSupport.getStatus(), findSupport.getStatus());
+        assertNotNull(savedSupport.getMember().getId());
+        assertNotNull(savedSupport.getFunding().getId());
+        assertNotNull(savedSupport.getSupportDelivery().getMemberDeliveryAddress().getId());
+        assertNotNull(savedSupport.getSupportPayment().getMemberPaymentMethod().getId());
+    }
+
+    @Test
+    @DisplayName("후원 등록 시 잘못된 회원 예외")
+    public void registerSupportMemberError() {
+        //given
+        Support support = getSupport();
+
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(Member.builder().build());
+
+        //when
+        //then
+        assertThrows(EmptyMemberException.class, () -> supportService.registerSupport(support));
 
     }
 
-    private Support getSupport() {
-        return Support.builder()
-                .member(getMemberRequest())
-                .funding(getFundingRequest())
-                .reward(getRewardRequest())
-                .supportDelivery(getSupportDelivery())
-                .supportPayment(getSupportPayment())
-                .build();
-    }
+    @Test
+    @DisplayName("후원 등록 시 잘못된 펀딩 예외")
+    public void registerSupportFundingError() {
+        //given
+        Support support = getSupport();
 
-    private Member getMemberRequest() {
-        return Member.builder()
-                .userKey("MM-0001")
-                .build();
-    }
+        given(memberPort.getMemberByUserKey(any()))
+                .willReturn(getRealMember());
 
-    private Funding getFundingRequest() {
-        return Funding.builder()
-                .fundingKey("FF-0001")
-                .build();
-    }
+        given(fundingPort.getFundingByFundingKey(any()))
+                .willReturn(Funding.builder().build());
 
-    private FundingReward getRewardRequest() {
-        return FundingReward.builder()
-                .id(1L)
-                .build();
-    }
+        //when
+        //then
+        assertThrows(EmptyFundingException.class, () -> supportService.registerSupport(support));
 
-    private SupportPayment getSupportPayment() {
-        return SupportPayment.builder()
-                .memberPaymentMethod(getPaymentMethodRequest())
-                .build();
-    }
-
-    private MemberPaymentMethod getPaymentMethodRequest() {
-        return MemberPaymentMethod.builder()
-                .paymentMethodKey("PM-0001")
-                .build();
-    }
-
-    private SupportDelivery getSupportDelivery() {
-        return SupportDelivery.builder()
-                .support(getSupportRequest())
-                .memberDeliveryAddress(getDeliveryAddressRequest())
-                .build();
-    }
-
-    private Support getSupportRequest() {
-        return Support.builder()
-                .supportKey("SS-0001")
-                .build();
-    }
-
-    private MemberDeliveryAddress getDeliveryAddressRequest() {
-        return MemberDeliveryAddress.builder()
-                .deliveryAddressKey("DA-0001")
-                .build();
     }
 
     @Test
@@ -132,7 +118,7 @@ public class SupportServiceTest {
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(supportDelivery);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
         
         //when
         SupportDelivery savedSupportDelivery = supportService.shippedOut(support.getSupportKey());
@@ -152,7 +138,7 @@ public class SupportServiceTest {
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(supportDelivery);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         SupportDelivery savedSupportDelivery = supportService.outForDelivery(support.getSupportKey());
@@ -172,7 +158,7 @@ public class SupportServiceTest {
                 .willReturn(supportDelivery);
 
         given(supportPort.saveSupportDelivery(any(SupportDelivery.class)))
-                .willReturn(supportDelivery);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         SupportDelivery savedSupportDelivery = supportService.deliveryComplete(support.getSupportKey());

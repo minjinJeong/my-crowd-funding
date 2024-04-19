@@ -11,12 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import static com.flab.funding.data.FundingTestData.*;
+import static com.flab.funding.data.MemberTestData.getRealMember;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -41,63 +37,19 @@ public class FundingServiceTest {
         Funding funding = getFunding();
 
         given(memberPort.getMemberByUserKey(eq(funding.getMember().getUserKey())))
-                .willReturn(getMemberRequest());
+                .willReturn(getRealMember());
 
         given(fundingPort.saveFunding(any(Funding.class)))
-                .willReturn(funding);
-
-        given(fundingPort.getFundingByFundingKey(any()))
-                .willReturn(funding);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         Funding savedFunding = fundingService.registerFunding(funding);
-        Funding findFunding = fundingService.getFundingByFundingKey(savedFunding.getFundingKey());
 
         //then
         assertNotNull(savedFunding.getFundingKey());
+        assertNotNull(savedFunding.getMember().getId());
         assertEquals(FundingStatus.REGISTER, savedFunding.getStatus());
-        assertEquals(savedFunding.getStatus(), findFunding.getStatus());
 
-    }
-
-    private Funding getFunding() {
-        return Funding.builder()
-                .member(getMemberRequest())
-                .isAdult(false)
-                .pricePlan("00")
-                .category(FundingCategory.FOOD)
-                .expectAmount(BigInteger.valueOf(100000))
-                .title("제목")
-                .fundingDescription("펀딩 상세")
-                .fundingIntroduce("펀딩 소개글")
-                .budgetDescription("예산 계획")
-                .scheduleDescription("펀딩 계획")
-                .teamDescription("팀 소개")
-                .rewardDescription("리워드 소개")
-                .tags(getTags())
-                .startAt(LocalDateTime.of(2024, 2, 1, 12, 0))
-                .endAt(LocalDateTime.of(2024, 2, 28, 12, 0))
-                .build();
-    }
-
-    private Member getMemberRequest() {
-        return Member.builder()
-                .userKey("MM-0001")
-                .build();
-    }
-
-    private List<FundingTag> getTags() {
-        List<FundingTag> fundingTags = new ArrayList<>();
-        fundingTags.add(createTag("검색 키워드1"));
-        fundingTags.add(createTag("검색 키워드2"));
-        fundingTags.add(createTag("검색 키워드3"));
-        return fundingTags;
-    }
-
-    private FundingTag createTag(String tag) {
-        return FundingTag.builder()
-                .tag(tag)
-                .build();
     }
 
     @Test
@@ -107,36 +59,20 @@ public class FundingServiceTest {
         FundingCreator fundingCreator = getFundingCreator();
 
         given(fundingPort.getFundingByFundingKey(any()))
-                .willReturn(getFunding());
+                .willReturn(getRealFunding());
 
         given(fundingPort.saveFundingCreator(any(FundingCreator.class)))
-                .willReturn(fundingCreator);
-
-        given(fundingPort.getFundingCreatorByFundingKey(any()))
-                .willReturn(fundingCreator);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         FundingCreator savedFundingCreator = fundingService.registerFundingCreator(fundingCreator);
-        FundingCreator findFundingCreator = fundingService.getFundingCreatorByFundingKey(savedFundingCreator.getFunding().getFundingKey());
 
         //then
-        assertEquals(savedFundingCreator.getId(), findFundingCreator.getId());
-        assertEquals(savedFundingCreator.getFunding(), findFundingCreator.getFunding());
-        assertEquals(savedFundingCreator.getBusinessNumber(), findFundingCreator.getBusinessNumber());
-    }
-
-    private FundingCreator getFundingCreator() {
-        return FundingCreator.builder()
-                .funding(getFundingRequest())
-                .isValid(true)
-                .businessNumber("12345678")
-                .representative("홍길동")
-                .introduce("안녕하세요, 개인 사업자 홍길동입니다.")
-                .build();
-    }
-
-    private Funding getFundingRequest() {
-        return Funding.builder().fundingKey("FF-0001").build();
+        assertNotNull(savedFundingCreator.getFunding().getId());
+        assertTrue(savedFundingCreator.getIsValid());
+        assertEquals(getFundingCreator().getBusinessNumber(), savedFundingCreator.getBusinessNumber());
+        assertEquals(getFundingCreator().getRepresentative(), savedFundingCreator.getRepresentative());
+        assertEquals(getFundingCreator().getIntroduce(), savedFundingCreator.getIntroduce());
     }
 
     @Test
@@ -146,46 +82,19 @@ public class FundingServiceTest {
         FundingItem fundingItem = getFundingItem();
 
         given(fundingPort.getFundingByFundingKey(any()))
-                .willReturn(getFunding());
+                .willReturn(getRealFunding());
 
         given(fundingPort.saveFundingItem(any(FundingItem.class)))
-                .willReturn(fundingItem);
-
-        given(fundingPort.getFundingItemByFundingKey(any()))
-                .willReturn(fundingItem);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         FundingItem savedFundingItem = fundingService.makeFundingItem(fundingItem);
-        FundingItem findFundingItem = fundingService.getFundingItemByFundingKey(savedFundingItem.getFunding().getFundingKey());
 
         //then
-        assertEquals(savedFundingItem.getId(), findFundingItem.getId());
-        assertEquals(savedFundingItem.getFunding(), findFundingItem.getFunding());
-        assertEquals(savedFundingItem.getItemName(), findFundingItem.getItemName());
-        assertEquals(savedFundingItem.getOptionType(), findFundingItem.getOptionType());
-        assertIterableEquals(savedFundingItem.getFundingItemOptions(), findFundingItem.getFundingItemOptions());
-    }
-
-    private FundingItem getFundingItem() {
-        return FundingItem.builder()
-                .funding(getFundingRequest())
-                .itemName("은 귀걸이")
-                .optionType(FundingItemOptionType.NONE)
-                .fundingItemOptions(getFundingItemOptions())
-                .build();
-    }
-
-    private List<FundingItemOption> getFundingItemOptions() {
-        List<FundingItemOption> itemOptions = new  ArrayList<>();
-        itemOptions.add(createItemOption("3mm"));
-        itemOptions.add(createItemOption("5mm"));
-        itemOptions.add(createItemOption("7mm"));
-        itemOptions.add(createItemOption("9mm"));
-        return itemOptions;
-    }
-
-    private FundingItemOption createItemOption(String option) {
-        return FundingItemOption.builder().optionName(option).build();
+        assertNotNull(savedFundingItem.getFunding().getId());
+        assertEquals(getFundingItem().getItemName(), savedFundingItem.getItemName());
+        assertEquals(getFundingItem().getOptionType(), savedFundingItem.getOptionType());
+        assertEquals(getFundingItem().getFundingItemOptions().size(), savedFundingItem.getFundingItemOptions().size());
     }
 
     @Test
@@ -195,54 +104,21 @@ public class FundingServiceTest {
         FundingReward fundingReward = getFundingReward();
 
         given(fundingPort.getFundingByFundingKey(any()))
-                .willReturn(getFunding());
+                .willReturn(getRealFunding());
 
         given(fundingPort.saveFundingReward(any(FundingReward.class)))
-                .willReturn(fundingReward);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         given(fundingPort.saveFundingRewardItems(any()))
-                .willReturn(getFundingRewardItems());
-
-        given(fundingPort.getFundingRewardByFundingKey(any()))
-                .willReturn(fundingReward);
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         FundingReward savedFundingReward = fundingService.makeFundingReward(fundingReward);
-        FundingReward findFundingReward = fundingService.getFundingRewardByFundingKey(savedFundingReward.getFunding().getFundingKey());
 
         //then
-        assertEquals(savedFundingReward.getId(), findFundingReward.getId());
-        assertEquals(savedFundingReward.getFunding(), findFundingReward.getFunding());
-        assertEquals(savedFundingReward.getIsDelivery(), findFundingReward.getIsDelivery());
-        assertIterableEquals(savedFundingReward.getFundingRewardItems(), findFundingReward.getFundingRewardItems());
-
-    }
-
-    private FundingReward getFundingReward() {
-        return FundingReward.builder()
-                .funding(getFundingRequest())
-                .isDelivery(true)
-                .rewardTitle("귀걸이 세트")
-                .amount(BigInteger.valueOf(15000))
-                .fundingRewardItems(getFundingRewardItems())
-                .countLimit(10)
-                .personalLimit(5)
-                .expectDate(LocalDate.of(2024, 3, 31))
-                .build();
-    }
-
-    private List<FundingRewardItem> getFundingRewardItems() {
-        List<FundingRewardItem> rewardItems = new ArrayList<>();
-        rewardItems.add(createRewardItem(1L));
-        rewardItems.add(createRewardItem(2L));
-        rewardItems.add(createRewardItem(3L));
-        return rewardItems;
-    }
-
-    private FundingRewardItem createRewardItem(Long fundingItemId) {
-        return FundingRewardItem.builder()
-                .fundingItem(FundingItem.builder().id(fundingItemId).build())
-                .build();
+        assertNotNull(savedFundingReward.getFunding().getId());
+        assertTrue(savedFundingReward.getIsDelivery());
+        assertEquals(getFundingReward().getFundingRewardItems().size(), savedFundingReward.getFundingRewardItems().size());
     }
     
     @Test
@@ -251,11 +127,11 @@ public class FundingServiceTest {
         //given
         Funding funding = getFunding().register();
 
-        given(fundingPort.saveFunding(any(Funding.class)))
-                .willReturn(funding);
-
         given(fundingPort.getFundingByFundingKey(any()))
                 .willReturn(funding);
+
+        given(fundingPort.saveFunding(any(Funding.class)))
+                .willAnswer(invocation -> invocation.getArguments()[0]);
         
         //when
         Funding savedFunding = fundingService.waitForFundingReview(funding.getFundingKey());
@@ -270,11 +146,11 @@ public class FundingServiceTest {
         //given
         Funding funding = getFunding().register();
 
-        given(fundingPort.saveFunding(any(Funding.class)))
-                .willReturn(funding);
-
         given(fundingPort.getFundingByFundingKey(any()))
                 .willReturn(funding);
+
+        given(fundingPort.saveFunding(any(Funding.class)))
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         Funding savedFunding = fundingService.completeFundingReview(funding.getFundingKey());
@@ -289,11 +165,11 @@ public class FundingServiceTest {
         //given
         Funding funding = getFunding().register();
 
-        given(fundingPort.saveFunding(any(Funding.class)))
-                .willReturn(funding);
-
         given(fundingPort.getFundingByFundingKey(any()))
                 .willReturn(funding);
+
+        given(fundingPort.saveFunding(any(Funding.class)))
+                .willAnswer(invocation -> invocation.getArguments()[0]);
 
         //when
         Funding savedFunding = fundingService.cancelFunding(funding.getFundingKey());

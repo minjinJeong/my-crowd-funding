@@ -26,7 +26,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
         Member member =
                 memberPort.getMemberByUserKey(funding.getMember().getUserKey());
 
-        return fundingPort.saveFunding(funding.member(member).register());
+        return fundingPort.saveFunding(funding.with(member).register());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
         Funding funding =
                 fundingPort.getFundingByFundingKey(fundingCreator.getFunding().getFundingKey());
 
-        return fundingPort.saveFundingCreator(fundingCreator.funding(funding));
+        return fundingPort.saveFundingCreator(fundingCreator.with(funding));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
         Funding funding =
                 fundingPort.getFundingByFundingKey(fundingItem.getFunding().getFundingKey());
 
-        return fundingPort.saveFundingItem(fundingItem.funding(funding));
+        return fundingPort.saveFundingItem(fundingItem.with(funding));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class FundingService implements RegisterFundingUseCase, ReviewFundingUseC
         Funding funding =
                 fundingPort.getFundingByFundingKey(fundingReward.getFunding().getFundingKey());
 
-        FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward.funding(funding));
+        FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward.with(funding));
 
         mappingFundingRewardItem(funding, savedFundingReward);
 

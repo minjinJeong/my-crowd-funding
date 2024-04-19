@@ -10,8 +10,13 @@ import java.time.LocalDateTime;
 public class FundingItemOption {
 
     private Long id;
+
     private FundingItem fundingItem;
+
     private String optionName;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
+
 }

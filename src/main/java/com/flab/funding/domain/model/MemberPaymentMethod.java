@@ -18,9 +18,15 @@ public class MemberPaymentMethod {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public MemberPaymentMethod member(Member member) {
-        this.member = member;
-        return this;
+    public MemberPaymentMethod with(Member member) {
+
+        return MemberPaymentMethod.builder()
+                .id(this.id)
+                .paymentMethodKey(this.paymentMethodKey)
+                .member(member)
+                .isDefault(this.isDefault)
+                .paymentNumber(this.paymentNumber)
+                .build();
     }
 
     public MemberPaymentMethod register() {

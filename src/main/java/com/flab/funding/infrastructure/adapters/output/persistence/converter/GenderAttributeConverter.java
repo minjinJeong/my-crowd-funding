@@ -9,11 +9,11 @@ public class GenderAttributeConverter implements AttributeConverter<MemberGender
 
     @Override
     public String convertToDatabaseColumn(MemberGender attribute) {
-        return attribute.getGender();
+        return attribute != null ? attribute.getGender() : null;
     }
 
     @Override
     public MemberGender convertToEntityAttribute(String dbData) {
-        return MemberGender.valueOfGender(dbData);
+        return dbData != null ? MemberGender.valueOfGender(dbData) : null;
     }
 }
