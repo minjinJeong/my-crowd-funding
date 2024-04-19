@@ -16,7 +16,7 @@ public class MemberDeliveryAddressRestAdapter {
 
     private final RegisterDeliveryAddressUseCase registerDeliveryAddressUseCase;
 
-    @PostMapping("/deliveryAddresses")
+    @PostMapping("/members/deliveryAddresses")
     @ResponseBody
     public MemberDeliveryAddressRegisterResponse registerMemberDeliveryAddress(@RequestBody MemberDeliveryAddressRegisterRequest request) {
         MemberDeliveryAddress memberDeliveryAddress = registerDeliveryAddressUseCase.registerDeliveryAddress(request.toDeliveryAddress());

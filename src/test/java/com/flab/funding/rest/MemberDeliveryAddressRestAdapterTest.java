@@ -73,7 +73,7 @@ public class MemberDeliveryAddressRestAdapterTest {
 
         //when
         //then
-        this.mockMvc.perform(post("/deliveryAddresses")
+        this.mockMvc.perform(post("/members/deliveryAddresses")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
