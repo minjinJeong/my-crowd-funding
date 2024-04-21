@@ -112,7 +112,7 @@ public class SupportServiceTest {
     public void shippedOut() {
         //given
         Support support = getSupport();
-        SupportDelivery supportDelivery = getSupportDelivery();
+        SupportDelivery supportDelivery = getSupportDelivery().with(support);
 
         given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
@@ -132,7 +132,7 @@ public class SupportServiceTest {
     public void outForDelivery() {
         //given
         Support support = getSupport();
-        SupportDelivery supportDelivery = getSupportDelivery();
+        SupportDelivery supportDelivery = getSupportDelivery().with(support);;
 
         given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);
@@ -152,7 +152,7 @@ public class SupportServiceTest {
     public void deliveryComplete() {
         //given
         Support support = getSupport();
-        SupportDelivery supportDelivery = getSupportDelivery();
+        SupportDelivery supportDelivery = getSupportDelivery().with(support);;
 
         given(supportPort.getSupportDeliveryBySupportKey(any()))
                 .willReturn(supportDelivery);

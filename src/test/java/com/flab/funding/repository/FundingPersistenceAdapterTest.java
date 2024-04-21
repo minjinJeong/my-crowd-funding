@@ -151,7 +151,7 @@ public class FundingPersistenceAdapterTest {
         Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingReward fundingReward = getFundingReward().with(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding).unmapping();
         
         //when
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
@@ -242,7 +242,7 @@ public class FundingPersistenceAdapterTest {
         Funding funding = getFunding().with(member).register();
         Funding savedFunding = fundingPort.saveFunding(funding);
 
-        FundingReward fundingReward = getFundingReward().with(savedFunding);
+        FundingReward fundingReward = getFundingReward().with(savedFunding).unmapping();
         FundingReward savedFundingReward = fundingPort.saveFundingReward(fundingReward);
 
         //when

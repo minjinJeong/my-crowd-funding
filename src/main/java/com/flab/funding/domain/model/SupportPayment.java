@@ -50,4 +50,17 @@ public class SupportPayment {
                 .build();
     }
 
+    public SupportPayment with(Support support,
+                               MemberPaymentMethod memberPaymentMethod) {
+
+        return SupportPayment.builder()
+                .id(this.id)
+                .support(support)
+                .memberPaymentMethod(memberPaymentMethod)
+                .status(this.status)
+                .amount(this.amount)
+                .paymentAt(this.paymentAt)
+                .build();
+    }
+
 }

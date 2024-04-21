@@ -151,20 +151,6 @@ public class FundingTestData {
                 .build();
     }
 
-    public static FundingReward getRealFundingReward() {
-        return FundingReward.builder()
-                .id(1L)
-                .funding(getFundingRequest())
-                .isDelivery(true)
-                .rewardTitle("귀걸이 세트")
-                .amount(BigInteger.valueOf(15000))
-                .fundingRewardItems(getFundingRewardItems())
-                .countLimit(10)
-                .personalLimit(5)
-                .expectDate(LocalDate.of(2024, 3, 31))
-                .build();
-    }
-
     public static FundingRewardItem getFundingRewardItem(Funding savedFunding,
                                                          FundingReward savedFundingReward,
                                                          FundingItem savedFundingItem) {

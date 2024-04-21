@@ -36,6 +36,22 @@ public class Support {
 
     public Support with(Member member,
                         Funding funding,
+                        FundingReward reward) {
+
+        return Support.builder()
+                .id(this.id)
+                .member(member)
+                .funding(funding)
+                .reward(reward)
+                .supportKey(this.supportKey)
+                .status(this.status)
+                .supportDelivery(this.supportDelivery)
+                .supportPayment(this.supportPayment)
+                .build();
+    }
+
+    public Support with(Member member,
+                        Funding funding,
                         SupportDelivery supportDelivery,
                         SupportPayment supportPayment) {
 
@@ -44,6 +60,24 @@ public class Support {
                 .member(member)
                 .funding(funding)
                 .reward(this.reward)
+                .supportKey(this.supportKey)
+                .status(this.status)
+                .supportDelivery(supportDelivery)
+                .supportPayment(supportPayment)
+                .build();
+    }
+
+    public Support with(Member member,
+                        Funding funding,
+                        FundingReward reward,
+                        SupportDelivery supportDelivery,
+                        SupportPayment supportPayment) {
+
+        return Support.builder()
+                .id(this.id)
+                .member(member)
+                .funding(funding)
+                .reward(reward)
                 .supportKey(this.supportKey)
                 .status(this.status)
                 .supportDelivery(supportDelivery)

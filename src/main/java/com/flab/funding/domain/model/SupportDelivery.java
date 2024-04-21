@@ -57,6 +57,21 @@ public class SupportDelivery {
                 .build();
     }
 
+    public SupportDelivery with(Support support,
+                                MemberDeliveryAddress memberDeliveryAddress) {
+
+        return SupportDelivery.builder()
+                .id(this.id)
+                .support(support)
+                .memberDeliveryAddress(memberDeliveryAddress)
+                .status(this.status)
+                .shipmentName(this.shipmentName)
+                .shipmentAt(this.shipmentAt)
+                .trackingName(this.trackingName)
+                .trackingAt(this.trackingAt)
+                .build();
+    }
+
     public SupportDelivery shippedOut() {
         this.status = SupportDeliveryStatus.SHIPPED;
         return this;
