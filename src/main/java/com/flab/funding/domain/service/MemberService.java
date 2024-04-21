@@ -25,7 +25,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberPort.getMemberByEmail(member.getEmail());
+        List<Member> findMembers = memberPort.getMembersByEmail(member.getEmail());
         if(!findMembers.isEmpty()) {
             throw new DuplicateMemberException();
         }
@@ -45,18 +45,16 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     @Override
     public Member login(Member member) {
 
-        List<Member> findMembers = memberPort.getMemberByEmail(member.getEmail());
+        Member findMember = memberPort.getMemberByEmail(member.getEmail());
 
-        if (findMembers.isEmpty()) {
+        if (findMember.getId() == null) {
+
             throw new EmptyMemberException();
         }
 
-        for (Member findMember : findMembers) {
+        if (member.getPassword().equals(findMember.getPassword())) {
 
-            if (member.getPassword().equals(findMember.getPassword())) {
-
-                return member;
-            }
+            return member;
         }
 
         throw new EmptyMemberException();

@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static com.flab.funding.data.MemberTestData.getMember;
+import static com.flab.funding.data.MemberTestData.getRealMember;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -38,7 +39,7 @@ public class MemberServiceTest {
         given(memberPort.saveMember(any(Member.class)))
                 .willAnswer(invocation -> invocation.getArguments()[0]);
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMembersByEmail(member.getEmail()))
                 .willReturn(List.of());
 
         //when
@@ -56,7 +57,7 @@ public class MemberServiceTest {
         //given
         Member member = getMember();
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMembersByEmail(member.getEmail()))
                 .willReturn(List.of(member));
         
         //when
@@ -91,7 +92,7 @@ public class MemberServiceTest {
         Member member = getMember();
 
         given(memberPort.getMemberByEmail(member.getEmail()))
-                .willReturn(List.of(member));
+                .willReturn(getRealMember());
 
         //when
         Member loginMember = memberService.login(member);
@@ -103,7 +104,7 @@ public class MemberServiceTest {
 
     @Test
     @DisplayName("잘못된 이메일로 로그인")
-    public void loginByInvalidUser() throws Exception {
+    public void loginByInvalidUser() {
         //given
         Member request = Member.builder()
                 .email("invalid@gmail.com")
@@ -113,7 +114,7 @@ public class MemberServiceTest {
         Member member = getMember();
 
         given(memberPort.getMemberByEmail(member.getEmail()))
-                .willReturn(List.of(member));
+                .willReturn(member);
 
         //when
         //then
@@ -122,7 +123,7 @@ public class MemberServiceTest {
 
     @Test
     @DisplayName("잘못된 패스워드로 로그인")
-    public void loginByInvalidPassword() throws Exception {
+    public void loginByInvalidPassword() {
         //given
         Member request = Member.builder()
                 .email("Test@gmail.com")
@@ -131,7 +132,7 @@ public class MemberServiceTest {
 
         Member member = getMember();
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMembersByEmail(member.getEmail()))
                 .willReturn(List.of(member));
 
         //when

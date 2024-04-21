@@ -33,8 +33,14 @@ public class MemberPersistenceAdapter implements MemberPort {
     }
 
     @Override
-    public List<Member> getMemberByEmail(String email) {
-        List<MemberEntity> findMembers = memberRepository.findByEmail(email);
+    public Member getMemberByEmail(String email) {
+        MemberEntity findMemberEntity = memberRepository.findByEmail(email).orElse(MemberEntity.builder().build());
+        return findMemberEntity.toMember();
+    }
+
+    @Override
+    public List<Member> getMembersByEmail(String email) {
+        List<MemberEntity> findMembers = memberRepository.findAllByEmail(email);
         return findMembers.stream().map(MemberEntity::toMember).collect(Collectors.toList());
     }
 }
