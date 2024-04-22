@@ -111,7 +111,7 @@ public class MemberServiceTest {
                 .password("1234")
                 .build();
 
-        Member member = getMember();
+        Member member = getRealMember();
 
         given(memberPort.getMemberByEmail(any(String.class)))
                 .willReturn(member);
@@ -130,10 +130,10 @@ public class MemberServiceTest {
                 .password("1234")
                 .build();
 
-        Member member = getMember();
+        Member member = getRealMember();
 
         given(memberPort.getMemberByEmail(any(String.class)))
-                .willReturn(getRealMember());
+                .willReturn(member);
 
         //when
         assertThrows(EmptyMemberException.class, () -> memberService.login(request));

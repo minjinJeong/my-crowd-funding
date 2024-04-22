@@ -10,6 +10,8 @@
 
 include::{docdir}/member.adoc[]
 
+include::{docdir}/login.adoc[]
+
 include::{docdir}/funding.adoc[]
 
 include::{docdir}/support.adoc[]
