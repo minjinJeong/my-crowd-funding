@@ -54,7 +54,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
 
         if (member.getPassword().equals(findMember.getPassword())) {
 
-            return member;
+            return findMember;
         }
 
         throw new EmptyMemberException();

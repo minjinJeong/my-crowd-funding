@@ -91,7 +91,7 @@ public class MemberServiceTest {
         //given
         Member member = getMember();
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMemberByEmail(any(String.class)))
                 .willReturn(getRealMember());
 
         //when
@@ -113,7 +113,7 @@ public class MemberServiceTest {
 
         Member member = getMember();
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMemberByEmail(any(String.class)))
                 .willReturn(member);
 
         //when
@@ -132,8 +132,8 @@ public class MemberServiceTest {
 
         Member member = getMember();
 
-        given(memberPort.getMembersByEmail(member.getEmail()))
-                .willReturn(List.of(member));
+        given(memberPort.getMemberByEmail(any(String.class)))
+                .willReturn(getRealMember());
 
         //when
         assertThrows(EmptyMemberException.class, () -> memberService.login(request));

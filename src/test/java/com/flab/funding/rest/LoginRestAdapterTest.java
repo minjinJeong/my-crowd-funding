@@ -5,7 +5,7 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
 import com.flab.funding.infrastructure.adapters.input.data.request.LoginRequest;
-import com.flab.funding.infrastructure.adapters.input.rest.MemberRestAdapter;
+import com.flab.funding.infrastructure.adapters.input.rest.LoginRestAdapter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@WebMvcTest(MemberRestAdapter.class)
+@WebMvcTest(LoginRestAdapter.class)
 @AutoConfigureRestDocs
 public class LoginRestAdapterTest {
 
@@ -59,7 +59,7 @@ public class LoginRestAdapterTest {
 
         //when
         //then
-        this.mockMvc.perform(post("/members/authentication")
+        this.mockMvc.perform(post("/accounts/authentication")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

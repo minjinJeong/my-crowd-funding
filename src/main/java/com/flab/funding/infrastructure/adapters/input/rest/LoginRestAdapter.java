@@ -17,7 +17,7 @@ public class LoginRestAdapter {
 
     private final LoginUseCase loginUseCase;
 
-    @PostMapping("/members/authentication")
+    @PostMapping("/accounts/authentication")
     @ResponseBody
     public LoginResponse login(@RequestBody @Valid LoginRequest request) {
         Member member = loginUseCase.login(request.toMember());
