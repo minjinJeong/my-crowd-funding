@@ -16,7 +16,7 @@ public class MemberPaymentMethodRestAdapter {
 
     private final RegisterPaymentMethodUseCase registerPaymentMethodUseCase;
 
-    @PostMapping("/paymentMethods")
+    @PostMapping("/members/paymentMethods")
     @ResponseBody
     public MemberPaymentMethodRegisterResponse registerMemberPaymentMethod(@RequestBody MemberPaymentMethodRegisterRequest request) {
         MemberPaymentMethod memberPaymentMethod = registerPaymentMethodUseCase.registerPaymentMethod(request.toPaymentMethod());

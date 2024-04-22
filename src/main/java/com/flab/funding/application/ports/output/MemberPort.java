@@ -10,6 +10,8 @@ public interface MemberPort {
 
     Member getMemberByUserKey(String userKey);
 
-    List<Member> getMemberByEmail(String email);
+    Member getMemberByEmail(String email);
+
+    List<Member> getMembersByEmail(String email);
 
 }

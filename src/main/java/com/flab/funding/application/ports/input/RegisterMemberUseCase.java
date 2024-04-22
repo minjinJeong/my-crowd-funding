@@ -5,4 +5,6 @@ import com.flab.funding.domain.model.Member;
 public interface RegisterMemberUseCase {
 
     Member registerMember(Member member);
+
+    Member getMemberByUserKey(String userKey);
 }

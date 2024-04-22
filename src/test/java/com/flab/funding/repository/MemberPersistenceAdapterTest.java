@@ -77,7 +77,7 @@ public class MemberPersistenceAdapterTest {
         Member savedMember = memberPort.saveMember(member);
 
         // when
-        List<Member> findMember = memberPort.getMemberByEmail(savedMember.getEmail());
+        List<Member> findMember = memberPort.getMembersByEmail(savedMember.getEmail());
 
         //then
         assertNotNull(savedMember.getUserKey());

@@ -1,8 +1,6 @@
 package com.flab.funding.data;
 
-import com.flab.funding.domain.model.Support;
-import com.flab.funding.domain.model.SupportDelivery;
-import com.flab.funding.domain.model.SupportPayment;
+import com.flab.funding.domain.model.*;
 
 import static com.flab.funding.data.FundingTestData.getFundingRequest;
 import static com.flab.funding.data.FundingTestData.getRewardRequest;
@@ -26,16 +24,17 @@ public class SupportTestData {
                 .build();
     }
 
-    private static SupportPayment getSupportPayment() {
+    public static SupportPayment getSupportPayment() {
         return SupportPayment.builder()
                 .memberPaymentMethod(getPaymentMethodRequest())
+                .status(SupportPaymentStatus.READY)
                 .build();
     }
 
     public static SupportDelivery getSupportDelivery() {
         return SupportDelivery.builder()
-                .support(getSupportRequest())
                 .memberDeliveryAddress(getDeliveryAddressRequest())
+                .status(SupportDeliveryStatus.READY)
                 .build();
     }
 }

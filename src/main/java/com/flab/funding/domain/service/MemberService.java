@@ -5,6 +5,7 @@ import com.flab.funding.application.ports.input.LoginUseCase;
 import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberPort.getMemberByEmail(member.getEmail());
+        List<Member> findMembers = memberPort.getMembersByEmail(member.getEmail());
         if(!findMembers.isEmpty()) {
             throw new DuplicateMemberException();
         }
@@ -41,9 +42,21 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
         return memberPort.getMemberByUserKey(userKey);
     }
 
-    // TODO : Login 기능 구현
     @Override
     public Member login(Member member) {
-        return null;
+
+        Member findMember = memberPort.getMemberByEmail(member.getEmail());
+
+        if (findMember.getId() == null) {
+
+            throw new EmptyMemberException();
+        }
+
+        if (member.getPassword().equals(findMember.getPassword())) {
+
+            return findMember;
+        }
+
+        throw new EmptyMemberException();
     }
 }

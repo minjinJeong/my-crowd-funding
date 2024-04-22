@@ -37,6 +37,7 @@ public class MemberTestData {
                 .gender(MemberGender.FEMALE)
                 .birthday(LocalDate.of(1998, 1, 30))
                 .password("")
+                .status(MemberStatus.ACTIVATE)
                 .build();
     }
 

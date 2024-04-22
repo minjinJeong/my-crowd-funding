@@ -2,6 +2,7 @@ package com.flab.funding.service;
 
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
+import com.flab.funding.domain.exception.EmptyMemberException;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static com.flab.funding.data.MemberTestData.getMember;
+import static com.flab.funding.data.MemberTestData.getRealMember;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -37,7 +39,7 @@ public class MemberServiceTest {
         given(memberPort.saveMember(any(Member.class)))
                 .willAnswer(invocation -> invocation.getArguments()[0]);
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMembersByEmail(member.getEmail()))
                 .willReturn(List.of());
 
         //when
@@ -55,7 +57,7 @@ public class MemberServiceTest {
         //given
         Member member = getMember();
 
-        given(memberPort.getMemberByEmail(member.getEmail()))
+        given(memberPort.getMembersByEmail(member.getEmail()))
                 .willReturn(List.of(member));
         
         //when
@@ -81,5 +83,59 @@ public class MemberServiceTest {
         //then
         assertEquals(MemberStatus.WITHDRAW, deregistMember.getStatus());
 
+    }
+
+    @Test
+    @DisplayName("로그인")
+    public void login() {
+        //given
+        Member member = getMember();
+
+        given(memberPort.getMemberByEmail(any(String.class)))
+                .willReturn(getRealMember());
+
+        //when
+        Member loginMember = memberService.login(member);
+
+        //then
+        assertNotNull(loginMember.getUserKey());
+        assertEquals(MemberStatus.ACTIVATE, loginMember.getStatus());
+    }
+
+    @Test
+    @DisplayName("잘못된 이메일로 로그인")
+    public void loginByInvalidUser() {
+        //given
+        Member request = Member.builder()
+                .email("invalid@gmail.com")
+                .password("1234")
+                .build();
+
+        Member member = getRealMember();
+
+        given(memberPort.getMemberByEmail(any(String.class)))
+                .willReturn(member);
+
+        //when
+        //then
+        assertThrows(EmptyMemberException.class, () -> memberService.login(request));
+    }
+
+    @Test
+    @DisplayName("잘못된 패스워드로 로그인")
+    public void loginByInvalidPassword() {
+        //given
+        Member request = Member.builder()
+                .email("Test@gmail.com")
+                .password("1234")
+                .build();
+
+        Member member = getRealMember();
+
+        given(memberPort.getMemberByEmail(any(String.class)))
+                .willReturn(member);
+
+        //when
+        assertThrows(EmptyMemberException.class, () -> memberService.login(request));
     }
 }

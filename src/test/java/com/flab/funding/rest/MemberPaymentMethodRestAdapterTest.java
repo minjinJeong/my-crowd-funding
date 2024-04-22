@@ -65,7 +65,7 @@ public class MemberPaymentMethodRestAdapterTest {
         //when
 
         //then
-        this.mockMvc.perform(post("/paymentMethods")
+        this.mockMvc.perform(post("/members/paymentMethods")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

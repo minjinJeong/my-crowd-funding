@@ -48,4 +48,9 @@ public class FundingReward {
                 .expectDate(this.expectDate)
                 .build();
     }
+
+    public FundingReward unmapping() {
+        this.fundingRewardItems = null;
+        return this;
+    }
 }

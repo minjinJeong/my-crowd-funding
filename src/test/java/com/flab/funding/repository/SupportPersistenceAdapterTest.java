@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static com.flab.funding.data.FundingTestData.getFunding;
 import static com.flab.funding.data.FundingTestData.getFundingReward;
 import static com.flab.funding.data.MemberTestData.*;
+import static com.flab.funding.data.SupportTestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -65,23 +66,21 @@ public class SupportPersistenceAdapterTest {
     }
 
     private MemberEntity saveMember() {
-        Member savedMember = getMember();
+        Member savedMember = getMember().activate();
 
-        return entityManager.persist(MemberEntity.from(
-                savedMember.activate())
-        );
+        return entityManager.persist(MemberEntity.from(savedMember));
     }
 
     private FundingEntity saveFunding() {
-        Funding savedFunding = getFunding();
+        Funding savedFunding = getFunding().with(member).register();
 
         return entityManager.persist(
-                FundingEntity.from(savedFunding.with(member).register())
+                FundingEntity.from(savedFunding)
         );
     }
 
     private FundingRewardEntity saveReward() {
-        FundingReward fundingReward = getFundingReward();
+        FundingReward fundingReward = getFundingReward().with(funding).unmapping();
 
         return entityManager.persist(
                 FundingRewardEntity.from(fundingReward)
@@ -89,18 +88,20 @@ public class SupportPersistenceAdapterTest {
     }
 
     private MemberDeliveryAddressEntity saveDeliveryAddress() {
-        MemberDeliveryAddress savedMemberDeliveryAddress = getDeliveryAddress();
+        MemberDeliveryAddress savedMemberDeliveryAddress =
+                getDeliveryAddress().with(member).register();
 
         return entityManager.persist(
-                MemberDeliveryAddressEntity.from(savedMemberDeliveryAddress.register())
+                MemberDeliveryAddressEntity.from(savedMemberDeliveryAddress)
         );
     }
 
     private MemberPaymentMethodEntity savePaymentMethod() {
-        MemberPaymentMethod savedMemberPaymentMethod = getPaymentMethod();
+        MemberPaymentMethod savedMemberPaymentMethod =
+                getPaymentMethod().with(member).register();
 
         return entityManager.persist(
-                MemberPaymentMethodEntity.from(savedMemberPaymentMethod.with(member).register())
+                MemberPaymentMethodEntity.from(savedMemberPaymentMethod)
         );
     }
 
@@ -108,7 +109,11 @@ public class SupportPersistenceAdapterTest {
     @DisplayName("후원 등록")
     public void saveSupport() {
         //given
-        Support support = getSupport().register();
+        Support support = getSupport()
+                .with(member, funding, reward,
+                        getSupportDelivery().with(memberDeliveryAddress),
+                        getSupportPayment().with(memberPaymentMethod))
+                .register();
 
         //when
         Support savedSupport = supportPort.saveSupport(support);
@@ -125,35 +130,17 @@ public class SupportPersistenceAdapterTest {
         assertEquals(support.getSupportPayment().getMemberPaymentMethod().getId(), savedSupport.getSupportPayment().getMemberPaymentMethod().getId());
         assertEquals(SupportPaymentStatus.READY, savedSupport.getSupportPayment().getStatus());
     }
-    private Support getSupport() {
-        return Support.builder()
-                .member(member)
-                .funding(funding)
-                .reward(reward)
-                .supportDelivery(getSupportDelivery())
-                .supportPayment(getSupportPayment())
-                .build();
-    }
-
-    private SupportDelivery getSupportDelivery() {
-        return SupportDelivery.builder()
-                .memberDeliveryAddress(memberDeliveryAddress)
-                .status(SupportDeliveryStatus.READY)
-                .build();
-    }
-
-    private SupportPayment getSupportPayment() {
-        return SupportPayment.builder()
-                .memberPaymentMethod(memberPaymentMethod)
-                .status(SupportPaymentStatus.READY)
-                .build();
-    }
 
     @Test
     @DisplayName("후원 조회")
     public void getSupportBySupportKey() {
         //given
-        Support support = getSupport().register();
+        Support support = getSupport()
+                .with(member, funding, reward,
+                        getSupportDelivery().with(memberDeliveryAddress),
+                        getSupportPayment().with(memberPaymentMethod))
+                .register();
+
         Support savedSupport = supportPort.saveSupport(support);
 
         //when
@@ -169,16 +156,13 @@ public class SupportPersistenceAdapterTest {
     @DisplayName("후원 배송정보 등록")
     public void saveSupportDelivery() {
         //given
-        Support support = Support.builder()
-                .member(member)
-                .funding(funding)
-                .reward(reward)
-                .build()
+        Support support = getSupport()
+                .with(member, funding, reward, null, null)
                 .register();
 
         Support savedSupport = supportPort.saveSupport(support);
 
-        SupportDelivery supportDelivery = getSupportDelivery().with(savedSupport);
+        SupportDelivery supportDelivery = getSupportDelivery().with(savedSupport, memberDeliveryAddress);
 
         //when
         SupportDelivery savedSupportDelivery = supportPort.saveSupportDelivery(supportDelivery);
@@ -192,16 +176,13 @@ public class SupportPersistenceAdapterTest {
     @DisplayName("후원 배송정보 조회")
     public void getSupportDeliveryBySupportKey() {
         //given
-        Support support = Support.builder()
-                .member(member)
-                .funding(funding)
-                .reward(reward)
-                .build()
+        Support support = getSupport()
+                .with(member, funding, reward, null, null)
                 .register();
 
         Support savedSupport = supportPort.saveSupport(support);
 
-        SupportDelivery supportDelivery = getSupportDelivery().with(savedSupport);
+        SupportDelivery supportDelivery = getSupportDelivery().with(savedSupport, memberDeliveryAddress);
         SupportDelivery savedSupportDelivery = supportPort.saveSupportDelivery(supportDelivery);
 
         //when
@@ -217,16 +198,13 @@ public class SupportPersistenceAdapterTest {
     @DisplayName("후원 결제수단 등록")
     public void saveSupportPayment() {
         //given
-        Support support = Support.builder()
-                .member(member)
-                .funding(funding)
-                .reward(reward)
-                .build()
+        Support support = getSupport()
+                .with(member, funding, reward, null, null)
                 .register();
 
         Support savedSupport = supportPort.saveSupport(support);
 
-        SupportPayment supportPayment = getSupportPayment().with(savedSupport);
+        SupportPayment supportPayment = getSupportPayment().with(savedSupport, memberPaymentMethod);
 
         //when
         SupportPayment savedSupportPayment = supportPort.saveSupportPayment(supportPayment);
