@@ -49,4 +49,9 @@ public class Member {
         this.status = MemberStatus.WITHDRAW;
         return this;
     }
+
+    public Member encode(String encodePassword) {
+        this.password = encodePassword;
+        return this;
+    }
 }
