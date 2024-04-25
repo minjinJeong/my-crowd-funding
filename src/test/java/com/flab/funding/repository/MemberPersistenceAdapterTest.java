@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -27,8 +28,10 @@ public class MemberPersistenceAdapterTest {
     private final MemberPort memberPort;
 
     @Autowired
-    public MemberPersistenceAdapterTest(MemberRepository memberRepository) {
-        this.memberPort = new MemberPersistenceAdapter(memberRepository);
+    public MemberPersistenceAdapterTest(MemberRepository memberRepository,
+                                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+
+        this.memberPort = new MemberPersistenceAdapter(memberRepository, bCryptPasswordEncoder);
     }
 
     @Test

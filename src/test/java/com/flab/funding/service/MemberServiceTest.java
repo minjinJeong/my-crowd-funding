@@ -3,6 +3,7 @@ package com.flab.funding.service;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.exception.EmptyMemberException;
+import com.flab.funding.domain.model.Account;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
@@ -91,7 +92,7 @@ public class MemberServiceTest {
         //given
         Member member = getMember();
 
-        given(memberPort.getMemberByEmail(any(String.class)))
+        given(memberPort.findMemberByAccount(any(Account.class)))
                 .willReturn(getRealMember());
 
         //when
@@ -113,7 +114,7 @@ public class MemberServiceTest {
 
         Member member = getRealMember();
 
-        given(memberPort.getMemberByEmail(any(String.class)))
+        given(memberPort.findMemberByAccount(any(Account.class)))
                 .willReturn(member);
 
         //when
@@ -132,7 +133,7 @@ public class MemberServiceTest {
 
         Member member = getRealMember();
 
-        given(memberPort.getMemberByEmail(any(String.class)))
+        given(memberPort.findMemberByAccount(any(Account.class)))
                 .willReturn(member);
 
         //when

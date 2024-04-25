@@ -50,8 +50,8 @@ public class Member {
         return this;
     }
 
-    public Member encode(String encodePassword) {
-        this.password = encodePassword;
+    public Member changePassword(String password) {
+        this.password = password;
         return this;
     }
 }

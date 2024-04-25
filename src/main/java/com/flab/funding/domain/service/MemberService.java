@@ -6,10 +6,10 @@ import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.exception.EmptyMemberException;
+import com.flab.funding.domain.model.Account;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -17,15 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService implements RegisterMemberUseCase, DeregisterMemberUseCase, LoginUseCase {
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
     private final MemberPort memberPort;
 
+    // TODO 이렇게 사용하면 클린 아키텍처가 깨지잖아. 암호화 로직을 분리해야 한다.
     @Override
     public Member registerMember(Member member) {
         validateDuplicateMember(member);
-        String encodePassword = passwordEncoder.encode(member.getPassword());
-        return memberPort.saveMember(member.encode(encodePassword).activate());
+        return memberPort.saveMember(member.activate());
     }
 
     private void validateDuplicateMember(Member member) {
@@ -49,18 +47,13 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     @Override
     public Member login(Member member) {
 
-        Member findMember = memberPort.getMemberByEmail(member.getEmail());
+        Member findMember = memberPort.findMemberByAccount(Account.from(member));
 
         if (findMember.getId() == null) {
 
             throw new EmptyMemberException();
         }
 
-        if (passwordEncoder.matches(member.getPassword(), findMember.getPassword())) {
-
-            return findMember;
-        }
-
-        throw new EmptyMemberException();
+        return findMember;
     }
 }
