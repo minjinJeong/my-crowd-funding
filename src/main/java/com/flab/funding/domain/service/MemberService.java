@@ -19,7 +19,6 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
 
     private final MemberPort memberPort;
 
-    // TODO 이렇게 사용하면 클린 아키텍처가 깨지잖아. 암호화 로직을 분리해야 한다.
     @Override
     public Member registerMember(Member member) {
         validateDuplicateMember(member);
@@ -55,5 +54,10 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
         }
 
         return findMember;
+    }
+
+    @Override
+    public Member logout(Member member) {
+        return null;
     }
 }

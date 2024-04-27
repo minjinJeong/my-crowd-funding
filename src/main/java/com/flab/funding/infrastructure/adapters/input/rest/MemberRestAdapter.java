@@ -37,4 +37,6 @@ public class MemberRestAdapter {
         Member member = registerMemberUseCase.getMemberByUserKey(userKey);
         return MemberInfoResponse.from(member);
     }
+
+    // TODO : 비밀번호 찾기 API 추가
 }

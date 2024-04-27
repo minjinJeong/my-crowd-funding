@@ -23,4 +23,11 @@ public class LoginRestAdapter {
         Member member = loginUseCase.login(request.toMember());
         return LoginResponse.from(member);
     }
+
+    @PostMapping("/accounts/authentication")
+    @ResponseBody
+    public LoginResponse logout(@RequestBody @Valid LoginRequest request) {
+        Member member = loginUseCase.logout(request.toMember());
+        return LoginResponse.from(member);
+    }
 }

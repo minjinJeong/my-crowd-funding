@@ -5,4 +5,6 @@ import com.flab.funding.domain.model.Member;
 public interface LoginUseCase {
 
     Member login(Member member);
+
+    Member logout(Member member);
 }
