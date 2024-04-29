@@ -2,9 +2,11 @@ package com.flab.funding.infrastructure.adapters.input.mapper;
 
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.input.data.request.LoginRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.LogoutRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberInfoRequest;
 import com.flab.funding.infrastructure.adapters.input.data.request.MemberRegisterRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.LoginResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.LogoutResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberInfoResponse;
 import com.flab.funding.infrastructure.adapters.input.data.response.MemberRegisterResponse;
 import org.mapstruct.Mapper;
@@ -27,4 +29,8 @@ public interface MemberMapper {
     Member toMember(LoginRequest loginRequest);
 
     LoginResponse toLoginResponse(Member member);
+
+    Member toMember(LogoutRequest logoutRequest);
+
+    LogoutResponse toLogoutResponse(Member member);
 }

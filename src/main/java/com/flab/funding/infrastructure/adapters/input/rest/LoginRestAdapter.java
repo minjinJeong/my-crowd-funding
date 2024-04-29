@@ -3,7 +3,9 @@ package com.flab.funding.infrastructure.adapters.input.rest;
 import com.flab.funding.application.ports.input.LoginUseCase;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.adapters.input.data.request.LoginRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.LogoutRequest;
 import com.flab.funding.infrastructure.adapters.input.data.response.LoginResponse;
+import com.flab.funding.infrastructure.adapters.input.data.response.LogoutResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,17 +19,17 @@ public class LoginRestAdapter {
 
     private final LoginUseCase loginUseCase;
 
-    @PostMapping("/accounts/authentication")
+    @PostMapping("/login")
     @ResponseBody
     public LoginResponse login(@RequestBody @Valid LoginRequest request) {
         Member member = loginUseCase.login(request.toMember());
         return LoginResponse.from(member);
     }
 
-    @PostMapping("/accounts/authentication")
+    @PostMapping("/logout")
     @ResponseBody
-    public LoginResponse logout(@RequestBody @Valid LoginRequest request) {
+    public LogoutResponse logout(@RequestBody @Valid LogoutRequest request) {
         Member member = loginUseCase.logout(request.toMember());
-        return LoginResponse.from(member);
+        return LogoutResponse.from(member);
     }
 }
