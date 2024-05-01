@@ -1,8 +1,6 @@
 package com.flab.funding.infrastructure.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +15,12 @@ import java.util.Map;
 public class JwtTokenProvider {
 
     private final SecretKey secretKey;
+    private final long tokenValidityInSeconds;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey,
+                            @Value("${jwt.accessTokenValidityInSeconds}") long accessTokenValidityInSeconds) {
+
+        this.tokenValidityInSeconds = accessTokenValidityInSeconds;
 
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
@@ -39,12 +41,34 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public Claims getClaims(String jwt) throws JwtException {
+    public Claims getClaims(String token) throws JwtException {
 
         return Jwts.parser()
                 .verifyWith(this.secretKey)
                 .build()
-                .parseSignedClaims(jwt)
+                .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    // TODO logger 추가
+    public boolean validateJwtToken(String token) {
+        try {
+
+            Jwts.parser()
+                    .verifyWith(this.secretKey)
+                    .build()
+                    .parseSignedClaims(token);
+
+            return true;
+        } catch (MalformedJwtException e) {
+            // Invalid JWT token
+        }  catch (ExpiredJwtException e) {
+            // JWT token is expired
+        } catch (UnsupportedJwtException e) {
+            // JWT token is unsupported
+        } catch (IllegalArgumentException e) {
+            // JWT claims string is empty
+        }
+        return false;
     }
 }
