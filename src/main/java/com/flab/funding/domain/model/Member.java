@@ -49,4 +49,9 @@ public class Member {
         this.status = MemberStatus.WITHDRAW;
         return this;
     }
+
+    public Member changePassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

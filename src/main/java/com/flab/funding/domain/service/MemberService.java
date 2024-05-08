@@ -6,6 +6,7 @@ import com.flab.funding.application.ports.input.RegisterMemberUseCase;
 import com.flab.funding.application.ports.output.MemberPort;
 import com.flab.funding.domain.exception.DuplicateMemberException;
 import com.flab.funding.domain.exception.EmptyMemberException;
+import com.flab.funding.domain.model.Account;
 import com.flab.funding.domain.model.Member;
 import com.flab.funding.infrastructure.config.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -45,18 +46,18 @@ public class MemberService implements RegisterMemberUseCase, DeregisterMemberUse
     @Override
     public Member login(Member member) {
 
-        Member findMember = memberPort.getMemberByEmail(member.getEmail());
+        Member findMember = memberPort.findMemberByAccount(Account.from(member));
 
         if (findMember.getId() == null) {
 
             throw new EmptyMemberException();
         }
 
-        if (member.getPassword().equals(findMember.getPassword())) {
+        return findMember;
+    }
 
-            return findMember;
-        }
-
-        throw new EmptyMemberException();
+    @Override
+    public Member logout(Member member) {
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import com.flab.funding.domain.model.Member;
 import com.flab.funding.domain.model.MemberStatus;
 import com.flab.funding.domain.service.MemberService;
 import com.flab.funding.infrastructure.adapters.input.data.request.LoginRequest;
+import com.flab.funding.infrastructure.adapters.input.data.request.LogoutRequest;
 import com.flab.funding.infrastructure.adapters.input.rest.LoginRestAdapter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ public class LoginRestAdapterTest {
 
         //when
         //then
-        this.mockMvc.perform(post("/accounts/authentication")
+        this.mockMvc.perform(post("/login")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -68,6 +69,40 @@ public class LoginRestAdapterTest {
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("userKey").description("회원번호(외부용)"),
+                                fieldWithPath("status").description("회원상태")
+                        )));
+
+    }
+
+    @Test
+    @DisplayName("로그아웃")
+    public void logout() throws Exception {
+        //given
+        LogoutRequest request = LogoutRequest.builder()
+                .userKey("MM-0001")
+                .build();
+
+        Member response = Member.builder()
+                .userKey("MM-0001")
+                .status(MemberStatus.ACTIVATE)
+                .build();
+
+        given(memberService.logout(any(request.toMember().getClass())))
+                .willReturn(response);
+
+        //when
+        //then
+        this.mockMvc.perform(post("/logout")
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(
+                                fieldWithPath("userKey").description("회원번호(외부용)")
                         ),
                         responseFields(
                                 fieldWithPath("userKey").description("회원번호(외부용)"),

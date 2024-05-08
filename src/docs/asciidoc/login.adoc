@@ -1,0 +1,5 @@
+== 로그인
+=== 로그인
+operation::login-rest-adapter-test/login[snippets='http-request,http-response,request-fields,response-fields']
+
+=== 로그아웃
